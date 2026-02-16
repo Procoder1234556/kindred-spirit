@@ -1,0 +1,4 @@
+project_id = "xzwtwhoslmpelowbvixr"
+
+[functions.adove-chat]
+verify_jwt = false
