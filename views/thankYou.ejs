@@ -1,0 +1,172 @@
+<style>
+    .confirmation {
+        max-width: 520px;
+        margin: 2rem auto;
+        padding: 2rem 1.5rem;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #011a3a;
+    }
+
+    .confirmation h1 {
+        font-size: 2.4rem;
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+    }
+
+    .confirmation .subtitle {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 1.5rem;
+    }
+
+    .order-box {
+        background: #f8f9fb;
+        border-radius: 10px;
+        padding: 1rem;
+        margin: 1.2rem 0;
+    }
+
+    .order-box span {
+        font-weight: 600;
+    }
+
+    .highlight {
+        color: #d74200;
+        font-weight: 700;
+    }
+
+    .payment-status {
+        margin-top: 1rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+    .connect-us {
+        margin-top: 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .connect-us i {
+        font-size: 1.3rem;
+        margin-left: 0.7rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .connect-us i:hover {
+        transform: scale(1.15);
+    }
+
+    .footer-text {
+        margin-top: 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+        .confirmation {
+            margin: 1rem;
+            padding: 1.5rem 1rem;
+        }
+
+        .confirmation h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="confirmation">
+    <h1>THANK YOU</h1>
+    <p class="subtitle">We have received your order successfully</p>
+
+    <div class="order-box">
+        <p>
+            Order Number:
+            <span id="cust-order-number">
+                <%= order_id %>
+            </span>
+        </p>
+    </div>
+
+    <% if (order.paymentMethod==="COD" ) { %>
+
+        <p class="payment-status">Payment Method: Cash on Delivery</p>
+
+        <p>
+            Advance Paid:
+            <span>₹<%= order.paymentIntent.advancePaid %></span>
+        </p>
+
+        <p>
+            Remaining Amount:
+            <span class="highlight">
+                ₹<%= order.paymentIntent.remainingAmount %>
+            </span>
+        </p>
+
+        <% } else { %>
+
+            <p class="payment-status">Payment Successful</p>
+
+            <p>
+                Total Amount Paid:
+                <span>₹<%= order.paymentIntent.amount %></span>
+            </p>
+
+            <% } %>
+
+                <p class="footer-text">
+                    You’ll receive shipping updates on WhatsApp 📦
+                </p>
+
+                <p class="connect-us">
+                    Connect with us:
+                    <a href="https://www.instagram.com/sahii.india" target="_blank">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://api.whatsapp.com/send?phone=919217137095" target="_blank">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </p>
+
+                <p class="footer-text">
+                    Or email us at
+                    <a href="mailto:support@sahii.in" style="font-weight:600; color:#011a3a;">
+                        support@sahii.in
+                    </a>
+                </p>
+</div>
+
+<!-- ── Tracking: Purchase Events ── -->
+<script>
+    (function () {
+        // Determine order value from EJS-rendered data
+        var orderValue = <%= (order.paymentMethod === 'COD')
+            ? (order.paymentIntent.amount || order.paymentIntent.advancePaid || 0)
+            : (order.paymentIntent.amount || 0) %>;
+        var orderId   = '<%= order_id %>';
+
+        // ── Meta Pixel: Purchase ──
+        if (typeof fbq === 'function') {
+            fbq('track', 'Purchase', {
+                value:    orderValue,
+                currency: 'INR',
+                order_id: orderId
+            });
+        }
+
+        // ── Google Ads / GA4: Purchase conversion ──
+        if (typeof gtag === 'function') {
+            gtag('event', 'purchase', {
+                send_to:       'GOOGLE_TAG_ID',
+                value:         orderValue,
+                currency:      'INR',
+                transaction_id: orderId
+            });
+        }
+    })();
+</script>
+<!-- ── End Tracking ── -->

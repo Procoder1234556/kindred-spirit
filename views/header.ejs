@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+
+    <!-- ── Dynamic Meta Tags ── -->
+    <title><%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Sahii – Buy Mobile Spare Parts Online India' %></title>
+
+    <meta name="description" content="<%= typeof pageDesc !== 'undefined' && pageDesc ? pageDesc : 'Sahii is an online platform providing high-quality repair parts for mobile phones and tablets across multiple brands and models. From screens and batteries to charging ports and components, Sahii makes device repair easy, reliable, and affordable.' %>">
+
+    <meta name="keywords" content="<%= typeof pageKeywords !== 'undefined' && pageKeywords ? pageKeywords : 'mobile repair parts, phone spare parts, tablet repair parts, smartphone replacement parts, mobile screen replacement, phone battery replacement, repair components online, Sahii repair parts' %>">
+
+    <!-- Meta Author -->
+    <meta name="author" content="Sahii - Mobile & Tablet Repair Parts Platform">
+
+    <!-- Meta Robots -->
+    <meta name="robots" content="index, follow">
+
+    <!-- ── Canonical Tag ── -->
+    <link rel="canonical" href="<%= typeof canonicalUrl !== 'undefined' && canonicalUrl ? canonicalUrl : 'https://sahii.in' %>">
+
+    <!-- ── Open Graph Tags ── -->
+    <meta property="og:site_name" content="Sahii">
+    <meta property="og:type" content="<%= typeof ogType !== 'undefined' && ogType ? ogType : 'website' %>">
+    <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Sahii – Buy Mobile Spare Parts Online India' %>">
+    <meta property="og:description" content="<%= typeof pageDesc !== 'undefined' && pageDesc ? pageDesc : 'Buy genuine OEM-grade mobile spare parts online at Sahii. Screens, batteries, charging ports and more for all brands.' %>">
+    <meta property="og:image" content="<%= typeof ogImage !== 'undefined' && ogImage ? ogImage : 'https://sahii.in/images/logo/logo.png' %>">
+    <meta property="og:url" content="<%= typeof canonicalUrl !== 'undefined' && canonicalUrl ? canonicalUrl : 'https://sahii.in' %>">
+
+    <!-- ── Twitter Card Tags ── -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Sahii – Buy Mobile Spare Parts Online India' %>">
+    <meta name="twitter:description" content="<%= typeof pageDesc !== 'undefined' && pageDesc ? pageDesc : 'Buy genuine OEM-grade mobile spare parts online at Sahii.' %>">
+    <meta name="twitter:image" content="<%= typeof ogImage !== 'undefined' && ogImage ? ogImage : 'https://sahii.in/images/logo/logo.png' %>">
+
+    <!-- Meta Viewport (For Responsive Design) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind Css -->
+    <link rel="stylesheet" href="/styles/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" sizes="192x192" href="/images/logo/sahii logo.png">
+    <link rel="icon" type="image/jpg" sizes="512x512" href="/images/logo/sahii logo.png">
+    <link rel="icon" type="image/jpg" sizes="16x16" href="/images/logo/sahii logo.png">
+    <link rel="manifest" href="/images/favicon_io/site.webmanifest">
+
+    <!-- Preconnect to external domains -->
+    <!-- <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://kit.fontawesome.com" crossorigin> -->
+
+    <!-- Google Fonts -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Belleza&family=Gilda+Display&display=swap" rel="stylesheet"> -->.
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+    <link rel="preconnect" href="/muli" crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prata&display=swap" rel="stylesheet"> -->
+
+    <!--Themefy CSS-->
+    <link rel="stylesheet" href="/themify-icons-font/themify-icons.css">
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Bootstrap-Vue start -->
+    <!-- Load required Bootstrap and BootstrapVue CSS -->
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+    <!-- Load polyfills to support older browsers -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
+        crossorigin="anonymous"></script>
+
+    <!-- Load Vue followed by BootstrapVue -->
+    <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+
+    <!-- Load the following for BootstrapVueIcons support -->
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+
+    <!-- Bootstrap-Vue end -->
+
+    <!--My CSS Styles-->
+    <link rel='stylesheet' type='text/css' media='screen' href='/css/main.css'>
+    <!-- <link rel='stylesheet' type='text/css' href='/css/nav-improvements.css'> -->
+
+    <!--Resposive 5 css-->
+    <link rel="stylesheet" type='text/css' href="/css/responsive.css">
+    <!-- <link rel="stylesheet" type='text/css' href="/css/nav-improvements.css"> -->
+
+    <link rel='stylesheet' type='text/css' href='/css/testimonial.css'>
+
+    <!-- <script src="https://kit.fontawesome.com/c9b683b30a.js" crossorigin="anonymous"></script> -->
+    <script src="https://kit.fontawesome.com/86c248a3a6.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+    <!-- RazorPay -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GOOGLE_TAG_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'GOOGLE_TAG_ID');
+</script>
+<!-- End Google tag -->
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'META_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target=".navbar">
+
+    <!-- Top Messege bar -->
+    <!--Navigation Section-->
+    <section id="header">
+
+        <div class="top-bar d-none d-lg-flex" style="position: absolute;">
+            <div class="announcement-bar">
+                Free delivery across India
+            </div>
+
+        </div>
+        
+        <nav class="navbar navbar-expand-lg fixed-top expanded">
+
+            <div class="top-bar d-md-flex d-lg-none">
+                <div class="announcement-bar">
+                    Free delivery across India
+                </div>
+    
+            </div>
+
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="/images/logo/logo.png" class="brand-logo img-fluid">
+                </a>
+
+                <form class="form-inline .d-none .d-sm-block" action="/search" method="GET">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
+                    <button type="submit" class="btn btn-link p-0" style="text-decoration:none;">
+                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                    </button>
+                </form>
+                <div class="nav-right-btn">
+
+                    <a href="/product/wishlist" class="nav-wishlist"><i class="fa-solid fa-heart"
+                            style="color: #ffffff;"></i>
+                    </a>
+
+                    <a href="/user/cart" class="nav-cart" id="navCart">
+                        <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+                        <% if(!user || user === " " || user === undefined){ %>
+                            <input type="text" id="cartCountInput" class="cart-count" readonly value=0>
+                        <% } else { %>
+                            <input type="text" id="cartCountInput" class="cart-count" readonly value="<%= user?.cart?.length %>">
+                        <% } %>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+                        <!-- button icon -->
+                        <i class="fa-solid fa-bars" style="color: #eceff4;"></i>
+
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+
+                        <li class="nav-item product-dropdown">
+                            <a class="nav-link product-dropdown-btn" href="#our-products">Our Products 
+                                <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i></a>
+                            <ul class="drop-down">
+                                <a class="necklace">
+                                    <li>
+                                        <span>Spare Parts</span>
+                                        <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
+                                    </li>
+
+                                </a>
+
+                                <!-- Mobile: Spare Parts Sub-menu -->
+                                <ul class="sub-drop drop-down-necklace">
+                                    <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
+                                        <% brands.forEach((brand)=> { %>
+                                            <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
+                                        <% }) %>
+                                    <% } %>
+                                </ul>
+                                
+                                <!-- 2. Accessories Category (Mobile) -->
+                                <a class="earring">
+                                    <li>
+                                        <span>Accessories</span>
+                                        <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
+
+                                    </li>
+                                </a>
+
+                                <!-- Mobile: Accessories Sub-menu -->
+                                <ul class="sub-drop drop-down-earring">
+                                    <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
+                                        <% brands.forEach((brand)=> { %>
+                                            <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
+                                        <% }) %>
+                                    <% } %>
+                                </ul>
+
+                                <!-- 3. Tools Category (Mobile) -->
+                                <a class="ring" href="/product/?category=tools">
+                                    <li>
+                                        <span>Tools</span>
+                                        <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
+                                    </li>
+                                </a>
+
+                                <!-- Extra to keep nav functional -->
+                                <a class="bracelet" style="display: none; visibility: hidden;">
+                                    <li>
+                                        <span>New option</span>
+                                        <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
+                                    </li>
+                                </a>
+
+                            </ul>
+
+                            <!-- Desktop -->
+                            <ul class="sub-drop drop-down-necklace d-none d-lg-block">
+                                <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
+                                        <% brands.forEach((brand)=> { %>
+                                            <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
+                                        <% }) %>
+                                    <% } %>
+                            </ul>
+
+                             <!-- Desktop: Accessories Flyout Menu -->
+                            <ul class="sub-drop drop-down-earring d-none d-lg-block">
+                                <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
+                                        <% brands.forEach((brand)=> { %>
+                                            <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
+                                        <% }) %>
+                                    <% } %>
+                            </ul>
+
+                            <ul class="sub-drop drop-down-ring d-none d-lg-block">
+                                <a href="/product/?category=tools"><li>Tools</li></a>
+                            </ul>
+
+                            <!-- Extra Part to keep nav functional -->
+                            <ul class="sub-drop drop-down-bracelet d-none d-lg-block">
+                                <a href="/product/?category=Bracelets"><h6>New Option</h6></a>
+                            </ul>
+
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/sale">Sale</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/product/wishlist">Wishlist</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/cart">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                                <% if (user && (user.firstname !== " " && user !== " ")) { %>
+                                    <a class="nav-link" href="/viewAccount"><%= user.firstname %></a>
+                                <% } else { %>
+                                    <a class="nav-link" href="/myacc">My Account</a>    
+                                <% } %>
+                        </li>
+                        <li class="nav-item">
+                            <% if(user && user.role == "admin") { %>
+                                <a class="nav-link" href="/admin">Admin</a>
+                            <% } %>
+                        </li>
+                    </ul>
+                </div>
+                <form class="form-mob form-inline" action="/search" method="GET">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
+                    <button type="submit" class="btn btn-link p-0" style="text-decoration:none;">
+                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </section>

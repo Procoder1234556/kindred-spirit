@@ -1,0 +1,32 @@
+<% 
+  breadcrumb = `<a href="/brands">Brands</a> / ${typeof brand !== 'undefined' ? brand.charAt(0).toUpperCase() + brand.slice(1) : 'Brand'}`;
+%>
+<%- include('layout') %>
+
+<div class="container" style="background:#fff; border-radius:8px; padding:2rem; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-top:2rem;">
+  <h2><%= typeof brand !== 'undefined' ? brand.toUpperCase() : 'BRAND' %> Repair Hub</h2>
+  <p>Find specific teardowns and replacement guides for <%= typeof brand !== 'undefined' ? brand : 'this brand' %> devices.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 2rem;">
+    <!-- Dummy model cards -->
+    <div style="border: 1px solid #ddd; padding: 1rem; border-radius: 4px; text-align: center;">
+      <h4 style="margin:0 0 0.5rem 0;">Model Series X</h4>
+      <p style="font-size:0.85rem; color:#666;">Screen & Battery</p>
+      <a href="/guides/<%= typeof brand !== 'undefined' ? brand : 'brand' %>-series-x-repair" style="font-size:0.9rem; font-weight:600; color:#1a73e8; text-decoration:none;">View Guide</a>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; border-radius: 4px; text-align: center;">
+      <h4 style="margin:0 0 0.5rem 0;">Model Series Y</h4>
+      <p style="font-size:0.85rem; color:#666;">Charging Port</p>
+      <a href="/guides/<%= typeof brand !== 'undefined' ? brand : 'brand' %>-series-y-repair" style="font-size:0.9rem; font-weight:600; color:#1a73e8; text-decoration:none;">View Guide</a>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; border-radius: 4px; text-align: center;">
+      <h4 style="margin:0 0 0.5rem 0;">Model Series Z</h4>
+      <p style="font-size:0.85rem; color:#666;">Back Panel Glass</p>
+      <a href="/guides/<%= typeof brand !== 'undefined' ? brand : 'brand' %>-series-z-repair" style="font-size:0.9rem; font-weight:600; color:#1a73e8; text-decoration:none;">View Guide</a>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') %>

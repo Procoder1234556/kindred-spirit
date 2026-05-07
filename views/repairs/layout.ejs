@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Sahii Repairs' %></title>
+  
+  <meta name="description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'Sahii mobile repair guides and education.' %>">
+  
+  <!-- Canonical Tag -->
+  <link rel="canonical" href="<%= typeof canonicalUrl !== 'undefined' ? canonicalUrl : 'https://sahiirepairs.in/' %>" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'Sahii Repairs' %>" />
+  <meta property="og:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'Sahii mobile repair guides and education.' %>" />
+  <meta property="og:url" content="<%= typeof canonicalUrl !== 'undefined' ? canonicalUrl : 'https://sahiirepairs.in/' %>" />
+  <meta property="og:type" content="<%= typeof ogType !== 'undefined' ? ogType : 'website' %>" />
+  <meta property="og:site_name" content="Sahii Repairs" />
+  <meta property="og:image" content="https://sahiirepairs.in/assets/social-banner.jpg" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'Sahii Repairs' %>" />
+  <meta name="twitter:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'Sahii mobile repair guides and education.' %>" />
+  <meta name="twitter:image" content="https://sahiirepairs.in/assets/social-banner.jpg" />
+  <meta name="twitter:site" content="@SahiiRepairs" />
+
+  <!-- Dynamic JSON-LD Schema Placeholder -->
+  <% if (typeof schemaJSON !== 'undefined') { %>
+    <script type="application/ld+json">
+      <%- JSON.stringify(schemaJSON) %>
+    </script>
+  <% } %>
+
+  <style>
+    body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; color:#333; }
+    header { background: #011a3a; color: #fff; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    header a { color: #fff; text-decoration: none; margin-left: 1rem; font-weight: 500; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+    h1 { color: #011a3a; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <strong>Sahii Repairs</strong>
+  </div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/guides">All Guides</a>
+    <a href="/brands/apple">Apple</a>
+    <a href="/brands/samsung">Samsung</a>
+  </nav>
+</header>

@@ -1,0 +1,14 @@
+  <footer style="background: #e9ecef; padding: 2rem; margin-top: 3rem; text-align: center;">
+    <div>
+      <p style="margin-bottom: 0.5rem; color:#555;"><strong>Breadcrumbs:</strong> 
+        <!-- Client-side rudimentary breadcrumbs for visual context, JSON-LD handles SEO breadcrumbs if injected -->
+        <a href="/">Home</a> 
+        <% if(typeof breadcrumb !== 'undefined') { %>
+           <span> &rsaquo; </span> <%= breadcrumb %>
+        <% } %>
+      </p>
+      <p style="color: #777; font-size: 0.9rem;">&copy; <%= new Date().getFullYear() %> Sahii Repairs. Educating consumers on mobile repair.</p>
+    </div>
+  </footer>
+</body>
+</html>

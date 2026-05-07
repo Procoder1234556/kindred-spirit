@@ -1,0 +1,1089 @@
+<%- include('header') -%>
+
+<!-- ── Product JSON-LD Schema ── -->
+<script type="application/ld+json">
+<%
+  const _prodAvail = product.quantity > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock";
+  const _prodRating = parseFloat(product.totalrating) || 4.5;
+  const _ratingCount = product.ratings && product.ratings.length > 0 ? product.ratings.length : 47;
+  const _prodImg = product.images && product.images[0]
+    ? (product.images[0].startsWith('http') ? product.images[0] : 'https://sahii.in' + product.images[0])
+    : 'https://sahii.in/images/logo/logo.png';
+  const _prodDesc = (product.description || product.title || '').replace(/"/g, '\\"').slice(0, 300);
+%>
+<%- JSON.stringify({
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": product.title || "",
+  "description": _prodDesc,
+  "image": product.images ? product.images.map(img => img.startsWith('http') ? img : 'https://sahii.in' + img) : [_prodImg],
+  "sku": String(product._id),
+  "brand": {
+    "@type": "Brand",
+    "name": product.brand ? (product.brand.charAt(0).toUpperCase() + product.brand.slice(1)) : "Sahii"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://sahii.in/product/" + product.slug,
+    "priceCurrency": "INR",
+    "price": product.sellingPrice || product.price || 0,
+    "availability": _prodAvail,
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": { "@type": "Organization", "name": "Sahii" }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": _prodRating,
+    "reviewCount": _ratingCount,
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+}) %>
+</script>
+
+<!-- ── BreadcrumbList JSON-LD ── -->
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sahii.in/" },
+    { "@type": "ListItem", "position": 2, "name": (product.category || "Products").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()), "item": "https://sahii.in/product/?category=" + (product.category || "") },
+    { "@type": "ListItem", "position": 3, "name": (product.brand ? product.brand.charAt(0).toUpperCase() + product.brand.slice(1) : "Brand"), "item": "https://sahii.in/product/?brand=" + (product.brand || "") + "&category=" + (product.category || "") },
+    { "@type": "ListItem", "position": 4, "name": product.title || "Product", "item": "https://sahii.in/product/" + product.slug }
+  ]
+}) %>
+</script>
+
+
+    <!-- Mobile View Buttons -->
+    <div class="mobileShow">
+        <% if(user){ %>
+            <% if(product.quantity===0){ %>
+                <button type="button" class="cart-mob add-to-cart" style="opacity: 0.5;" disabled>Add to cart
+                    <i class="fas fa-shopping-cart" style="color: #011a3a;"></i>
+                </button>
+                <button class="buynow-mob buy_now" style="opacity: 0.5;" disabled>Buy Now</button>
+                <% }else{ %>
+                    <button type="button" class="cart-mob add-to-cart"
+                        onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', '<%= user.refreshToken %>')">Add
+                        to cart
+                        <i class="fas fa-shopping-cart" style="color: #011a3a;"></i>
+                    </button>
+                    <button class="buynow-mob buy_now"
+                        onclick="buy_now('<%= product._id %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', '<%= user.refreshToken %>')">Buy
+                        Now</button>
+                    <% } %>
+                        <% } else { %>
+                            <% if(product.quantity===0){ %>
+                                <button type="button" class="cart-mob add-to-cart" style="opacity: 0.5;" disabled>Add to
+                                    cart
+                                    <i class="fas fa-shopping-cart" style="color: #011a3a;"></i>
+                                </button>
+                                <button class="buynow-mob buy_now" style="opacity: 0.5;" disabled>Buy Now</button>
+                                <% }else{ %>
+                                    <button class="cart-mob add-to-cart"
+                                        onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', '-1')">
+                                        Add to cart
+                                        <i class="fas fa-shopping-cart" style="color: #011a3a;"></i>
+                                    </button>
+                                    <button class="buynow-mob buy_now"
+                                        onclick="buy_now('<%= product._id %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', '-1')">Buy
+                                        Now</button>
+                                    <%} %>
+                                        <% } %>
+    </div>
+
+    <!-- Single Product  -->
+
+    <section id="product-details" class="section-p1">
+        <% if(product.quantity===0){ %>
+            <div class="container soldout">
+                <% } else { %>
+                    <div class="container">
+                        <% } %>
+                            <div class="container-inner">
+                                <div class="single-product-img">
+                                    <div class="single-product-img-inner">
+                                        <img id="main-img" src="<%= product.images[0] %>" width="100%" id="main-img"
+                                            alt="main-img">
+                                    </div>
+                                    <div class="mob-wishlist">
+                                        <% if(user){ %>
+                                            <button class="wishlist-button-small"
+                                                onclick="add_to_wishlist('<%= product._id %>', '<%= user._id %>')">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </button>
+                                            <% }else { %>
+                                                <button class="wishlist-button-small"
+                                                    onclick="add_to_wishlist('<%= product._id %>', ' ')">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </button>
+                                                <% } %>
+                                    </div>
+
+
+
+                                    <div class="small-img-grp">
+
+                                        <% product.images.forEach(image=>{ %>
+                                            <div class="small-img-col">
+                                                <img class="p-img" src="<%= image %>" width="100%" class="small-img"
+                                                    alt="small-img">
+                                            </div>
+                                            <% }) %>
+
+                                                <!-- 
+                                            <div id="silver" class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717425336/Pendants/2_gg33s0.jpg" width="100%" alt="small-img">
+                                            </div>
+                                            <div class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717425607/Pendants/5_tu1wbb.jpg" width="100%" alt="small-img">
+                                            </div>
+                                            <div class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717425607/Pendants/5_tu1wbb.jpg" width="100%" alt="small-img">
+                                            </div>
+                                            <div id="gold" class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717425350/Pendants/2_xhthvp.jpg" width="100%" alt="small-img">
+                                            </div>
+                                            <div class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717425607/Pendants/5_tu1wbb.jpg" width="100%" alt="small-img">
+                                            </div>
+                                            <div id="rose-gold" class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717497865/Pendants/2_lsfdqy.webp" width="100%" alt="small-img">
+                                            </div>
+                                            <div class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717425607/Pendants/5_tu1wbb.jpg" width="100%" alt="small-img">
+                                            </div>
+                                            <div class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717425607/Pendants/5_tu1wbb.jpg" width="100%" alt="small-img">
+                                            </div>
+                                            <div class="small-img-col">
+                                                <img class="p-img" src="https://res.cloudinary.com/dq6ggnymb/image/upload/v1717425607/Pendants/5_tu1wbb.jpg" width="100%" alt="small-img">
+                                            </div> -->
+
+                                    </div>
+
+                                    <div class="scroll-btn">
+                                        <div class="left-scroll">
+                                            <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>
+
+                                        </div>
+                                        <div class="right-scroll">
+                                            <i class="fa-solid fa-chevron-left fa-flip-horizontal"
+                                                style="color: #000000;"></i>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="single-product-details">
+                                    <div class="single-product-details-inner">
+                                        <div style="font-family: 'Mulli', sans;">
+                                            <h6>Home / <%= product.category %>
+                                            </h6>
+                                            <h4>
+                                                <%= product.title %>
+                                            </h4>
+                                            <div class="product-rating">
+                                                <% 
+                                                const ratingNum = parseFloat(product.totalrating) || 4.0;
+                                                for(let i=1; i<=5; i++) { 
+                                                    if(ratingNum >= i) { %>
+                                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                    <% } else if(ratingNum >= i - 0.5) { %>
+                                                        <i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i>
+                                                    <% } else { %>
+                                                        <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                                    <% } 
+                                                } %>
+                                                <span style="margin-left: 5px; font-size: 0.9em; color: #555;">(<%= product.reviewCount || Math.floor(Math.random() * (180 - 12 + 1)) + 12 %> reviews)</span>
+                                            </div>
+
+                                            <!-- ── Color Variant Swatches ── -->
+                                            <% if (product.variants && product.variants.length > 0) { %>
+                                            <div id="variant-selector" style="margin: 14px 0 6px;">
+                                                <p style="font-size:0.85rem; color:#555; margin-bottom:8px;">
+                                                    Color: <strong id="variant-label"><%= product.variants[0].color || 'Default' %></strong>
+                                                    <span id="variant-stock-badge" style="
+                                                        display:inline-block; margin-left:8px; font-size:0.75rem;
+                                                        padding:2px 8px; border-radius:20px; font-weight:600;
+                                                        background:<%= (product.variants[0].stockQuantity||0) > 0 ? '#d1fae5' : '#fee2e2' %>;
+                                                        color:<%= (product.variants[0].stockQuantity||0) > 0 ? '#065f46' : '#991b1b' %>;">
+                                                        <%= (product.variants[0].stockQuantity||0) > 0 ? 'In Stock' : 'Out of Stock' %>
+                                                    </span>
+                                                </p>
+                                                <div style="display:flex; flex-wrap:wrap; gap:10px;" id="swatch-container">
+                                                    <% product.variants.forEach(function(v, idx) { %>
+                                                        <button
+                                                            type="button"
+                                                            class="variant-swatch"
+                                                            data-idx="<%= idx %>"
+                                                            data-color="<%= v.color || '' %>"
+                                                            data-hex="<%= v.colorHex || '#cccccc' %>"
+                                                            data-price="<%= v.actualPrice || product.sellingPrice %>"
+                                                            data-stock="<%= v.stockQuantity || 0 %>"
+                                                            title="<%= v.color || '' %>"
+                                                            style="
+                                                                width:30px; height:30px; border-radius:50%;
+                                                                background-color:<%= v.colorHex || '#cccccc' %>;
+                                                                border: <%= idx === 0 ? '3px solid #1a73e8' : '2px solid #ccc' %>;
+                                                                cursor:pointer; outline:none;
+                                                                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+                                                                transition: transform 0.15s, border-color 0.15s;
+                                                            "
+                                                            onmouseover="this.style.transform='scale(1.15)'"
+                                                            onmouseout="this.style.transform='scale(1)'">
+                                                        </button>
+                                                    <% }) %>
+                                                </div>
+                                            </div>
+
+                                            <script>
+                                            (function() {
+                                                var swatches = document.querySelectorAll('.variant-swatch');
+                                                var label     = document.getElementById('variant-label');
+                                                var stockBadge= document.getElementById('variant-stock-badge');
+                                                var spEl      = document.getElementById('dp-selling-price');
+                                                // MRP span may not exist for every product
+                                                var mrpEl     = document.getElementById('dp-price');
+
+                                                swatches.forEach(function(btn) {
+                                                    btn.addEventListener('click', function() {
+                                                        // ring highlight
+                                                        swatches.forEach(function(b){ b.style.border = '2px solid #ccc'; });
+                                                        this.style.border = '3px solid #1a73e8';
+
+                                                        var color = this.getAttribute('data-color');
+                                                        var price = this.getAttribute('data-price');
+                                                        var stock = parseInt(this.getAttribute('data-stock'), 10);
+
+                                                        if (label) label.textContent = color;
+                                                        if (spEl)  spEl.textContent  = price;
+                                                        if (mrpEl) mrpEl.textContent = price; // keep MRP same (no variant MRP stored)
+
+                                                        if (stockBadge) {
+                                                            if (stock > 0) {
+                                                                stockBadge.textContent = 'In Stock';
+                                                                stockBadge.style.background = '#d1fae5';
+                                                                stockBadge.style.color = '#065f46';
+                                                            } else {
+                                                                stockBadge.textContent = 'Out of Stock';
+                                                                stockBadge.style.background = '#fee2e2';
+                                                                stockBadge.style.color = '#991b1b';
+                                                            }
+                                                        }
+                                                    });
+                                                });
+                                            })();
+                                            </script>
+                                            <% } %>
+                                            <!-- ── end Color Variant Swatches ── -->
+
+                                            <h5 class="striked-price" id="dp-price-container"><del>&#8377;<span id="dp-price"><%= product.price %></span></del></h5>
+                                            <h2>&#8377;<span id="dp-selling-price"><%= product.sellingPrice %></span>
+                                                    <span>(Inclusive of all taxes)</span>
+                                            </h2>
+                                        </div>
+
+                                        <div class="descrp-dropdown">
+
+                                            <div class="product-offers chosen">
+                                                <span>Coupon & Offers</span>
+                                                <i class="fa-solid fa-caret-down" style="color: #011a3a;"></i>
+
+                                            </div>
+
+                                            <div class="coupon-offers-text">
+                                                <div class="coupon-offers">
+                                                    <% if(coupons && coupons.length> 0){ %>
+                                                        <% coupons.forEach(coupon=> { %>
+                                                            <div>
+                                                                <span>
+                                                                    Get <b>Flat <%= coupon.discount %>% off!</b>
+                                                                    Use Code: <b>
+                                                                        <%= coupon.name %>
+                                                                    </b>
+                                                                </span>
+                                                            </div>
+                                                            <% }) %>
+                                                                <% } else { %>
+                                                                    <div>
+                                                                        <span>No active coupons available</span>
+                                                                    </div>
+                                                                    <% } %>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="product-decrp">
+                                                <span>Product Description</span>
+                                                <i class="fa-solid fa-caret-down" style="color: #011a3a;"></i>
+
+                                            </div>
+                                            <div class="product-decrp-text">
+                                                <p class="description-para">
+                                                    <%= product.description %>
+                                                </p>
+                                                <div class="descrp-tiles">
+                                                    <ul class="list1">
+                                                        <li>
+                                                            <strong>Category</strong>
+                                                            <span><%= product.category ? product.category.replace('_', ' ').toUpperCase() : '-' %></span>
+                                                        </li>
+                                                        <li>
+                                                            <strong>Sub Category</strong>
+                                                            <span><%= product.subCategory || '-' %></span>
+                                                        </li>
+                                                        <li>
+                                                            <strong>Brand</strong>
+                                                            <span><%= product.brand ? product.brand.toUpperCase() : '-' %></span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="list2">
+                                                        <li>
+                                                            <strong>Model</strong>
+                                                            <span><%= product.model ? product.model.toUpperCase() : '-' %></span>
+                                                        </li>
+                                                        <li>
+                                                            <strong>Color</strong>
+                                                            <span>
+                                                                <%= product.color && product.color.length > 0 ? product.color[0] : '-' %>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <strong>Dimension</strong>
+                                                            <span>
+                                                                OEM Grade
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="product-ship-replace">
+                                                <span>Shipment & Replacement</span>
+                                                <i class="fa-solid fa-caret-down" style="color: #011a3a;"></i>
+                                            </div>
+
+                                            <div class="product-ship-replace-text">
+                                                <ul>
+                                                    <li>Item received is physically damaged.</li>
+                                                    <li>Item received has missing parts or accessories</li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="product-reviews">
+                                                <span>Customer Reviews</span>
+                                                <i class="fa-solid fa-caret-down" style="color: #011a3a;"></i>
+                                            </div>
+                                            <div class="product-reviews-text">
+                                                <% if(product.ratings && product.ratings.length > 0) { %>
+                                                    <div class="review-cards-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px; padding-bottom: 20px;">
+                                                        <% product.ratings.forEach(review => { %>
+                                                            <div class="review-card" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; background: #fafafa;">
+                                                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                                                                    <div>
+                                                                        <h6 style="margin: 0; font-weight: bold; color: #132043;"><%= review.reviewerName || 'Verified Buyer' %> <i class="fa-solid fa-circle-check" style="color: #4CAF50; font-size: 0.8em; margin-left: 5px;"></i></h6>
+                                                                        <small style="color: #777;"><i class="fa-solid fa-location-dot" style="margin-right: 4px;"></i><%= review.city || 'India' %></small>
+                                                                    </div>
+                                                                    <div style="color: #FFD43B; font-size: 0.85em;">
+                                                                        <% for(let i=1; i<=5; i++) { 
+                                                                            if((review.star || parseFloat(product.totalrating)) >= i) { %>
+                                                                                <i class="fa-solid fa-star"></i>
+                                                                            <% } else if((review.star || parseFloat(product.totalrating)) >= i - 0.5) { %>
+                                                                                <i class="fa-solid fa-star-half-stroke"></i>
+                                                                            <% } else { %>
+                                                                                <i class="fa-regular fa-star"></i>
+                                                                        <% } } %>
+                                                                    </div>
+                                                                </div>
+                                                                <p style="margin: 0; font-size: 0.95em; color: #444; line-height: 1.5;"><%= review.comment %></p>
+                                                                <small style="display: block; margin-top: 8px; color: #999;"><%= new Date(review.date || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></small>
+                                                            </div>
+                                                        <% }) %>
+                                                    </div>
+                                                <% } else { %>
+                                                    <p style="margin-top: 10px; padding-bottom: 20px; color: #666;">No reviews yet. Be the first to review this product!</p>
+                                                <% } %>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="color-palette">
+                                            <span>Available in: <span id="selected-color-name"><%= typeof selectedColorName !== 'undefined' ? selectedColorName : (product.variants && product.variants.length > 0 ? product.variants[0].color : '') %></span></span>
+                                            <ul>
+                                                <% if(product.variants && product.variants.length > 0) { %>
+                                                    <% product.variants.forEach((variant) => { %>
+                                                        <li class="color-swatch variant-color-swatch <%= variant.colorHex === product.color[0] ? 'selected' : '' %>"
+                                                            style="background-color:<%= variant.colorHex %>; border:1px solid #aaa; cursor: pointer;"
+                                                            title="<%= variant.color %>"
+                                                            onclick="selectVariant(this, '<%= variant.color %>', '<%= variant.colorHex %>', <%= variant.actualPrice %>, <%= variant.stockQuantity %>, <%= product.price %>)">
+                                                        </li>
+                                                    <% }) %>
+                                                <% } else if(typeof allColors !== 'undefined' && allColors.length > 0) { %>
+                                                    <% allColors.forEach(clr=> { %>
+                                                        <a href="/product/<%= clr.slug %>">
+                                                            <li class="color-swatch <%= clr.hex === product.color[0] ? 'selected' : '' %>"
+                                                                style="background-color:<%= clr.hex %>; border:1px solid #aaa;"
+                                                                title="<%= clr.name %>">
+                                                            </li>
+                                                        </a>
+                                                        <% }) %>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+
+
+                                        <div class="select-input">
+                                            <select>
+                                                <option>Select Size</option>
+                                                <option>adjustable</option>
+                                                <option style="opacity: 0.5;" disabled>3 rem</option>
+                                                <option style="opacity: 0.5;" disabled>3.5 rem</option>
+                                            </select>
+                                            <!-- <div id="incdec">
+                                    <input id="set_count"  class="quantity-input" type="Number" value="1" min="1" max="<%= product.quantity %>" />
+                                     <i class="fa-solid fa-caret-up quant-up" style="color: #011a3a;"></i>
+                                 <i class="fa-solid fa-caret-down quant-down" style="color: #011a3a;"></i>
+                                 </div> -->
+
+                                            <div class="quantity">
+                                                <a href="#" class="quantity__minus"
+                                                    onclick="change_squant(event, '<%= product.quantity %>')"><span
+                                                        style="color: #ffffff;">-</span></a>
+                                                <input id="s_quantity" name="quantity" type="text"
+                                                    class="quantity__input" value="1" max="<%= product.quantity %>">
+                                                <a href="#" class="quantity__plus"
+                                                    onclick="change_squant(event, '<%= product.quantity %>')"><span
+                                                        style="color: #ffffff;">+</span></a>
+                                            </div>
+
+                                            <!-- Tryinggg !!  -->
+                                            <div id="add-to-cart-container">
+                                                <% if(user){ %>
+                                                    <% if(product.quantity===0){ %>
+                                                        <button type="button" class="cart-button add-to-cart" id="btn-add-to-cart"
+                                                            style="opacity: 0.5;" disabled>Add to cart</button>
+                                                        <% }else{ %>
+                                                            <button type="button" class="cart-button add-to-cart" id="btn-add-to-cart"
+                                                                onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color[0] %>', '<%= user.refreshToken %>')">Add
+                                                                to cart
+                                                            </button>
+                                                            <% } %>
+                                                <% }else{ %>
+                                                    <% if(product.quantity===0){ %>
+                                                        <button class="cart-button add-to-cart" id="btn-add-to-cart"
+                                                            style="opacity: 0.5;" disabled>Add to
+                                                            cart</button>
+                                                        <% }else{ %>
+                                                            <button class="cart-button add-to-cart" id="btn-add-to-cart"
+                                                                onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color[0] %>', '-1')">
+                                                                Add to cart
+                                                            </button>
+                                                            <% } %>
+                                                <% } %>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            function selectVariant(element, colorName, colorHex, actualPrice, stockQuantity, oldPrice) {
+                                                // Update selected state visually
+                                                document.querySelectorAll('.variant-color-swatch').forEach(el => el.classList.remove('selected'));
+                                                if (element) element.classList.add('selected');
+                                                
+                                                // Update labels
+                                                document.getElementById('selected-color-name').textContent = colorName;
+                                                document.getElementById('dp-selling-price').textContent = actualPrice;
+                                                
+                                                // Update cart button
+                                                const btn = document.getElementById('btn-add-to-cart');
+                                                const maxQuantity = document.getElementById('s_quantity');
+                                                const userToken = '<%= user ? user.refreshToken : "-1" %>';
+                                                
+                                                if (stockQuantity === 0) {
+                                                    btn.disabled = true;
+                                                    btn.style.opacity = '0.5';
+                                                    btn.onclick = null;
+                                                    if(maxQuantity) maxQuantity.max = 0;
+                                                } else {
+                                                    btn.disabled = false;
+                                                    btn.style.opacity = '1';
+                                                    if(maxQuantity) maxQuantity.max = stockQuantity;
+                                                    
+                                                    btn.setAttribute('onclick', `add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '${stockQuantity}', '${oldPrice}', '${actualPrice}', '<%= product.discount %>', '${colorHex}', '${userToken}')`);
+                                                }
+                                            }
+                                        </script>
+
+                                        <!-- <button class="cart-add">ADD TO CART <i class="fa-solid fa-cart-shopping"></i></button> -->
+
+
+                                        <!-- <button class="wishlist-add">ADD TO WISHLIST<i class="fa-solid fa-cart-shopping"></i></button> -->
+                                        <% if(user){ %>
+                                            <% if(product.quantity===0){ %>
+                                                <button class="buynow-button buy_now" style="opacity: 0.5;"
+                                                    disabled><span class="button-text">BUY
+                                                        NOW</span><span class="buy-now-cart-symbol"><i
+                                                            class="fas fa-shopping-cart"
+                                                            style="color: #ffffff;"></i></span></button>
+                                                <% }else{ %>
+                                                    <button class="buynow-button buy_now"
+                                                        onclick="buy_now('<%= product._id %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', '<%= user?.refreshToken %>')"><span
+                                                            class="button-text">BUY
+                                                            NOW</span><span class="buy-now-cart-symbol"><i
+                                                                class="fas fa-shopping-cart"
+                                                                style="color: #ffffff;"></i></span></button>
+                                                    <% } %>
+                                                        <button class="wishlist-button"
+                                                            onclick="add_to_wishlist('<%= product._id %>', '<%= user._id %>')"><span>ADD
+                                                                TO
+                                                                WISHLIST</span></button>
+                                                        <% }else{ %>
+                                                            <button class="buynow-button buy_now"
+                                                                onclick="buy_now('<%= product._id %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', ' ')"><span
+                                                                    class="button-text">BUY
+                                                                    NOW</span><span class="buy-now-cart-symbol"><i
+                                                                        class="fas fa-shopping-cart"
+                                                                        style="color: #ffffff;"></i></span></button>
+
+
+                                                            <button class="wishlist-button"
+                                                                onclick="add_to_wishlist('<%= product._id %>', ' ')"><span>ADD
+                                                                    TO
+                                                                    WISHLIST</span></button>
+                                                            <% } %>
+
+
+                                                                <div class="feature-icon"></div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+            </div>
+
+
+    </section>
+
+    <!-- testimonial -->
+
+    <section id="cust-review">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="testimonial-heading col-xl-8 text-center">
+                    <h1>Testimonials</h1>
+                </div>
+
+
+            </div>
+
+            <div class="row text-center d-flex align-items-stretch" style="position: relative;">
+                <div class="slider-btn">
+                    <div class="slider-left" onclick="scrollSlider('left')">
+                        <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
+                    </div>
+                    <div class="slider-right" onclick="scrollSlider('right')">
+                        <i class="fa-solid fa-arrow-right" style="color: #ffffff;"></i>
+                    </div>
+                </div>
+
+                <div class="testimonial-options">
+                    <div class="show-rating">
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div>
+                            <span id="review-count">100+ </span>Reviews
+                        </div>
+                    </div>
+                    <div class="get-review">
+                        <a href="#review-section" onclick="scrollToSection(event, 'review-section')">Write a Review</a>
+                        <i class="fa-solid fa-heart" style="color: #000000;"></i>
+                    </div>
+                </div>
+
+                <div class="testimonial-cards">
+
+                    <!-- 1 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/6.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>ROHIT</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>really like how easy sahii makes ordering
+                                    parts. COD option, fast delivery and huge catalogue make it my first choice every
+                                    time.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/7.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>Aman</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>Grey sim tray for s23 fit perfectly and matched the original color. small part but great quality.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/8.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>NAVEEN</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>premium quality display for iphone 11 is totally worth it. smooth touch, good brightness and proper colors.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/9.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>Imran</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>Backglass for s22 ultra looks original once installed. fitting is accurate and packaging was very secure.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/10.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>RAKESH</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>ordered 3 charging cables for iphones. all are working well and charging speed is good for daily use.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/11.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>Karan</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>s23 ultra back camera quality is excellent. focus, clarity and night shots are all working fine.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/12.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>SACHIN</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>s24 wireless flex was hard to find elsewhere. sahii delivered it quickly and the part worked perfectly.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/13.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>Varun</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>samsung a23 premium battery gives good backup and feels reliable. no heating or sudden drops.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 9 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/14.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>DEEPANSHU</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>Ordered 3 oem grade displays for oppo phones. quality was consistent across all, very satisfied.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 10 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/15.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>Prateek</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>charging flex for samsung m42 solved the charging issue instantly. good quality at an affordable price.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 11 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/16.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>MOHAMMAD</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>Sahii has almost every spare part you can think of. prices are fair, support is helpful and deliveries are always quick.
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 12 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/17.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>Arvind</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>Ordered backglasses for 11 pro max to install for customers. Og quality
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 13 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/18.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>SHUBHAM</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>Excellent toolkit for people, like me, doing repairs for the first time. Had everything I needed.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 14 -->
+                    <div>
+                        <div class="card testimonial-card">
+                            <div class="card-img">
+                                <img src="/images/testimonial/19.webp" class="img-fluid" loading="lazy" />
+                            </div>
+                            <div class="card-body">
+                                <div class="p-name">
+                                    <h4>Lokesh</h4>
+                                </div>
+                                <p class="dark-grey-text">
+                                    <i class="fas fa-quote-left pe-2"></i>Screen guard for samsung a53 fits perfectly. quality is good and installation was smooth.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="review-section" class="review-sec">
+                <div class="review-inner">
+                    <h4 class="text-center">We would love to hear from you!</h4>
+                    <div class="cust-rev">
+                        <div class="rating-sec" id="set_ratings">
+                            <span>Rate this Product!</span>
+                            <div id="rating" class="stars">
+                                <span data-star="1"><i class="fa-regular fa-star" style="color: #38b6ff;"></i></span>
+                                <span data-star="2"><i class="fa-regular fa-star" style="color: #38b6ff;"></i></span>
+                                <span data-star="3"><i class="fa-regular fa-star" style="color: #38b6ff;"></i></span>
+                                <span data-star="4"><i class="fa-regular fa-star" style="color: #38b6ff;"></i></span>
+                                <span data-star="5"><i class="fa-regular fa-star" style="color: #38b6ff;"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="cust-comments">
+                            <textarea id="review-text" placeholder="Write your review"></textarea>
+                        </div>
+
+                        <button id="submit-review-btn" type="button" class="submit-btn">Submit</button>
+
+                    </div>
+
+                    <div class="cust-doubt" id="doubt-section">
+                        <div class="doubt-area">
+                            <textarea id="doubt-text" placeholder="Ask your doubt..."></textarea>
+                        </div>
+
+                        <button id="submit-doubt" type="button" class="submit-btn">Submit</button>
+
+                    </div>
+
+                    <div class="review-buttons">
+                        <button class="doubt-btn">Ask your Doubt</button>
+                        <p style="opacity: .2; font-size: 1.5rem;" class="d-none    d-sm-block">|</p>
+                        <button class="rev-btn">Submit Your Review</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Custom Alert Modal  -->
+    <div id="custom-alert" class="modal hidden">
+        <div class="modal-content">
+            <span id="modal-close" class="modal-close">&times;</span>
+            <p id="modal-message"></p>
+            <!-- <button id="modal-ok" class="doubt-btn">OK</button> -->
+        </div>
+    </div>
+
+    <!-- why praiz section  -->
+
+    <section id="why-praiz">
+        <div class="why-praiz-banner">
+            <div class="why-praiz-banner-inner">
+                <img src=" ">
+            </div>
+        </div>
+    </section>
+
+    <!-- Similar Products  -->
+
+    <section id="more-products">
+        <div class="also-look">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 mt-5">
+                        <div class="more-products-heading">
+                            <h4 class="fw-bold">Similar Products</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="position: relative;">
+                    <button class="pre-btn"><i class="fa-solid fa-arrow-left" style="color: #202022;"></i></i></button>
+                    <button class="nxt-btn"><i class="fa-solid fa-arrow-right" style="color: #202022;"></i></i></button>
+
+                    <div class="product-container">
+
+
+                        <% allProducts.forEach(item=> { %>
+                            <% if(item.quantity===0){ %>
+                                <div class="product-card soldout">
+                                    <% }else{ %>
+                                        <div class="product-card">
+                                            <% } %>
+                                                <a href="/product/<%= item.slug %>">
+                                                    <div class="product-img">
+                                                        <% if(item.discount> 0){ %>
+                                                            <span class="discount-tag">
+                                                                <%= item.discount %>% off
+                                                            </span>
+                                                            <% } %>
+                                                                <img src="<%= item.thumbnail %>" class="product-thumb"
+                                                                    alt="similar-product" loading="lazy">
+                                                                <img src="<%= item.images[0] %>" alt="similar-product-s"
+                                                                    class="img-fluid product-thumb-s" loading="lazy">
+                                                    </div>
+                                                </a>
+                                                <div class="product-info">
+                                                    <div class="product-dets">
+                                                        <a href="/product/<%= item.slug %>">
+                                                            <div class="product-name">
+                                                                <%= item.title %>
+                                                            </div>
+                                                        </a>
+                                                        <div class="product-price">&#8377 <%= item.sellingPrice %>
+                                                                </span>
+                                                                <span class="product-price"><del>&#8377 <%= item.price
+                                                                            %>
+                                                                    </del></span>
+                                                        </div>
+                                                        <div class="py-1">
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="card-big-btn">
+                                                        <% if(user){ %>
+                                                            <% if(product.quantity===0){ %>
+                                                                <button type="button"
+                                                                    class="btn btn-outline-primary card-btn add-to-cart"
+                                                                    disabled>Add to Cart</button>
+                                                                <% }else{ %>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-primary card-btn add-to-cart"
+                                                                        onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', '<%= user.refreshToken %>')">Add
+                                                                        to Cart <i
+                                                                            class="d-inline d-sm-none fa-solid fa-cart-shopping"
+                                                                            style="color: #ffffff;"
+                                                                            aria-hidden="true"></i></button>
+                                                                    <% } %>
+                                                                        <button type="button"
+                                                                            class="wishlist-button-small"
+                                                                            onclick="add_to_wishlist('<%= product._id %>', `<%= user?user._id:' ' %>`)">
+                                                                            <i class="fa-regular fa-heart"></i>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="wishlist-button-small-mob btn btn-outline-primary"
+                                                                            onclick="add_to_wishlist('<%= product._id %>', `<%= user?user._id:' ' %>`)">
+                                                                            <i class="fa-regular fa-heart"
+                                                                                style="color: #011a3a;font-size: .9rem;"
+                                                                                aria-hidden="true"></i></button>
+                                                                        <% } else { %>
+                                                                            <% if(product.quantity===0){ %>
+                                                                                <button type="button"
+                                                                                    class="btn btn-outline-primary card-btn add-to-cart"
+                                                                                    disabled>Add to Cart</button>
+                                                                                <% }else{ %>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-outline-primary card-btn add-to-cart"
+                                                                                        onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.color %>', ' ')">Add
+                                                                                        to Cart</button>
+                                                                                    <% } %>
+                                                                                        <button type="button"
+                                                                                            class="wishlist-button-small"
+                                                                                            onclick="add_to_wishlist('<%= product._id %>', `<%= user?user._id:' ' %>`)">
+                                                                                            <i
+                                                                                                class="fa-regular fa-heart"></i>
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                            class="wishlist-button-small-mob btn btn-outline-primary"
+                                                                                            onclick="add_to_wishlist('<%= product._id %>', `<%= user?user._id:' ' %>`)"><i
+                                                                                                class="fa-regular fa-heart"
+                                                                                                style="color: #011a3a;font-size: .9rem;"
+                                                                                                aria-hidden="true"></i></button>
+                                                                                        <% } %>
+                                                    </div>
+
+                                                </div>
+
+                                        </div>
+                                        <% }) %>
+                                </div>
+                    </div>
+                </div>
+
+
+
+    </section>
+
+    <!-- Change Quantity -->
+    <script>
+        function change_squant(event, s_quant) {
+            event.preventDefault();
+            let prod_input = document.getElementById('s_quantity').value;
+            if (Number(prod_input) + 1 > Number(s_quant)) {
+                console.log('Single: ', s_quant, ", ", prod_input);
+                document.getElementById('s_quantity').value = s_quant - 1;
+            }
+        }
+    </script>
+    <!-- Change quantity closed -->
+
+    <!-- Meta Pixel: AddToCart event -->
+    <script>
+        // Wrap add_to_cart so every call also fires fbq('track', 'AddToCart')
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof add_to_cart === 'function') {
+                var _orig_add_to_cart = add_to_cart;
+                add_to_cart = function (productId, slug, title, image, quantity, price, sellingPrice, discount, color, token) {
+                    // Fire Meta Pixel AddToCart event
+                    if (typeof fbq === 'function') {
+                        fbq('track', 'AddToCart', {
+                            content_ids: [productId],
+                            content_name: title,
+                            content_type: 'product',
+                            value: parseFloat(sellingPrice) || parseFloat(price) || 0,
+                            currency: 'INR'
+                        });
+                    }
+                    // Call original function
+                    return _orig_add_to_cart.apply(this, arguments);
+                };
+            }
+        });
+    </script>
+    <!-- End Meta Pixel: AddToCart -->
+
+    <!-- Footer -->
+    <%- include('footer') -%>

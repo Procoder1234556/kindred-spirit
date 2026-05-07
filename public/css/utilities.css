@@ -1,0 +1,711 @@
+/* =============================================
+   CLEAN UTILITY CLASSES - Sahii Project
+   ============================================= */
+
+/* --- Layout Utilities --- */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-end { justify-content: flex-end; }
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+
+/* --- Spacing Utilities --- */
+.m-0 { margin: 0; }
+.m-auto { margin: auto; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-1 { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+.my-2 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+.my-4 { margin-top: 1rem; margin-bottom: 1rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-5 { margin-top: 1.25rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.ms-1 { margin-inline-start: 0.25rem; }
+.ms-2 { margin-inline-start: 0.5rem; }
+.ms-auto { margin-inline-start: auto; }
+.me-1 { margin-inline-end: 0.25rem; }
+.me-2 { margin-inline-end: 0.5rem; }
+.me-3 { margin-inline-end: 0.75rem; }
+.me-4 { margin-inline-end: 1rem; }
+
+.p-0 { padding: 0; }
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.pt-0 { padding-top: 0; }
+.pb-0 { padding-bottom: 0; }
+
+/* --- Display Utilities --- */
+.block { display: block; }
+.inline-block { display: inline-block; }
+.inline { display: inline; }
+.hidden { display: none; }
+.overflow-hidden { overflow: hidden; }
+.overflow-y-auto { overflow-y: auto; }
+
+/* --- Position Utilities --- */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+/* --- Text Utilities --- */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-uppercase { text-transform: uppercase; }
+.text-white { color: #ffffff; }
+.text-black { color: #000000; }
+.text-gray { color: #6c757d; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-bold { font-weight: 700; }
+
+/* --- Border & Rounded --- */
+.border { border: 1px solid #e5e7eb; }
+.border-0 { border: 0; }
+.rounded { border-radius: 0.25rem; }
+.rounded-md { border-radius: 0.375rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.rounded-full { border-radius: 9999px; }
+
+/* --- Background --- */
+.bg-white { background-color: #ffffff; }
+.bg-dark { background-color: #132043; }
+.bg-light { background-color: #f8f9fa; }
+.bg-transparent { background-color: transparent; }
+
+/* --- Shadow --- */
+.shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.shadow-md { box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.shadow-lg { box-shadow: 0 10px 15px rgba(0,0,0,0.15); }
+
+/* --- Component: Button --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-primary {
+  background-color: #132043;
+  color: #ffffff;
+  border-color: #132043;
+}
+
+.btn-primary:hover {
+  background-color: #0e1730;
+  border-color: #0e1730;
+}
+
+.btn-outline-primary {
+  background-color: transparent;
+  color: #132043;
+  border-color: #132043;
+}
+
+.btn-outline-primary:hover {
+  background-color: #132043;
+  color: #ffffff;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* --- Component: Card --- */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-footer {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f8f9fa;
+}
+
+/* --- Component: Input --- */
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #132043;
+  box-shadow: 0 0 0 0.2rem rgba(19, 32, 67, 0.25);
+}
+
+.input-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* --- Header Specific: Navigation --- */
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #38b6ff;
+}
+
+/* --- Header: Icon Buttons --- */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.icon-btn:hover {
+  color: #38b6ff;
+}
+
+/* --- Footer: Social Links --- */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.1);
+  color: #fafafa;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.social-link:hover {
+  background-color: rgba(255,255,255,0.2);
+  color: #ffffff;
+}
+
+/* --- Responsive Utilities --- */
+@media (max-width: 991.98px) {
+  .flex-lg-col { flex-direction: column; }
+  .hidden-lg-down { display: none; }
+  .visible-lg-down { display: block; }
+}
+
+@media (min-width: 992px) {
+  .hidden-lg-up { display: none; }
+  .visible-lg-up { display: block; }
+}
+
+@media (max-width: 767.98px) {
+  .hidden-md-down { display: none; }
+  .visible-md-down { display: block; }
+}
+
+@media (min-width: 768px) {
+  .hidden-md-up { display: none; }
+  .visible-md-up { display: block; }
+}
+
+@media (max-width: 575.98px) {
+  .hidden-sm-down { display: none; }
+  .visible-sm-down { display: block; }
+}
+
+/* ==============================================
+   SPRINT 2 — WhatsApp Floating Action Button
+   ============================================== */
+.whatsapp-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background-color: #25d366;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.45);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: whatsapp-pulse 2.5s infinite;
+}
+
+.whatsapp-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-fab i {
+  font-size: 1.75rem;
+  color: #ffffff;
+  line-height: 1;
+}
+
+@keyframes whatsapp-pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(37,211,102,0.45); }
+  50%       { box-shadow: 0 4px 26px rgba(37,211,102,0.75); }
+}
+
+/* Hide WhatsApp FAB on cart / checkout / thankYou */
+body.page-cart .whatsapp-fab,
+body.page-checkout .whatsapp-fab,
+body.page-thankyou .whatsapp-fab { display: none !important; }
+
+/* ==============================================
+   SPRINT 2 — Cart Lead / Discount Popup
+   ============================================== */
+.cart-lead-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 99990;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-lead-overlay.active { display: flex; }
+
+.cart-lead-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem 1.75rem 1.5rem;
+  max-width: 380px;
+  width: 92%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: modal-pop 0.25s ease;
+}
+
+@keyframes modal-pop {
+  from { transform: scale(0.88); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.cart-lead-modal .clm-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cart-lead-modal h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #132043;
+  margin: 0 0 0.35rem;
+}
+
+.cart-lead-modal p {
+  font-size: 0.875rem;
+  color: #555;
+  margin: 0 0 1.2rem;
+  line-height: 1.4;
+}
+
+.cart-lead-modal .clm-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cart-lead-modal input[type="tel"] {
+  flex: 1;
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.cart-lead-modal input[type="tel"]:focus {
+  border-color: #132043;
+}
+
+.cart-lead-modal .clm-submit {
+  padding: 0.6rem 1.1rem;
+  background: #132043;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.cart-lead-modal .clm-submit:hover { background: #1e3160; }
+
+.cart-lead-modal .clm-message {
+  font-size: 0.8rem;
+  min-height: 1.2rem;
+  margin-top: 0.6rem;
+}
+
+.cart-lead-modal .clm-skip {
+  display: block;
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  color: #9ca3af;
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.cart-lead-modal .clm-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 1.3rem;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.cart-lead-modal .clm-close:hover { color: #111; }
+
+/* ==============================================
+   SPRINT 4B — Live Activity Toast
+   ============================================== */
+.live-activity-toast {
+  position: fixed;
+  bottom: 90px;
+  left: 16px;
+  z-index: 8900;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ffffff;
+  border-left: 4px solid #25d366;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  max-width: 300px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.lat-hidden {
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lat-visible {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lat-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.lat-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.lat-body strong {
+  display: block;
+  font-size: 0.82rem;
+  color: #132043;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lat-body span {
+  font-size: 0.77rem;
+  color: #6b7280;
+}
+
+/* ==============================================
+   SPRINT 4A — Rating Stars Variation
+   ============================================== */
+.star-rating {
+  display: inline-flex;
+  gap: 1px;
+  color: #f59e0b;
+  font-size: 0.8rem;
+}
+
+.star-rating .star-half::before {
+  content: '\f089'; /* fa-star-half */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
+/* ==============================================
+   SPRINT 4A — Product Badges
+   ============================================== */
+.badge-original {
+  display: inline-block;
+  background: #16a34a;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-discount {
+  display: inline-block;
+  background: #dc2626;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+/* Fix: make discount tag visible in product listing */
+.discount-tag { opacity: 1 !important; }
+
+/* ==============================================
+   SPRINT 4A — How To Order Section
+   ============================================== */
+.how-to-order {
+  background: #f0f4ff;
+  border-radius: 10px;
+  padding: 1.5rem 1.25rem;
+  margin: 2rem 0;
+}
+
+.how-to-order h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #132043;
+  margin-bottom: 1.1rem;
+  text-align: center;
+}
+
+.hto-steps {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.hto-step {
+  flex: 1 1 28%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+}
+
+.hto-step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #132043;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.hto-step strong {
+  font-size: 0.82rem;
+  color: #132043;
+  font-weight: 700;
+}
+
+.hto-step span {
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+/* ==============================================
+   SPRINT 2 — Cart Reminder Toast
+   ============================================== */
+.cart-reminder-toast {
+  position: fixed;
+  bottom: 90px;
+  right: 16px;
+  z-index: 8800;
+  background: #fff;
+  border-left: 4px solid #132043;
+  border-radius: 8px;
+  padding: 0.85rem 1.1rem;
+  max-width: 280px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+  font-size: 0.82rem;
+  color: #132043;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.cart-reminder-toast.hidden {
+  transform: translateX(120%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cart-reminder-toast.visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.cart-reminder-toast strong { display: block; margin-bottom: 0.2rem; font-size: 0.87rem; }
+
+/* ==============================================
+   SPRINT 4B — CTA Enhancements
+   ============================================== */
+.btn-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  background: linear-gradient(135deg, #132043 0%, #1e3a6e 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 14px rgba(19,32,67,0.3);
+}
+
+.btn-cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(19,32,67,0.4);
+  color: #fff;
+}
+
+/* ==============================================
+   SPRINT 1 — SEO: Price filter styles
+   ============================================== */
+.price-filter-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.price-filter-row input[type="number"] {
+  width: 80px;
+  padding: 4px 6px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.authenticity-filter label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.87rem;
+  cursor: pointer;
+}
+

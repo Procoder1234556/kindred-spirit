@@ -1,0 +1,433 @@
+<%- include('header') -%>
+
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <div class="loc"><a href="/">Home</a></div>
+        <div class="cart-banner"></div>
+    </div>
+
+    <!-- Mobile View Buttons -->
+
+
+    <section id="checkout-page">
+        <div class="checkout-page-inner container">
+            <div class="checkout-page-left">
+                <div id="address-toast" style="display: none; background:#fff3cd; color:#856404; border:1px solid #ffeeba; border-radius:4px; padding:8px 12px; font-size:0.85rem; margin-bottom:8px;">
+                    Select or Add an address to continue.
+                </div>
+                <div class="page-left-top">
+                    <h5 class="section-head fw-bold mb-3">Choose Address</h5>
+                    <div class="address-opt">
+
+                        <!-- Order Id -->
+                        <input type="text" id="order_id" style="display: none;" value="<%= order._id %>">
+
+
+                        <!-- <div class="form-check selected"> -->
+                        <% if(user){ %>
+                            <% user.address.forEach((item, index)=>{ %>
+                                <div class="form-check">
+                                    <input class="form-check-input address-radio" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault_<%= index %>" data-is-new="false">
+                                    <label class="form-check-label" for="flexRadioDefault_<%= index %>">
+                                        <div class="address-container">
+                                            <span class="address-firstname" style="display: none;">
+                                                <%= item.firstname %>
+                                            </span>
+                                            <span class="address-lastname" style="display: none;">
+                                                <%= item.lastname %>
+                                            </span>
+                                            <span class="address-pin_code" style="display: none;">
+                                                <%= item.pin_code %>
+                                            </span>
+                                            <span class="address-phone_number" style="display: none;">
+                                                <%= item.phone_number %>
+                                            </span>
+                                            <span class="address-title" id="address-name">
+                                                <%= item.title %>
+                                            </span><span>:</span>
+                                            <span class="address-content" id="address">
+                                                <%= item.address %>
+                                            </span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <% })} %>
+
+                                    <div class="form-check new-add-form">
+                                        <input class="form-check-input address-radio" type="radio" checked name="flexRadioDefault"
+                                            id="flexRadioDefault_new" data-is-new="true">
+                                        <label class="form-check-label" for="flexRadioDefault_new">
+                                            <div class="address-container">
+                                                <span>New Address <span style="opacity: .8; margin-left: 1rem;">(Click
+                                                        to add)</span></span>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <form class="address-form"
+                                        onsubmit="event.preventDefault(); check_address('<%= user._id %>');">
+
+                                        <!-- Row 1: First & Last Name -->
+                                        <div class="addr-row-2col">
+                                            <div class="addr-field-group">
+                                                <label class="addr-label" for="firstname">First Name</label>
+                                                <input type="text" id="firstname" class="addr-input"
+                                                    name="firstname" required />
+                                            </div>
+                                            <div class="addr-field-group">
+                                                <label class="addr-label" for="lastname">Last Name</label>
+                                                <input type="text" id="lastname" class="addr-input"
+                                                    name="lastname" required />
+                                            </div>
+                                        </div>
+
+                                        <!-- Address Line 1 -->
+                                        <div class="addr-field-group">
+                                            <label class="addr-label" for="address1">Address Line 1</label>
+                                            <input type="text" id="address1" class="addr-input"
+                                                name="address1" required />
+                                        </div>
+
+                                        <!-- Address Line 2 -->
+                                        <div class="addr-field-group">
+                                            <label class="addr-label" for="address2">Address Line 2
+                                                <span class="addr-optional">(Optional)</span></label>
+                                            <input type="text" id="address2" class="addr-input"
+                                                name="address2" />
+                                        </div>
+
+                                        <!-- Row 2: Pincode & WhatsApp -->
+                                        <div class="addr-row-2col">
+                                            <div class="addr-field-group">
+                                                <label class="addr-label" for="pin_code">Pin Code</label>
+                                                <input type="number" id="pin_code" class="addr-input"
+                                                    name="pin_code" required />
+                                            </div>
+                                            <div class="addr-field-group">
+                                                <label class="addr-label" for="phone_no">WhatsApp Number</label>
+                                                <input type="number" id="phone_no" class="addr-input"
+                                                    name="phone_no" required />
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 3: Address Title & Submit -->
+                                        <div class="addr-row-2col addr-row-submit">
+                                            <!-- Hidden now since the backend auto-generates "Address 1", etc. -->
+                                            <div class="addr-field-group" style="display: none;">
+                                                <label class="addr-label" for="title">Name this Address</label>
+                                                <input type="hidden" id="title" class="addr-input"
+                                                    name="title" value="New Address" />
+                                            </div>
+                                            <div class="addr-field-group addr-submit-col">
+                                                <button type="submit"
+                                                    class="submit-btn btn btn-primary btn-block mb-4">Submit</button>
+                                            </div>
+                                        </div>
+
+                                        <div id="address_alert" class="alert-text-danger" style="color: red;"></div>
+                                        <div id="address_submit" class="alert-text-success"></div>
+                                    </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <% if(order){ %>
+                <div class="checkout-page-right">
+                    <form class="pay-form">
+                        <!-- <form action="/thankYou" method="GET"> -->
+                        <div class="right-top">
+                            <h5 class="section-head fw-bold">Summary</h5>
+
+                            <div class="right-top-inner">
+
+                                <!-- Original amount stored as data attribute for JS reference -->
+                                <div class="total-amount"
+                                    id="total-amount-wrap"
+                                    data-original="<%= order.paymentIntent.amount %>">
+                                    Total Amount:
+                                    <span id="total-amount">&#8377; <%= order.paymentIntent.amount %></span>
+                                </div>
+
+                                <!-- Savings line  (hidden until prepaid active) -->
+                                <div id="prepaid-saving-line" style="
+                                    display:none;
+                                    margin-top:4px;
+                                    font-size:0.82rem;
+                                    color:#1a7a1a;
+                                    font-weight:600;
+                                ">You save &#8377;<span id="saving-amount">0</span> with online payment!</div>
+
+                                <div class="check-btn">
+                                    <span style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+
+                                        <!-- ── Prepaid option (PRIMARY, shown first) ── -->
+                                        <label for="prepaidOption" style="
+                                            display:flex;
+                                            align-items:flex-start;
+                                            gap:10px;
+                                            cursor:pointer;
+                                            font-size:14.5px;
+                                            color:#222;
+                                            line-height:1.4;
+                                            background:#f0faf0;
+                                            border:1.5px solid #2ecc71;
+                                            border-radius:6px;
+                                            padding:10px 12px;
+                                        ">
+                                            <input type="checkbox" id="prepaidOption"
+                                                onclick="handlePaymentSelection('ONLINE', <%= order.paymentIntent.amount %>)"
+                                                style="width:16px; height:16px; cursor:pointer; margin-top:3px; flex-shrink:0;" disabled>
+                                            <span>
+                                                <span style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                                    <b>Prepaid (Online Payment)</b>
+                                                    <!-- Discount badge -->
+                                                    <span id="prepaid-badge" style="
+                                                        display:inline-block;
+                                                        background:#1a7a1a;
+                                                        color:#fff;
+                                                        font-size:11px;
+                                                        font-weight:700;
+                                                        padding:2px 8px;
+                                                        border-radius:20px;
+                                                        letter-spacing:0.02em;
+                                                    ">2.5% discount applied</span>
+                                                </span>
+                                                <span style="opacity:0.75; display:block; margin-top:2px; font-size:13px;">Pay securely online &amp; save 2.5%</span>
+                                            </span>
+                                        </label>
+
+                                        <!-- ── COD option (SECONDARY) ── -->
+                                        <label for="codOption" style="
+                                            display:flex;
+                                            align-items:flex-start;
+                                            gap:10px;
+                                            cursor:pointer;
+                                            font-size:14.5px;
+                                            color:#222;
+                                            line-height:1.4;
+                                            background:#fafafa;
+                                            border:1.5px solid #ddd;
+                                            border-radius:6px;
+                                            padding:10px 12px;
+                                        ">
+                                            <input type="checkbox" id="codOption"
+                                                onclick="handlePaymentSelection('COD', <%= order.paymentIntent.amount %>)"
+                                                style="width:16px; height:16px; cursor:pointer; margin-top:3px; flex-shrink:0;" disabled>
+                                            <span>
+                                                <b>Cash on Delivery</b>
+                                                <span style="opacity:0.75; display:block; margin-top:2px; font-size:13px;">Pay a small advance online &mdash; rest on delivery</span>
+                                            </span>
+                                        </label>
+
+                                        <!-- COD Advance Info Panel (shown only when COD is selected) -->
+                                        <div id="cod-advance-panel" style="
+                                            display:none;
+                                            background:#fff8e1;
+                                            border:1px solid #ffe082;
+                                            border-radius:6px;
+                                            padding:10px 14px;
+                                            font-size:13px;
+                                            color:#5d4037;
+                                            line-height:1.6;
+                                        ">
+                                            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                                                <span style="font-size:16px;">&#9432;</span>
+                                                <strong>COD Advance Required</strong>
+                                            </div>
+                                            <div>
+                                                Amount to pay now:
+                                                <strong style="font-size:15px; color:#b71c1c;">&#8377;<span id="cod-advance-amount">0</span></strong>
+                                                &nbsp;<em style="font-size:11.5px; opacity:0.8;">(required to confirm order)</em>
+                                            </div>
+                                            <div style="margin-top:6px; font-size:11.5px; opacity:0.75;">
+                                                A refundable advance is collected to prevent fraudulent orders.
+                                                The remaining balance is paid to our delivery partner on receipt.
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" id="finalPayAmount" name="amount" value="">
+                                        <input type="hidden" id="paymentMethod" name="paymentMethod" value="">
+                                        <input type="hidden" id="codAdvanceAmountInput" name="codAdvanceAmount" value="">
+                                    </span>
+
+                                    <input type="hidden" name="key_id" value="<%= order._id %>">
+                                    <input type="hidden" name="name" value="Sahii order Processed">
+                                    <input type="hidden" name="description"
+                                        value="Order by <%= user.firstname %> <%= user.lastname %>, ID: <%= order.orderby %>">
+                                    <p id="check_loader"></p>
+                                    <button type="button" id="checkout_securely"
+                                        class="cont-payment btn btn-outline-primary" style="margin-top: 1.5rem;"
+                                        onclick="checkoutSecurely('<%= order._id %>')" disabled>Checkout
+                                        Securely</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                    <div class="right-bottom">
+                    </div>
+                </div>
+                <% } %>
+        </div>
+    </section>
+    <script>
+        // ── Payment configuration (frontend display only) ──
+        var PREPAID_DISCOUNT_PCT = 2.5;
+        var COD_ADVANCE_MIN_RS   = 150;   // minimum advance in rupees
+        var COD_ADVANCE_PCT      = 0.05;  // 5% of order total
+
+        // ── Helpers ──────────────────────────────────────────────────────────
+
+        function getOriginalAmount() {
+            var wrap = document.getElementById('total-amount-wrap');
+            return wrap ? parseFloat(wrap.dataset.original) || 0 : 0;
+        }
+
+        /** Returns the COD advance: max(150, round(total * 5%)) */
+        function calcCodAdvance(orderTotal) {
+            return Math.max(COD_ADVANCE_MIN_RS, Math.round(orderTotal * COD_ADVANCE_PCT));
+        }
+
+        function applyPrepaidUI(discountedAmount, originalAmount) {
+            var saving = Math.round(originalAmount - discountedAmount);
+            document.getElementById('total-amount').textContent = '\u20b9 ' + discountedAmount;
+            document.getElementById('saving-amount').textContent = saving;
+            document.getElementById('prepaid-saving-line').style.display = 'block';
+        }
+
+        function resetTotalUI(originalAmount) {
+            document.getElementById('total-amount').textContent = '\u20b9 ' + originalAmount;
+            document.getElementById('prepaid-saving-line').style.display = 'none';
+        }
+
+        function showCodAdvancePanel(advance) {
+            var panel = document.getElementById('cod-advance-panel');
+            var amtSpan = document.getElementById('cod-advance-amount');
+            var hiddenInput = document.getElementById('codAdvanceAmountInput');
+            if (panel)  panel.style.display = 'block';
+            if (amtSpan) amtSpan.textContent = advance;
+            if (hiddenInput) hiddenInput.value = advance;
+        }
+
+        function hideCodAdvancePanel() {
+            var panel = document.getElementById('cod-advance-panel');
+            var hiddenInput = document.getElementById('codAdvanceAmountInput');
+            if (panel)  panel.style.display = 'none';
+            if (hiddenInput) hiddenInput.value = '';
+        }
+
+        // ── updatePaymentAvailability ─────────────────────────────────────────
+        function updatePaymentAvailability() {
+            var addressRadios = document.querySelectorAll('.address-radio[name="flexRadioDefault"]');
+            var codCheckbox     = document.getElementById('codOption');
+            var prepaidCheckbox = document.getElementById('prepaidOption');
+            var amountInput     = document.getElementById('finalPayAmount');
+            var paymentMethod   = document.getElementById('paymentMethod');
+            var checkoutBtn     = document.getElementById('checkout_securely');
+            var addressToast    = document.getElementById('address-toast');
+            var originalAmount  = getOriginalAmount();
+
+            var selected = null;
+            addressRadios.forEach(function(r) { if (r.checked) selected = r; });
+
+            var isNewAddress = !selected || selected.dataset.isNew === 'true';
+
+            if (isNewAddress) {
+                codCheckbox.checked     = false;
+                prepaidCheckbox.checked = false;
+                codCheckbox.disabled     = true;
+                prepaidCheckbox.disabled = true;
+                amountInput.value   = '';
+                paymentMethod.value = '';
+                checkoutBtn.disabled = true;
+                resetTotalUI(originalAmount);
+                hideCodAdvancePanel();
+                if (addressToast) addressToast.style.display = 'block';
+            } else {
+                codCheckbox.disabled     = false;
+                prepaidCheckbox.disabled = false;
+                if (addressToast) addressToast.style.display = 'none';
+
+                // Auto-select Prepaid as default when address is first chosen
+                if (!codCheckbox.checked && !prepaidCheckbox.checked) {
+                    prepaidCheckbox.checked = true;
+                    var discounted = Math.round(originalAmount * (1 - PREPAID_DISCOUNT_PCT / 100));
+                    amountInput.value   = discounted;
+                    paymentMethod.value = 'ONLINE';
+                    checkoutBtn.disabled = false;
+                    applyPrepaidUI(discounted, originalAmount);
+                    hideCodAdvancePanel();
+                }
+            }
+        }
+
+        // ── handlePaymentSelection ────────────────────────────────────────────
+        function handlePaymentSelection(type, totalAmount) {
+            var codCheckbox     = document.getElementById('codOption');
+            var prepaidCheckbox = document.getElementById('prepaidOption');
+            var amountInput     = document.getElementById('finalPayAmount');
+            var paymentMethod   = document.getElementById('paymentMethod');
+            var checkoutBtn     = document.getElementById('checkout_securely');
+            var originalAmount  = getOriginalAmount();
+
+            // Guard: options still disabled (no address chosen)
+            if (codCheckbox.disabled || prepaidCheckbox.disabled) return;
+
+            if (type === 'COD') {
+                if (codCheckbox.checked) {
+                    prepaidCheckbox.checked = false;
+
+                    var advance = calcCodAdvance(originalAmount);  // max(150, 5%)
+                    amountInput.value   = advance;
+                    paymentMethod.value = 'COD';
+                    checkoutBtn.disabled = false;
+
+                    resetTotalUI(originalAmount);   // show original total (no prepaid discount)
+                    showCodAdvancePanel(advance);   // show advance info box
+                } else {
+                    if (!prepaidCheckbox.checked) {
+                        amountInput.value   = '';
+                        paymentMethod.value = '';
+                        checkoutBtn.disabled = true;
+                        resetTotalUI(originalAmount);
+                        hideCodAdvancePanel();
+                    }
+                }
+            } else if (type === 'ONLINE') {
+                if (prepaidCheckbox.checked) {
+                    codCheckbox.checked = false;
+                    hideCodAdvancePanel();  // hide COD advance when switching to prepaid
+
+                    var discounted = Math.round(originalAmount * (1 - PREPAID_DISCOUNT_PCT / 100));
+                    amountInput.value   = discounted;
+                    paymentMethod.value = 'ONLINE';
+                    checkoutBtn.disabled = false;
+                    applyPrepaidUI(discounted, originalAmount);
+                } else {
+                    if (!codCheckbox.checked) {
+                        amountInput.value   = '';
+                        paymentMethod.value = '';
+                        checkoutBtn.disabled = true;
+                        resetTotalUI(originalAmount);
+                        hideCodAdvancePanel();
+                    }
+                }
+            }
+        }
+
+        // ── Boot ─────────────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
+            var addressRadios = document.querySelectorAll('.address-radio[name="flexRadioDefault"]');
+            addressRadios.forEach(function(radio) {
+                radio.addEventListener('change', updatePaymentAvailability);
+            });
+            updatePaymentAvailability();
+        });
+    </script>
+
+
+
+    <!-- Footer -->
+    <%- include('footer') -%>

@@ -1,0 +1,75 @@
+<nav>
+    <a href="/admin" class="admin fw-bold">Home</a>
+    <a href="#" onclick="openRoute('addProduct')" class="admin">Add Product</a>
+    <a href="#" onclick="openRoute('addBrand')" class="admin">Add Brand</a>
+    <a href="#" onclick="openRoute('addModels')" class="admin">Add Model</a>
+
+    <!-- Delete/Remove Actions -->
+    <a href="#" onclick="openRoute('removeProduct')" class="admin">Delete Product</a>
+    <a href="#" onclick="openRoute('deleteBrand')" class="admin">Delete Brand</a>
+    <a href="#" onclick="openRoute('deleteModel')" class="admin">Delete Model</a>
+
+    <a href="#" onclick="openUpdateImagesCustom()" class="admin">Update Images</a>
+    <a href="#" onclick="openRoute('updateProduct')" class="admin">Update Product</a>
+    <a href="#" onclick="openMarkSale()" class="admin">Mark Product Sale</a>
+
+    <a href="#" onclick="openRoute('getProductById')" class="admin">Get Product by ID</a>
+    <a href="/product/" class="admin">Get All Products</a>
+    <a href="/admin/bulk-products" class="admin fw-bold text-primary">Bulk Management</a>
+    <a href="#" onclick="openRoute('setStyle')" class="admin">Set Style</a>
+    <a href="#" onclick="openRoute('blockUser')" class="admin">Block User</a>
+    <a href="#" onclick="openRoute('unblockUser')" class="admin">Unblock User</a>
+    <a href="#" onclick="openRoute('makeAdmin')" class="admin">Make Admin</a>
+    <!-- Blog Start -->
+    <!-- <div class="dropdown"> -->
+    <a class="dropdown-toggle admin" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Blog
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <li><a class="dropdown-item" href="/blog/create_blog" onclick="openRoute('createBlog')">Create Blog</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openRoute('updateBlog')">Update Blog</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openRoute('getBlog')">Get Blog</a></li>
+    </ul>
+    <!-- </div> -->
+    <!-- Blog End -->
+
+    <!-- Order Start -->
+    <!-- <div class="dropdown"> -->
+    <a class="dropdown-toggle admin" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Order
+    </a>
+
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <li><a class="dropdown-item" href="#" onclick="openRoute('getOrders')">Get Orders</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openRoute('updateOrderStatus')">Update Order Status</a></li>
+    </ul>
+    <!-- </div> -->
+    <!-- Order End -->
+
+    <a href="#" onclick="openRoute('userTracking')" class="admin">User Tracking (All Users)</a>
+    <a href="#" onclick="openRoute('productTracking')" class="admin">Product Tracking</a>
+    <!-- <a href="#" onclick="openRoute('productTracking')" > -->
+
+    <!-- Coupon Start -->
+    <!-- <div class="dropdown"> -->
+    <a class="dropdown-toggle admin" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Coupon
+    </a>
+
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <li><a class="dropdown-item" href="#" onclick="openRoute('createCoupon')">Create coupon</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openRoute('getAllCoupon')">Get all coupon</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openRoute('deleteCoupon')">Delete coupon</a></li>
+    </ul>
+    <!-- </div> -->
+    <!-- Coupon End -->
+
+    <!-- Analytics -->
+    <a class="btn btn-dark mt-3" href="#" onclick="openRoute('analytics')">
+        Analytics
+    </a>
+    <!-- Analytics End -->
+</nav>

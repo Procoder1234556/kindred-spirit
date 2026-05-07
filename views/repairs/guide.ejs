@@ -1,0 +1,49 @@
+<% 
+  schemaJSON = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": typeof guideTitle !== 'undefined' ? guideTitle : "Mobile Repair Guide",
+    "image": [
+      "https://sahiirepairs.in/assets/guide-cover.jpg"
+    ],
+    "datePublished": new Date().toISOString(),
+    "dateModified": new Date().toISOString(),
+    "author": [{
+        "@type": "Organization",
+        "name": "Sahii repairs",
+        "url": "https://sahiirepairs.in"
+    }]
+  };
+  breadcrumb = `<a href="/guides">Guides</a> / ${typeof guideTitle !== 'undefined' ? guideTitle : 'Guide'}`;
+%>
+<%- include('layout', { ogType: 'article' }) %>
+
+<div class="container" style="background:#fff; border-radius:8px; padding:2rem; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-top:2rem;">
+  <h1 style="border-bottom: 2px solid #011a3a; padding-bottom: 0.5rem; display:inline-block;"><%= typeof guideTitle !== 'undefined' ? guideTitle : 'Repair Guide' %></h1>
+  
+  <p class="lead" style="font-size: 1.1rem; color:#444; margin-bottom:2rem;">
+    This guide will walk you through the entire process of repairing your device safely. Please read all instructions carefully before beginning.
+  </p>
+
+  <div style="background:#fff3cd; border-left: 4px solid #ffc107; padding: 1rem; margin-bottom: 2rem;">
+    <strong>Difficulty Level:</strong> Moderate<br>
+    <strong>Time Required:</strong> 45-60 minutes<br>
+  </div>
+
+  <h3>Step 1: Preparation</h3>
+  <p>Power off your device completely. Remove any SIM trays and external memory cards. Heat the back panel or display edge to soften the adhesive (around 80°C for 2-3 minutes).</p>
+
+  <h3>Step 2: Opening the Device</h3>
+  <p>Use a suction cup to lift the screen/back glass slightly. Insert a plastic guitar pick or spudger to slice through the softened adhesive. Proceed carefully around the edges.</p>
+
+  <h3>Step 3: Disconnecting the Battery</h3>
+  <p>Remove the logic board cover plate screws. Disconnect the battery flex cable immediately to prevent short circuits while working on other components.</p>
+
+  <h3>Step 4: Installing the New Part</h3>
+  <p>Carefully remove the broken component and replace it with the new Sahii OEM part. Reconnect all flex cables and finally, the battery flex last.</p>
+
+  <h3>Step 5: Reassembly</h3>
+  <p>Apply new adhesive strips. Press firmly around the edges to secure the water-resistant seal.</p>
+</div>
+
+<%- include('footer') %>

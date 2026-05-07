@@ -1,0 +1,571 @@
+<%- include('header'); -%>
+
+    <!-- Home Section -->
+
+    <% if (user && user.role==="admin" ) { %>
+        <section>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin">Admin</a>
+            </li>
+        </section>
+        <% } %>
+
+            <section id="home" class="home overflow-hidden">
+
+                <div class="mob-circular-menu">
+                    <div class="container">
+                        <a href="/brand/?category=spare_parts">
+                            <div class="product-3">
+                                <div class="circle">
+                                </div>
+                                <p class="product-name">Spare Parts</p>
+                            </div>
+                        </a>
+                        <a href="/brand/?category=accessories">
+                            <div class="product-2">
+                                <div class="circle">
+                                </div>
+                                <p class="product-name">Accessories</p>
+                            </div>
+                        </a>
+                        <a href="/product/?category=tools">
+                            <div class="product-1">
+                                <div class="circle">
+                                </div>
+                                <p class="product-name">Tools</p>
+                            </div>
+                        </a>
+                        <!-- <a href="/product/?category=Bracelets">
+                            <div class="product-3">
+                                <div class="circle">
+                                </div>
+                                <p class="product-name">Bracelets</p>
+                            </div>
+                        </a>
+                        <a href="/product/?category=Sets">
+                            <div class="product-5">
+                                <div class="circle">
+                                </div>
+                                <p class="product-name">Sets</p>
+                            </div>
+                        </a> -->
+
+                    </div>
+                </div>
+
+                <!-- Pop up start -->
+                <!-- <div class="popup-section">
+                    <div class="popup-outer ">
+                        
+
+                        <div class="popup-loader">
+                            <div class="loader"></div>
+                        </div>
+
+                        <div class="popup-error">
+                            <h5>This Email-Id has already been used before!!!</h5>
+                            <a href="/">Enter a new one</a>
+                        </div>
+
+                        <div class="popup-inner">
+                            <button class="popup-close">
+                                <div class="popup-close-icon">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </button>
+
+                            <div class="popup-left">
+                                <div class="popup-left-up"></div>
+                                <div class="popup-left-down">
+                                    <button class="popup-btn">
+                                        Continue Shopping
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="popup-content">
+                                <div class="popup-top"></div>
+                                <div class="popup-bottom">
+                                    <form class="popup-form" onsubmit="validateAndSubmit(event)">
+                                        <input type="email" id="gift_email" class="popup-email">
+                                        <label class="popup-label">Enter your email</label>
+                                        <input class="popup-submit" type="submit">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="giftLoader"></div>
+                    </div>
+                </div> -->
+
+
+                <!-- Pop up end -->
+
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                            aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="home-banner home-banner-1">
+                                <div class="home-banner-text">
+                                    <!-- <h1>Opening offers are live s</h1> -->
+                                    <!-- <h2>Enjoy exclusive discounts on our premier opening offers</h2> -->
+                                    <!-- <a href="/product" class="btn btn-light text-uppercase banner_btn">Check it out </a> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="home-banner home-banner-2">
+                                <div class="banner-left">
+
+                                </div>
+                                <div class="banner-right" style="margin-top: 10rem; margin-right: 30rem;">
+                                    <div class="home-banner-text home-banner-pc">
+                                        <!-- <h1>SHOP OUR BEST SELLERS</h1> -->
+                                        <!-- <h2> Get up to 70% Discounts</h2> -->
+                                        <!-- <a href="/product" class="btn btn-light text-uppercase" style="background-color: #da645a
+ ; color: white; font-weight: bold;">Check it out </a> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="home-banner home-banner-3">
+                                <div class="home-banner-text">
+                                    <!-- <h1>Shop All</h1> -->
+                                    <!-- <h2>With Working Card & UPI</h2> -->
+                                    <!-- <a href="#" class="btn btn-light text-uppercase mt-4">Our Products</a> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="home-banner home-banner-5">
+                                <div class="home-banner-text">
+                                    <!-- <h1>Shop All</h1> -->
+                                    <!-- <h2>With Working Card & UPI</h2> -->
+                                    <!-- <a href="#" class="btn btn-light text-uppercase mt-4">Our Products</a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+
+
+                <!-- Offer Zone -->
+                <div class="offers-mob">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="headline text-center" style="margin-bottom: 20px;">
+                                    <h2 class="pb-2 position-relative d-inline-block">Mobile Phone Brands</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center" id="brand-offers-mobile">
+                            <!-- Dynamic mobile offers will be loaded here -->
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 off-banner-top" style="margin-top: 1.5rem; scale: 1.05;">
+                                <div class="off-banner">
+                                    <!-- [BANNER IMAGE SLOT - 1200x400px] -->
+                                    <div style="width: 100%; max-width: 1200px; height: 400px; background-color: #f0f2f5; display: flex; align-items: center; justify-content: center; border: 2px dashed #b0bec5; margin: 0 auto; border-radius: 8px;">
+                                        <span style="color: #607d8b; font-weight: bold;">Banner Image Placeholder (1200x400px)</span>
+                                    </div>
+                                    <!-- Replace the above div with your <img src="..."> when ready -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- START: Dynamic Brand Offers Section - Modified by AI Assistant -->
+                <div class="offers">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="headline text-center" style="margin-bottom: 20px;">
+                                    <h2 class="pb-2 position-relative d-inline-block">Mobile Phone Brands</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center" id="brand-offers">
+                            <!-- Dynamic content will be loaded here from brand.json -->
+                        </div>
+                        <!-- END: Dynamic Brand Offers Section - Modified by AI Assistant -->
+
+                        <div class="row">
+                            <div class="col-sm-12 up-to-off" style="margin-top: 1.5rem;">
+                                <div class="off-banner">
+                                    <!-- [BANNER IMAGE SLOT - 1200x400px] -->
+                                    <div style="width: 100%; max-width: 1200px; height: 400px; background-color: #f0f2f5; display: flex; align-items: center; justify-content: center; border: 2px dashed #b0bec5; margin: 0 auto; border-radius: 8px;">
+                                        <span style="color: #607d8b; font-weight: bold;">Banner Image Placeholder (1200x400px)</span>
+                                    </div>
+                                    <!-- Replace the above div with your <img src="..."> when ready -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Product View -->
+
+            <section id="products" class="products">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="headline text-center">
+                                <h2 class="pb-2 position-relative d-inline-block">Popular Products</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row featured-product">
+
+                        <% if(Products){ %>
+                            <% Products.forEach(product=> { %>
+                                <% if(product.featured){ %>
+
+                                    <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
+                                        <a href="/product/<%= product.slug %>">
+                                            <% if(product.quantity===0){ %>
+                                                    <div class="product-card soldout" <% if(product.isOriginal) { %>style="background-color: #E8F4FD;"<% } %>>
+                                                <% } else { %>
+                                                    <div class="product-card" <% if(product.isOriginal) { %>style="background-color: #E8F4FD;"<% } %>>
+                                                <% } %>
+
+                                                <div class="product-img">
+                                                    <!-- Original Label -->
+                                                    <% if(product.isOriginal) { %>
+                                                        <div class="original-badge" style="position: absolute; top: 10px; right: 10px; background-color: #1a73e8; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                                            &check; Original
+                                                        </div>
+                                                    <% } %>
+
+                                                    <!-- Product Label start -->
+                                                    <% if(product.productLabel !== null) { %> 
+                                                        <div class="productLabel">
+                                                            <%= product.productLabel %>
+                                                        </div>
+                                                    <% } %>
+                                                    
+                                                    <!-- Product Label End -->
+                                                    <span class="discount-tag">
+                                                        New
+                                                    </span>
+
+                                                    <img src="<%= product.thumbnail %>" class="product-thumb"
+                                                        alt="similar-product" loading="lazy">
+                                                    <img src="<%= product.images[0] %>" alt="similar-product-s"
+                                                        class="img-fluid product-thumb-s" loading="lazy">
+                                                </div>
+                                        </a>
+                                        <div class="product-info">
+                                            <div class="card-dets">
+                                                <a href="/product/<%= product.slug %>">
+                                                            <div class="product-name">
+                                                                <%= product.title %>
+                                                            </div>
+                                                </a>
+                                                <div class="product-price">&#8377 <%= product.sellingPrice %></span>
+                                                        <span class="product-price"><del>&#8377 <%= product.price %>
+                                                            </del></span>
+                                                </div>
+
+                                                <div class="py-1">
+                                                    <% 
+                                                    const ratingNumIndex = parseFloat(product.totalrating) || 4.0;
+                                                    for(let i=1; i<=5; i++) { 
+                                                        if(ratingNumIndex >= i) { %>
+                                                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                        <% } else if(ratingNumIndex >= i - 0.5) { %>
+                                                            <i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i>
+                                                        <% } else { %>
+                                                            <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                                    <% } } %>
+                                                    <span style="font-size: 0.8em; color: #777;">(<%= product.reviewCount || Math.floor(Math.random()*(180-12+1))+12 %>)</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-big-btn">
+                                                <% if(user){ %>
+                                                    <% if(product.quantity===0){ %>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary card-btn add-to-cart"
+                                                            disabled>Add to Cart</button>
+                                                        <% }else{ %>
+                                                            <button type="button"
+                                                                class="btn btn-outline-primary card-btn add-to-cart"
+                                                                onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', '<%= user.refreshToken %>')">Add
+                                                                to Cart
+                                                                <i class="d-inline d-sm-none fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+                                                            </button>
+                                                            <% } %>
+                                                                <% } else { %>
+                                                                    <% if(product.quantity===0){ %>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-primary card-btn add-to-cart"
+                                                                            disabled>Add to Cart</button>
+                                                                        <% }else{ %>
+                                                                            <button type="button"
+                                                                                class="btn btn-outline-primary card-btn add-to-cart"
+                                                                                onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.color %>', '-1')">Add
+                                                                                to Cart</button>
+                                                                            <% } %>
+                                                                                <% } %>
+                                                                                    <button type="button"
+                                                                                        class="wishlist-button-small add-to-wish"
+                                                                                        onclick="add_to_wishlist('<%= product._id %>', '<%= user.id %>')">
+                                                                                        <i
+                                                                                            class="fa-regular fa-heart"></i>
+                                                                                    </button>
+                                                                                    <button type="button"
+                                                                                        class="card-btn wishlist-button-small-mob btn btn-outline-primary add-to-wish"
+                                                                                        onclick="add_to_wishlist('<%= product._id %>', '<%= user.id %>')"><i class="fa-regular fa-heart" style="color: #011a3a;font-size: .9rem;" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                    </div>
+                    <% } %>
+                        <% }) } %>
+
+                </div>
+                <!-- Lower Banner -->
+                <div class="lower-banner" style="margin-bottom: 2rem;">
+                    <div class="row">
+                        <div class="col-sm-12 up-to-off">
+                            <div class="off-banner">
+                                <!-- [BANNER IMAGE SLOT - 1200x400px] -->
+                                <div style="width: 100%; max-width: 1200px; height: 400px; background-color: #f0f2f5; display: flex; align-items: center; justify-content: center; border: 2px dashed #b0bec5; margin: 0 auto; border-radius: 8px;">
+                                    <span style="color: #607d8b; font-weight: bold;">Banner Image Placeholder (1200x400px)</span>
+                                </div>
+                                <!-- Replace the above div with your <img src="..."> when ready -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="lower-hashtag">
+                            <div class="lower-hashtag-inner">
+                                <div class="col-sm-6 col-lg-6 quote text-center">
+                                    <div class="hashtag-section">
+                                        <img src="/images/Banner/Lower Banner 2/lower.webp" alt="hashtag"
+                                            class="hashtag-image" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-6 sign-up">
+                                    <div class="sign-up-right">
+                                        <h2>Join us for regular updates</h2>
+                                        <p>Join the <b>Sahii</b> community to receive exclusive early access to sales,
+                                            new collections and more. Plus you'll get 10% off your first order.
+                                        </p>
+                                        <div class="sign-up-section">
+                                            <form id="emailForm">
+                                            <div class="email-box">
+                                                <input type="email" id="emailInput" name="emai-id"
+                                                    placeholder="Enter your email">
+                                            </div>
+                                            <div class="sign-up-button">
+                                                <button type="button" class="btn btn-success">Sign Up</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TESTIMONIAL  LG SCREEN-->
+
+                    <!-- <div class="testimonial">
+                    <div class="row text-center">
+                        <div class="col-md-12"> -->
+                    <!-- Carousel wrapper -->
+                    <!-- <div id="carouselBasicExample" class="carousel slide carousel-dark"
+                                data-mdb-ride="carousel">
+                                <h5>what people say about us...</h5> -->
+                    <!-- Inner -->
+                    <!-- <div class="carousel-inner"> -->
+                    <!-- Single item -->
+                    <!-- <div class="carousel-item active">
+                                        <p class="lead font-italic">
+                                            "Neque cupiditate assumenda in maiores repudiandae mollitia
+                                            adipisci maiores
+                                            repudiandae mollitia consectetur"
+                                        </p>
+                                        <p class="text-muted mb-0">- Anna Morian</p>
+                                    </div> -->
+
+                    <!-- Single item -->
+                    <!-- <div class="carousel-item">
+                                        <p class="lead font-italic mx-4 mx-md-5">
+                                            "Neque cupiditate assumenda in maiores repudiandae mollitia
+                                            adipisci maiores
+                                            repudiandae mollitia consectetur"
+                                        </p>
+
+                                        <p class="text-muted mb-0">- Teresa May</p>
+                                    </div> -->
+
+                    <!-- Single item -->
+                    <!-- <div class="carousel-item">
+                                        <p class="lead font-italic mx-4 mx-md-5">
+                                            "Neque cupiditate assumenda in maiores repudiandae mollitia
+                                            adipisci maiores
+                                            repudiandae mollitia consectetur"
+                                        </p> -->
+
+                    <!-- <p class="text-muted mb-0">- Kate Allise</p>
+                                    </div>
+                                </div> -->
+                    <!-- Inner -->
+
+                    <!-- Controls -->
+                    <!-- <button class="carousel-control-prev" type="button"
+                                    data-mdb-target="#carouselBasicExample" data-mdb-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-mdb-target="#carouselBasicExample" data-mdb-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div> -->
+                    <!-- Carousel wrapper -->
+                </div>
+            </section>
+
+            <!-- START: Dynamic Brand Loading JavaScript - Added by AI Assistant -->
+            <style>
+                /* START: Dynamic Brand Offers Section CSS - Modified by AI Assistant */
+                .offer-box-link {
+                    text-decoration: none; /* Remove underline from link */
+                }
+
+                .offer-box {
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 0.5rem;
+                    margin-bottom: 16px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    height: 145px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    background-color: white;
+                    box-shadow: rgba(0, 0, 0, 0.043) 0px 0.125rem 0.3rem;
+                    transition: all 0.3s ease;
+                }
+
+                .offer-box:hover {
+                    transform: scale(1.03);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                    border-color: #007bff; /* Highlight border on hover */
+                }
+
+                .offer-box-content {
+                    position: relative;
+                    z-index: 2;
+                }
+
+                .offer-box h3 {
+                    font-family: 'Playfair Display', serif;
+                    font-size: 1.6rem;
+                    font-weight: bold;
+                    color: #333;
+                    margin: 0; /* Remove default margin */
+                }
+
+                @media (max-width: 768px) {
+                    #brand-offers-mobile {
+                        margin-bottom: 2rem;
+                    }
+                    #brand-offers-mobile .offer-box {
+                        margin-top: 1rem;
+                    }
+                }
+
+                /* END: Dynamic Brand Offers Section CSS - Modified by AI Assistant */
+            </style>
+            <!-- brand offer js -->
+            <script src="/js/brand_offer.js"></script>
+            <!-- END: Dynamic Brand Loading JavaScript - Added by AI Assistant -->
+
+            <!-- ── FAQPage JSON-LD Schema ── -->
+            <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "How do I replace a cracked phone screen at home?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "To replace a cracked phone screen at home, you need the correct OEM-grade display assembly for your model, a repair toolkit (spudger, screwdrivers, suction cup), and careful step-by-step guidance. Sahii provides all these parts and tools. We recommend watching a model-specific repair video before starting. Always power off the device, remove the SIM tray, and heat the adhesive edges before prying open the frame."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is an OEM-grade spare part?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "OEM-grade (Original Equipment Manufacturer-grade) spare parts are replacement components manufactured to the same quality standards and specifications as the original parts that come with your device. They offer the best fit, finish, and performance compared to aftermarket alternatives. Sahii sells OEM-grade displays, batteries, back panels, and more for Samsung, Apple, Xiaomi, OnePlus, and other major brands."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How long does delivery take for spare parts ordered on Sahii?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sahii typically delivers spare parts within 3–7 business days across India. Metro cities usually receive orders faster (2–4 days). All orders are shipped securely with bubble wrap and protective packaging to ensure parts arrive undamaged. You can track your order after dispatch."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Are the spare parts on Sahii compatible with my specific phone model?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Every product on Sahii is listed with the exact compatible brand and model (e.g., Samsung Galaxy S23 Ultra, iPhone 13 Pro Max). Simply browse by brand, select your model, and choose the part you need. If you are unsure, use the search bar or contact our support team. We verify compatibility before listing any product."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the return and replacement policy for spare parts on Sahii?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sahii offers a replacement policy for parts that arrive physically damaged or with missing components. To initiate a replacement, contact us within 48 hours of receiving the order with photos of the damaged item. We review each case and arrange a pickup and replacement. Please refer to our Return Policy page for full terms and conditions."
+                  }
+                }
+              ]
+            }
+            </script>
+
+            <%- include('footer') -%>

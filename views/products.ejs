@@ -1,0 +1,839 @@
+<%- include('header') -%>
+
+<!-- ── BreadcrumbList JSON-LD ── -->
+<script type="application/ld+json">
+<%
+  const _urlParams = new URLSearchParams
+    ? (typeof URLSearchParams !== 'undefined' ? null : null)
+    : null;
+  const _bCat  = typeof Products !== 'undefined' && Products.length > 0 && Products[0].category ? Products[0].category : '';
+  const _bBrand = typeof Products !== 'undefined' && Products.length > 0 && Products[0].brand   ? Products[0].brand   : '';
+  const _bcItems = [
+    { "@type": "ListItem", "position": 1, "name": "Home",     "item": "https://sahii.in/"      },
+    { "@type": "ListItem", "position": 2, "name": "Products", "item": "https://sahii.in/product/" }
+  ];
+  if (_bCat)   _bcItems.push({ "@type": "ListItem", "position": 3, "name": _bCat.replace(/_/g,' ').replace(/\b\w/g, c=>c.toUpperCase()),    "item": "https://sahii.in/product/?category=" + _bCat });
+  if (_bBrand) _bcItems.push({ "@type": "ListItem", "position": _bcItems.length + 1, "name": _bBrand.charAt(0).toUpperCase() + _bBrand.slice(1), "item": "https://sahii.in/product/?brand=" + _bBrand + (_bCat ? "&category=" + _bCat : "") });
+%>
+<%- JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": _bcItems }) %>
+</script>
+
+
+
+
+    <!-- ══════════════════════════════════════════
+         FILTER SIDEBAR (Desktop slide-in / Mobile bottom-sheet)
+         ══════════════════════════════════════════ -->
+    <div class="side-menu" id="filterSidebar">
+        <form class="filter-menu" id="filterForm" method="GET" action="/product">
+
+            <div class="head">
+                <div class="headline position-relative">
+                    <h1>Filters</h1>
+                </div>
+                <div class="close-side-menu" id="closeSideMenu">&#x2715;</div>
+            </div>
+
+            <!-- Hidden: keep existing query params that are NOT filters -->
+            <% if (typeof queryParams !== 'undefined') { %>
+                <% if (queryParams.brand)    { %><input type="hidden" name="brand"    value="<%= queryParams.brand %>"><% } %>
+                <% if (queryParams.model)    { %><input type="hidden" name="model"    value="<%= queryParams.model %>"><% } %>
+                <% if (queryParams.category) { %><input type="hidden" name="category" value="<%= queryParams.category %>"><% } %>
+            <% } %>
+
+            <div class="side-dropdowns">
+
+                <!-- ── TYPE ── -->
+                <button type="button" class="dropdown-btn active">TYPE <i class="fa fa-caret-right"></i></button>
+                <div class="dropdown-container" style="display:block; padding: 10px 14px;">
+                    <ul class="option-list" style="list-style:none; padding:0; margin:0;">
+                        <% const selType = (typeof queryParams !== 'undefined' && queryParams.type) ? queryParams.type : ''; %>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="type" value="" <%= selType === '' ? 'checked' : '' %>> All Types
+                            </label>
+                        </li>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="type" value="spare_parts" <%= selType === 'spare_parts' ? 'checked' : '' %>> Spare Parts
+                            </label>
+                        </li>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="type" value="accessories" <%= selType === 'accessories' ? 'checked' : '' %>> Accessories
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- ── AUTHENTICITY ── -->
+                <button type="button" class="dropdown-btn active">AUTHENTICITY <i class="fa fa-caret-right"></i></button>
+                <div class="dropdown-container" style="display:block; padding: 10px 14px;">
+                    <ul class="option-list" style="list-style:none; padding:0; margin:0;">
+                        <% const selAuth = (typeof queryParams !== 'undefined' && queryParams.authenticity) ? queryParams.authenticity : 'all'; %>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="authenticity" value="all" <%= selAuth === 'all' || selAuth === '' ? 'checked' : '' %>> All Quality
+                            </label>
+                        </li>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="authenticity" value="original" <%= selAuth === 'original' ? 'checked' : '' %>>
+                                <span>&#10003; Original</span>
+                            </label>
+                        </li>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="authenticity" value="high_quality" <%= selAuth === 'high_quality' ? 'checked' : '' %>> High Quality
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- ── PRICE RANGE ── -->
+                <button type="button" class="dropdown-btn active">PRICE RANGE <i class="fa fa-caret-right"></i></button>
+                <div class="dropdown-container" style="display:block; padding: 10px 14px;">
+                    <% const selMin = (typeof queryParams !== 'undefined' && queryParams.minPrice) ? queryParams.minPrice : '0'; %>
+                    <% const selMax = (typeof queryParams !== 'undefined' && queryParams.maxPrice) ? queryParams.maxPrice : '10000'; %>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                        <div style="flex:1;">
+                            <label style="font-size:0.78rem;color:#666;display:block;margin-bottom:2px;">Min (₹)</label>
+                            <input type="number" name="minPrice" id="minPriceInput" value="<%= selMin %>"
+                                   min="0" max="10000" step="100"
+                                   class="form-control form-control-sm" style="font-size:0.85rem;">
+                        </div>
+                        <span style="margin-top:16px;color:#aaa;">—</span>
+                        <div style="flex:1;">
+                            <label style="font-size:0.78rem;color:#666;display:block;margin-bottom:2px;">Max (₹)</label>
+                            <input type="number" name="maxPrice" id="maxPriceInput" value="<%= selMax %>"
+                                   min="0" max="10000" step="100"
+                                   class="form-control form-control-sm" style="font-size:0.85rem;">
+                        </div>
+                    </div>
+                    <!-- Dual range slider -->
+                    <div style="position:relative;height:6px;background:#e0e0e0;border-radius:3px;margin:8px 4px 18px;">
+                        <div id="priceTrack" style="position:absolute;height:100%;background:#011a3a;border-radius:3px;"></div>
+                        <input type="range" id="rangeMin" min="0" max="10000" step="100" value="<%= selMin %>"
+                               style="position:absolute;width:100%;appearance:none;background:transparent;pointer-events:none;top:-5px;accent-color:#011a3a;">
+                        <input type="range" id="rangeMax" min="0" max="10000" step="100" value="<%= selMax %>"
+                               style="position:absolute;width:100%;appearance:none;background:transparent;pointer-events:none;top:-5px;accent-color:#011a3a;">
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:#555;margin-top:4px;">
+                        <span>₹<span id="minLabel"><%= selMin %></span></span>
+                        <span>₹<span id="maxLabel"><%= selMax %></span></span>
+                    </div>
+                </div>
+
+                <!-- ── SORT BY ── -->
+                <button type="button" class="dropdown-btn active">SORT BY <i class="fa fa-caret-right"></i></button>
+                <div class="dropdown-container" style="display:block; padding: 10px 14px;">
+                    <ul class="option-list" style="list-style:none; padding:0; margin:0;">
+                        <% const selSort = (typeof queryParams !== 'undefined' && queryParams.sort) ? queryParams.sort : ''; %>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="sort" value="" <%= selSort === '' ? 'checked' : '' %>> Newest First
+                            </label>
+                        </li>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="sort" value="popularity" <%= selSort === 'popularity' ? 'checked' : '' %>> Popularity
+                            </label>
+                        </li>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="sort" value="rating" <%= selSort === 'rating' ? 'checked' : '' %>> Rating
+                            </label>
+                        </li>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="sort" value="price_asc" <%= selSort === 'price_asc' ? 'checked' : '' %>> Price: Low to High
+                            </label>
+                        </li>
+                        <li class="option" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                <input type="radio" name="sort" value="price_desc" <%= selSort === 'price_desc' ? 'checked' : '' %>> Price: High to Low
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Brand Search -->
+                <button type="button" class="dropdown-btn">BRAND <i class="fa fa-caret-right"></i></button>
+                <div class="dropdown-container" style="padding: 10px;">
+                    <input type="text" placeholder="Search Brand..." id="brandInput" name="brand"
+                           class="form-control mb-2" style="font-size: 0.9rem;"
+                           value="<%= (typeof queryParams !== 'undefined' && queryParams.brand) ? queryParams.brand : '' %>">
+                </div>
+
+                <!-- Model Search -->
+                <button type="button" class="dropdown-btn">MODEL <i class="fa fa-caret-right"></i></button>
+                <div class="dropdown-container" style="padding: 10px;">
+                    <input type="text" placeholder="Search Model..." id="modelInput" name="model"
+                           class="form-control mb-2" style="font-size: 0.9rem;"
+                           value="<%= (typeof queryParams !== 'undefined' && queryParams.model) ? queryParams.model : '' %>">
+                </div>
+
+            </div><!-- /side-dropdowns -->
+
+            <!-- Action buttons -->
+            <div style="padding:14px;display:flex;gap:10px;">
+                <button type="submit" class="btn btn-primary w-100" style="border-radius:4px;font-size:0.9rem;">Apply Filters</button>
+                <a href="/product" class="btn btn-outline-secondary" style="border-radius:4px;font-size:0.9rem;white-space:nowrap;">Clear</a>
+            </div>
+
+        </form>
+    </div><!-- /side-menu -->
+
+    <script>
+    // ── Filter sidebar toggle ──────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        const sidebar    = document.getElementById('filterSidebar');
+        const openBtn    = document.querySelector('.filter-mob');
+        const closeBtn   = document.getElementById('closeSideMenu');
+
+        if (openBtn && sidebar) {
+            openBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                sidebar.classList.add('active');
+                sidebar.style.left = '0';
+            });
+        }
+        if (closeBtn && sidebar) {
+            closeBtn.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                sidebar.style.left = '-100%';
+            });
+        }
+
+        // ── Dropdown section toggles ───────────────────────────────────────────
+        document.querySelectorAll('.dropdown-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                if (content) content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+
+        // ── Dual price range slider ────────────────────────────────────────────
+        const rangeMin    = document.getElementById('rangeMin');
+        const rangeMax    = document.getElementById('rangeMax');
+        const minInput    = document.getElementById('minPriceInput');
+        const maxInput    = document.getElementById('maxPriceInput');
+        const minLabel    = document.getElementById('minLabel');
+        const maxLabel    = document.getElementById('maxLabel');
+        const priceTrack  = document.getElementById('priceTrack');
+
+        function updateTrack() {
+            const min = parseInt(rangeMin.value);
+            const max = parseInt(rangeMax.value);
+            const pct1 = (min / 10000) * 100;
+            const pct2 = (max / 10000) * 100;
+            if (priceTrack) {
+                priceTrack.style.left  = pct1 + '%';
+                priceTrack.style.width = (pct2 - pct1) + '%';
+            }
+            if (minLabel) minLabel.textContent = min;
+            if (maxLabel) maxLabel.textContent = max;
+            if (minInput) minInput.value = min;
+            if (maxInput) maxInput.value = max;
+        }
+
+        if (rangeMin && rangeMax) {
+            rangeMin.addEventListener('input', () => {
+                if (parseInt(rangeMin.value) > parseInt(rangeMax.value))
+                    rangeMin.value = rangeMax.value;
+                updateTrack();
+            });
+            rangeMax.addEventListener('input', () => {
+                if (parseInt(rangeMax.value) < parseInt(rangeMin.value))
+                    rangeMax.value = rangeMin.value;
+                updateTrack();
+            });
+            if (minInput) minInput.addEventListener('input', () => { rangeMin.value = minInput.value; updateTrack(); });
+            if (maxInput) maxInput.addEventListener('input', () => { rangeMax.value = maxInput.value; updateTrack(); });
+            updateTrack(); // initialise on load
+        }
+
+        // ── Sort mobile panel ──────────────────────────────────────────────────
+        const sortBtn      = document.querySelector('.sort-mob');
+        const sortMenu     = document.querySelector('.mid-option');
+        const closeSortBtn = document.querySelector('.close-mid-menu');
+        if (sortBtn && sortMenu) {
+            sortBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                sortMenu.classList.add('active');
+                sortMenu.style.bottom  = '0';
+                sortMenu.style.display = 'block';
+            });
+        }
+        if (closeSortBtn && sortMenu) {
+            closeSortBtn.addEventListener('click', () => {
+                sortMenu.classList.remove('active');
+                sortMenu.style.bottom = '-100%';
+            });
+        }
+
+        // ── Style/Sort dropdowns in listing area ───────────────────────────────
+        document.querySelectorAll('.style-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const content = this.nextElementSibling;
+                if (content) content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    });
+    </script>
+
+    </div>
+    </div>
+
+
+
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <% if(Products.length> 20) { %>
+            <div class="loc"><a href="/">Home</a> / <a href="/product" id="nav_loc">Products</a></div>
+            <!-- <div id="cat-banner" class="product-top-banner" style="background-repeat: no-repeat; background-size: cover;"></div> -->
+            <% } else { %>
+                <div class="loc"><a href="/">Home</a> / <a href="/product?category=<%= Products[0].category %>"
+                        id="nav_loc">
+                        <%= Products[0].category %>
+                    </a></div>
+                <!-- <div id="cat-banner" class="product-top-banner"
+                    style="background-repeat: no-repeat; background-size: cover;">
+                -->
+                    <% } %>
+                <!-- <img src="/images/Banner/<%= Products[0].category %>/pc.webp"> -->
+    </div>
+    </div>
+
+    <section id="product-list">
+
+        <!-- ── Contextual Parts Search (shown only on brand→model drilldown pages) ── -->
+        <% if (typeof queryParams !== 'undefined' && queryParams.model) { %>
+        <div class="container" id="parts-search-wrapper" style="margin-top: 1.2rem; margin-bottom: 0.5rem;">
+            <div style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: #f0f4ff;
+                border: 1.5px solid #c7d8f5;
+                border-radius: 10px;
+                padding: 10px 16px;
+                box-shadow: 0 2px 8px rgba(1,26,58,0.07);
+            ">
+                <i class="fa-solid fa-magnifying-glass" style="color: #1a73e8; font-size: 1.1rem; flex-shrink:0;"></i>
+                <input
+                    type="text"
+                    id="parts-search-input"
+                    placeholder="Search parts e.g. Display, Battery, Back Cover…"
+                    autocomplete="off"
+                    style="
+                        flex: 1;
+                        border: none;
+                        background: transparent;
+                        font-size: 0.95rem;
+                        color: #1a1a2e;
+                        outline: none;
+                        font-family: inherit;
+                    "
+                >
+                <button
+                    id="parts-search-clear"
+                    type="button"
+                    title="Clear search"
+                    style="
+                        display: none;
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        color: #888;
+                        font-size: 1.1rem;
+                        padding: 0 4px;
+                        line-height: 1;
+                    ">
+                    &#x2715;
+                </button>
+            </div>
+            <!-- result count badge -->
+            <div id="parts-search-count" style="font-size:0.8rem; color:#555; margin-top:6px; min-height:18px;"></div>
+        </div>
+        <% } %>
+
+        <!-- Filter row  -->
+        <div class="filter-container container">
+            <div class="filter-row">
+
+                <!-- Mobile Color Filter Removed by User Request -->
+
+                <!--Container-->
+
+                <div class="filter-style">
+                    <div class="style-btn">
+                        <span class="btn-text">Price</span>
+                        <span class="arrow-dwn">
+                            <i class="fa-solid fa-circle-chevron-down" style="color: #011a3a;"></i>
+                        </span>
+                    </div>
+                    <!-- <div class="price-slider">
+                        <div class="price-input">
+                            <div class="field">
+                                <span>Min</span>
+                                <input type="number" class="input-min" value="2500">
+                            </div>
+                            <div class="separator">-</div>
+                            <div class="field">
+                                <span>Max</span>
+                                <input type="number" class="input-max" value="7500">
+                            </div>
+                        </div>
+                        <div class="slider">
+                            <div class="progress"></div>
+                        </div>
+                        <div class="range-input">
+                            <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+                            <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+                        </div>
+                    </div> -->
+                    <ul class="sort-list">
+                        <li class="sort">
+                            <span class="sort-text">SORT BY</span>
+                        </li>
+
+                        <li class="sort" style="color: black; cursor: pointer;" onclick="handleSort('sellingPrice')">
+                            <span class="sort-text">Price: Low to High</span>
+                        </li>
+
+                        <li class="sort" style="color: black; cursor: pointer;" onclick="handleSort('sellingPrice', true)">
+                            <span class="sort-text">Price: High to Low</span>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="filter-style"> <!--Container-->
+                    <div class="style-btn">
+                        <span class="sort-btn-text">SORT BY</span>
+                        <span class="arrow-dwn">
+                            <i class="fa-solid fa-circle-chevron-down" style="color: #011a3a;"></i>
+                        </span>
+                    </div>
+
+                    <ul class="sort-list">
+                        <li class="sort">
+                            <span class="sort-text">SORT BY</span>
+                        </li>
+
+                        <!-- Dynamic Sort Function -->
+                        <li class="sort" style="cursor: pointer;" onclick="handleSort('title')">
+                            <span class="sort-text">A <span> &#8594; </span> Z</span>
+                        </li>
+
+                        <li class="sort" style="cursor: pointer;" onclick="handleSort('title', true)">
+                            <span class="sort-text">Z <span>&#8592;</span> A</span>
+                        </li>
+
+                        <li class="sort" style="cursor: pointer;" onclick="handleSort('updatedAt', true)">
+                            <span class="sort-text">Latest to Earliest</span>
+                        </li>
+
+                        <li class="sort" style="cursor: pointer;" onclick="handleSort('updatedAt')">
+                            <span class="sort-text">Earliest to Latest</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="product-listing">
+            <div class="container">
+                <div class="row">
+
+                    <% if(Products) { %>
+                        <% Products.forEach(product=> { %>
+
+                            <div class="col-6 col-sm-6 col-lg-4 col-xl-3 product-card-col" data-product-name="<%= product.title.toLowerCase() %>">
+
+                                <% if(product.quantity===0){ %>
+                                    <div class="product-card soldout" <% if(product.isOriginal) { %>style="background-color: #E8F4FD;"<% } %>>
+                                <% }else{ %>
+                                    <div class="product-card" <% if(product.isOriginal) { %>style="background-color: #E8F4FD;"<% } %>>
+                                <% } %>
+                                                    <input type="text" class="sold_quantity"
+                                                        value="<%= product.quantity %>" style="display: none;">
+                                                    <a href="/product/<%= product.slug %>">
+                                                        <div class="product-img">
+
+                                                            <!-- Original Label -->
+                                                            <% if(product.isOriginal) { %>
+                                                                <div class="original-badge" style="position: absolute; top: 10px; right: 10px; background-color: #1a73e8; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                                                    &check; Original
+                                                                </div>
+                                                            <% } %>
+
+                                                            <!-- Product Label start -->
+                                                            <% if(product.productLabel !==null) { %>
+                                                                <div class="productLabel">
+                                                                    <%= product.productLabel %>
+                                                                </div>
+                                                                <% } %>
+
+                                                                    <span class="discount-tag" style="opacity: 0;">
+                                                                        <%= product.discount %>% off
+                                                                    </span>
+                                                                    <img src="<%= product.thumbnail %>"
+                                                                        class="product-thumb" alt="similar-product" loading="lazy">
+                                                                    <img src="<%= product.images[0] %>"
+                                                                        alt="similar-product-s"
+                                                                        class="img-fluid product-thumb-s" loading="lazy">
+                                                        </div>
+                                                    </a>
+                                                    <div class="product-info">
+                                                        <div class="product-dets">
+                                                            <a href="/product/<%= product.slug %>">
+
+                                                                <div class="product-name">
+                                                                    <%= product.title %>
+                                                                </div>
+                                                            </a>
+                                                            <div class="product-price">&#8377 <%= product.sellingPrice
+                                                                    %></span>
+                                                                    <span class="product-price"><del>&#8377 <%=
+                                                                                product.price %></del></span>
+                                                            </div>
+
+                                                            <div class="py-1">
+                                                                <% 
+                                                                const ratingNumProducts = parseFloat(product.totalrating) || 4.0;
+                                                                for(let i=1; i<=5; i++) { 
+                                                                    if(ratingNumProducts >= i) { %>
+                                                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                                                    <% } else if(ratingNumProducts >= i - 0.5) { %>
+                                                                        <i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i>
+                                                                    <% } else { %>
+                                                                        <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                                                <% } } %>
+                                                                <span style="font-size: 0.8em; color: #777;">(<%= product.reviewCount || Math.floor(Math.random()*(180-12+1))+12 %>)</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="card-big-btn">
+                                                            <% if(user){ %>
+                                                                <% if(product.quantity===0){ %>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-primary card-btn add-to-cart"
+                                                                        disabled>Add to Cart</button>
+                                                                    <% }else{ %>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-primary card-btn add-to-cart"
+                                                                            onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.sellingPrice %>', '<%= product.discount %>', '<%= product.color %>', '<%= user.refreshToken %>')">Add
+                                                                            to Cart <i
+                                                                                class="d-inline d-sm-none fa-solid fa-cart-shopping"
+                                                                                style="color: #ffffff;"
+                                                                                aria-hidden="true"></i></button>
+                                                                        <% } %>
+                                                                            <button type="button"
+                                                                                class="wishlist-button-small"
+                                                                                onclick="add_to_wishlist('<%= product._id %>', `<%= user?user._id:'' %>`)">
+                                                                                <i class="fa-regular fa-heart"></i>
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                class="wishlist-button-small-mob btn btn-outline-primary"
+                                                                                onclick="add_to_wishlist('<%= product._id %>', `<%= user?user._id:'' %>`)">
+                                                                                <i class="fa-regular fa-heart"
+                                                                                    style="color: #011a3a;font-size: .9rem;"
+                                                                                    aria-hidden="true"></i></button>
+                                                                            <% } else { %>
+                                                                                <% if(product.quantity===0){ %>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-outline-primary card-btn add-to-cart"
+                                                                                        disabled>Add to Cart</button>
+                                                                                    <% }else{ %>
+                                                                                        <button type="button"
+                                                                                            class="btn btn-outline-primary card-btn add-to-cart"
+                                                                                            onclick="add_to_cart('<%= product._id %>', '<%= product.slug %>', '<%= product.title %>', '<%= product.images[0] %>', '<%= product.quantity %>', '<%= product.price %>', '<%= product.color %>', ' ')">Add
+                                                                                            to Cart</button>
+                                                                                        <% } %>
+                                                                                            <button type="button"
+                                                                                                class="wishlist-button-small"
+                                                                                                onclick="add_to_wishlist('<%= product._id %>', `<%= user?user._id:'' %>`)">
+                                                                                                <i
+                                                                                                    class="fa-regular fa-heart"></i>
+                                                                                            </button>
+                                                                                            <button type="button"
+                                                                                                class="wishlist-button-small-mob btn btn-outline-primary"
+                                                                                                onclick="add_to_wishlist('<%= product._id %>', `<%= user?user._id:'' %>`)">Add
+                                                                                                to
+                                                                                                Wishlist</button>
+                                                                                            <% } %>
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+                                    </div>
+
+                                    <% }) %>
+                                        <% } %>
+
+                            <!-- No-results message (hidden by default, shown by filterParts()) -->
+                            <div id="parts-no-results"
+                                 style="display:none; width:100%; padding: 3rem 1rem; text-align:center;">
+                                <i class="fa-solid fa-box-open"
+                                   style="font-size:2.8rem; color:#c5d3e8; display:block; margin-bottom:12px;"></i>
+                                <p style="color:#666; font-size:1rem; margin:0 0 12px;">
+                                    No parts found for &ldquo;<strong id="parts-no-results-term"></strong>&rdquo;
+                                </p>
+                                <button
+                                    onclick="document.getElementById('parts-search-input').value=''; filterParts();"
+                                    style="background:none; border:1.5px solid #c5d3e8; border-radius:6px;
+                                           padding:6px 18px; font-size:0.85rem; color:#1a73e8; cursor:pointer;">
+                                    Clear search
+                                </button>
+                            </div>
+
+                            </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <!-- Pagination -->
+        <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="pagination-container" style="display: flex; justify-content: center; margin: 2rem 0; gap: 0.5rem; flex-wrap: wrap; font-size: 0.9rem;">
+                        <% if (currentPage > 1) { %>
+                            <button class="btn btn-outline-primary btn-sm" style="border-radius: 2px;" onclick="changePage(<%= currentPage - 1 %>)">Prev</button>
+                        <% } %>
+
+                        <% 
+                           let startPage = Math.max(1, currentPage - 2);
+                           let endPage = Math.min(totalPages, currentPage + 2);
+
+                           if (startPage > 1) { %>
+                               <button class="btn btn-outline-primary btn-sm" style="border-radius: 2px;" onclick="changePage(1)">1</button>
+                               <% if (startPage > 2) { %> <span style="align-self: center;">...</span> <% } %>
+                           <% }
+
+                           for(let i = startPage; i <= endPage; i++) { 
+                        %>
+                            <button class="btn <%= currentPage === i ? 'btn-primary' : 'btn-outline-primary' %> btn-sm" 
+                                    style="border-radius: 2px;" 
+                                    onclick="changePage(<%= i %>)">
+                                <%= i %>
+                            </button>
+                        <% } 
+
+                           if (endPage < totalPages) { %>
+                               <% if (endPage < totalPages - 1) { %> <span style="align-self: center;">...</span> <% } %>
+                               <button class="btn btn-outline-primary btn-sm" style="border-radius: 2px;" onclick="changePage(<%= totalPages %>)"><%= totalPages %></button>
+                           <% }
+                        %>
+
+                        <% if (currentPage < totalPages) { %>
+                            <button class="btn btn-outline-primary btn-sm" style="border-radius: 2px;" onclick="changePage(<%= currentPage + 1 %>)">Next</button>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            function changePage(page) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', page);
+                window.location.href = url.toString();
+            }
+        </script>
+        <% } %>
+
+        <!-- ── Contextual Parts Search JS ─────────────────────────────────── -->
+        <script>
+        (function () {
+            const input      = document.getElementById('parts-search-input');
+            const clearBtn   = document.getElementById('parts-search-clear');
+            const countEl    = document.getElementById('parts-search-count');
+            const noResults  = document.getElementById('parts-no-results');
+            const termEl     = document.getElementById('parts-no-results-term');
+            const cards      = document.querySelectorAll('.product-card-col');
+
+            // Only wire up if the search bar exists on this page
+            if (!input) return;
+
+            function filterParts() {
+                const q = input.value.trim().toLowerCase();
+
+                // Show / hide clear button
+                if (clearBtn) clearBtn.style.display = q ? 'inline' : 'none';
+
+                let visibleCount = 0;
+
+                cards.forEach(function (col) {
+                    const name = col.getAttribute('data-product-name') || '';
+                    const show = q === '' || name.includes(q);
+                    col.style.display = show ? '' : 'none';
+                    if (show) visibleCount++;
+                });
+
+                // Update result count hint
+                if (countEl) {
+                    if (q === '') {
+                        countEl.textContent = '';
+                    } else {
+                        countEl.textContent = visibleCount + ' part' + (visibleCount !== 1 ? 's' : '') + ' found';
+                    }
+                }
+
+                // No-results empty state
+                if (noResults) {
+                    if (visibleCount === 0 && q !== '') {
+                        noResults.style.display = 'block';
+                        if (termEl) termEl.textContent = input.value.trim();
+                    } else {
+                        noResults.style.display = 'none';
+                    }
+                }
+            }
+
+            // Debounce for a snappy feel without firing on every keystroke
+            let debounceTimer;
+            input.addEventListener('input', function () {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(filterParts, 160);
+            });
+
+            // Clear button
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function () {
+                    input.value = '';
+                    filterParts();
+                    input.focus();
+                });
+            }
+
+            // Auto-focus the bar when the page has a model param
+            // (the bar is only rendered when queryParams.model is set)
+            input.addEventListener('focus', function () {
+                this.parentElement.style.borderColor = '#1a73e8';
+            });
+            input.addEventListener('blur', function () {
+                this.parentElement.style.borderColor = '#c7d8f5';
+            });
+        })();
+        </script>
+
+    </section>
+
+    <section id="products" class="products">
+
+        <div class="overflow-hidden container">
+            <!-- Lower Banner -->
+            <div class="lower-banner" style="margin-bottom: 2rem;">
+                <div class="row">
+                    <div class="col-sm-12 up-to-off">
+                        <div class="off-banner">
+                            <img src="/images/Banner/Lower Banner/banner-01.webp" alt="offers"
+                                class="img-fluid w-100 first" loading="lazy">
+                            <!-- <img src="/images/Banner/Lower Banner/banner-mob.png" alt="offers" class="img-fluid w-100 second-mob"> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="lower-hashtag">
+                        <div class="lower-hashtag-inner">
+                            <div class="col-sm-6 col-lg-6 quote text-center">
+                                <div class="hashtag-section">
+                                    <img src="/images/Banner/Lower Banner 2/lower.webp" alt="hashtag"
+                                        class="hashtag-image" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 sign-up">
+                                <div class="sign-up-right">
+                                    <h2>Join us for regular updates</h2>
+                                    <p>Join the <b>Sahii</b> community to receive exclusive early access to sales,
+                                        new collections and more. Plus you'll get 10% off your first order.
+                                    </p>
+                                    <div class="sign-up-section">
+                                        <div class="email-box">
+                                            <input type="email" id="email" name="emai-id"
+                                                placeholder="Enter your email">
+                                        </div>
+                                        <div class="sign-up-button">
+                                            <button type="button" class="btn btn-success">Sign Up</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TESTIMONIAL  LG SCREEN-->
+
+                <!-- <div class="testimonial">
+                    <div class="row text-center">
+                        <div class="col-md-12"> -->
+                <!-- Carousel wrapper -->
+                <!-- <div id="carouselBasicExample" class="carousel slide carousel-dark"
+                                data-mdb-ride="carousel">
+                                <h5>what people say about us...</h5> -->
+                <!-- Inner -->
+                <!-- <div class="carousel-inner"> -->
+                <!-- Single item -->
+                <!-- <div class="carousel-item active">
+                                        <p class="lead font-italic">
+                                            "Neque cupiditate assumenda in maiores repudiandae mollitia
+                                            adipisci maiores
+                                            repudiandae mollitia consectetur"
+                                        </p>
+                                        <p class="text-muted mb-0">- Anna Morian</p>
+                                    </div> -->
+
+                <!-- Single item -->
+                <!-- <div class="carousel-item">
+                                        <p class="lead font-italic mx-4 mx-md-5">
+                                            "Neque cupiditate assumenda in maiores repudiandae mollitia
+                                            adipisci maiores
+                                            repudiandae mollitia consectetur"
+                                        </p>
+
+                                        <p class="text-muted mb-0">- Teresa May</p>
+                                    </div> -->
+
+                <!-- Single item -->
+                <!-- <div class="carousel-item">
+                                        <p class="lead font-italic mx-4 mx-md-5">
+                                            "Neque cupiditate assumenda in maiores repudiandae mollitia
+                                            adipisci maiores
+                                            repudiandae mollitia consectetur"
+                                        </p> -->
+
+                <!-- <p class="text-muted mb-0">- Kate Allise</p>
+                                    </div>
+                                </div> -->
+                <!-- Inner -->
+
+                <!-- Controls -->
+                <!-- <button class="carousel-control-prev" type="button"
+                                    data-mdb-target="#carouselBasicExample" data-mdb-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-mdb-target="#carouselBasicExample" data-mdb-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div> -->
+                <!-- Carousel wrapper -->
+            </div>
+        </div>
+        </div>
+
+        </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <%- include('footer') -%>

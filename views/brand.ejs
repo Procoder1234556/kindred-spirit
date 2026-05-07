@@ -1,0 +1,85 @@
+<%- include('header'); -%>
+
+<!-- ── BreadcrumbList JSON-LD ── -->
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home",   "item": "https://sahii.in/" },
+    { "@type": "ListItem", "position": 2, "name": "Brands", "item": "https://sahii.in/brand/" },
+    ...(typeof category !== 'undefined' && category
+      ? [{ "@type": "ListItem", "position": 3, "name": category.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()), "item": "https://sahii.in/brand/?category=" + category }]
+      : [])
+  ]
+}) %>
+</script>
+
+
+<div class="brand-container container my-5">
+    <h2 class="text-center mb-4 text-2xl font-bold">Select a Brand</h2>
+    
+    <% if (typeof category !== 'undefined' && category) { %>
+        <p class="text-center mb-4">Showing brands for: <strong><%= category.replace('_', ' ').toUpperCase() %></strong></p>
+    <% } %>
+
+    <style>
+        .offer-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            margin-bottom: 10px; /* removed margin since grid handles gap */
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 145px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: white;
+            box-shadow: rgba(0, 0, 0, 0.043) 0px 0.125rem 0.3rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .offer-box:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-color: #007bff;
+        }
+
+        .no-image-placeholder {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            background-color: #f9fafb;
+            font-size: 0.875rem;
+        }
+    </style>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <% if (brands && brands.length > 0) { %>
+            <% brands.forEach(brand => { %>
+                <a href="/brand/models?brand=<%= brand.name %>&category=<%= category || '' %>" class="block" style="text-decoration: none;">
+                    <% if (brand.image) { %>
+                        <div class="offer-box" style="background-image: url('<%= brand.image %>')"></div>
+                    <% } else { %>
+                        <div class="offer-box">
+                             <div class="no-image-placeholder"><%= brand.name %></div>
+                        </div>
+                    <% } %>
+                </a>
+            <% }) %>
+        <% } else { %>
+            <div class="col-span-full text-center py-10">
+                <p>No brands found.</p>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('footer'); -%>

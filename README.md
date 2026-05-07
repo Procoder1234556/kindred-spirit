@@ -1,1 +1,99 @@
-# ChainPulse\n> Real-time AI-powered on-chain intelligence for Solana.\n\n### Problem\nSolana processes 3,000+ transactions per second making manual monitoring impossible. Existing tools like Solscan and Birdeye are fragmented with no unified intelligence layer. Traders and developers have raw data but zero actionable context.\n\n### Solution\nChainPulse monitors wallets and tokens in real-time via Helius RPC and scores every entity 0-100 using a custom risk engine. Groq-powered Llama 3.3 70B generates plain-English signals in under 500ms on every significant on-chain event. Alerts are delivered via a live dashboard and Telegram bot.\n\n### Features\n- Real-time wallet + token monitoring via Helius RPC\n- Risk scoring engine (0-100) for wallets and tokens\n- Groq (Llama 3.3 70B) signal generation — sub-500ms inference\n- Telegram alert bot with /track /risk /summary commands\n- Whale movement detection with smart money tracking\n- Live dashboard with volume charts and alert feed\n\n### Tech Stack\n| Layer | Tech |\n|---|---|\n| Frontend | Next.js 14, TailwindCSS, Recharts |\n| Backend | Node.js, Express, TypeScript |\n| Blockchain | Solana mainnet-beta, Anchor (Rust) |\n| Data | Helius RPC, Enhanced Transactions API |\n| AI | Groq — Llama 3.3 70B |\n| Database | Supabase (PostgreSQL) |\n| Bot | Telegraf.js |\n\n### Local Setup\n1. git clone https://github.com/[your-repo]/chainpulse\n2. cd chainpulse && npm install\n3. cp .env.example .env — fill in your keys\n4. cd onchain && anchor build && anchor deploy --provider.cluster devnet\n5. npm run dev\n\n### .env.example\nHELIUS_API_KEY=\nGROQ_API_KEY=\nGROQ_MODEL=llama-3.3-70b-versatile\nTELEGRAM_BOT_TOKEN=\nSUPABASE_URL=\nSUPABASE_ANON_KEY=\nNEXT_PUBLIC_RPC_URL=\nANCHOR_PROGRAM_ID=\n\n### Links\n- Live Demo: [URL]\n- Video Walkthrough: [URL]\n- Colosseum Submission: [URL]
+# 🛍️ Sahii - E-Commerce Website
+
+Welcome to **Sahii**, a fully functional e-commerce platform built using **Node.js** and **MongoDB** for the backend, and **EJS** for the frontend. This project demonstrates a scalable and modular approach to building an end-to-end online shopping experience.
+
+## 🚀 Features
+
+- **Authentication & accounts**: User registration/login, JWT‑based auth, address management, wishlist
+- **Product catalog**: Listing, categorization (spare parts, accessories, tools), brand/model filters, rich product detail page
+- **Search**: Typo‑tolerant fuzzy search (Fuse.js) over title/category/color/style + price queries (e.g. `price: < 1000`)
+- **Cart & checkout**:
+  - Add to cart / remove / quantity update without full‑page reload
+  - Coupon support with min/max order value rules and delivery charge handling
+  - COD and prepaid flows with clear UX and validation at checkout
+  - Order confirmation page and **order confirmation email** to the customer
+- **Wishlist**: Add/remove from wishlist with instant UI feedback and dedicated wishlist page
+- **Admin panel**:
+  - Product CRUD and image management
+  - Coupon management (percentage + optional min/max order value)
+  - Product tracking and order tools
+  - Quick link to Google Analytics dashboard
+- **Performance & UX**:
+  - Asset compression and static caching
+  - Toast messages for key actions (add to cart, wishlist)
+
+## 🧠 Tech Stack
+
+- **Runtime**: Node.js
+- **Backend**: Express.js, EJS templates
+- **Database**: MongoDB with Mongoose
+- **Auth**: JWT + cookie‑based refresh tokens
+- **Search**: MongoDB queries + Fuse.js fuzzy search
+- **Email**: Nodemailer (order confirmations, OTP flows)
+- **Styling**: Bootstrap 5, custom CSS (`main.css`, `responsive.css`)
+- **Build tools**: Tailwind/PostCSS pipeline for `styles/style.css`
+
+---
+
+## 📂 Project Structure
+
+```bash
+.
+├── config/
+├── controllers/
+├── middlewares/
+├── models/
+├── public/
+├── routes/
+├── utils/
+├── Views/
+├── index.js         # Starting point of the application
+└── .env             # Environment variables (Not included for security)
+
+```
+
+## 🛠️ Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Sahii-1/Sahi.git
+```
+
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file in the project root. At minimum you’ll need:
+
+```env
+CONN_STR=<your-mongodb-connection-string>
+JWT_SECRET=<your-jwt-secret>
+PORT=3000
+MAIL_ID=<gmail-address-for-sending-mail>
+MP=<gmail-app-password>
+RAZORPAY_ID_KEY=<razorpay-key>
+RAZORPAY_SECRET_KEY=<razorpay-secret>
+```
+
+Never commit real secrets to git; use local `.env` and CI/host‑level secrets.
+
+### 4. (Optional) Download sample assets
+
+You can download a zip containing sample images and assets from:
+
+`https://drive.google.com/file/d/1qBo8CC05itovar-dVXjWKgsSI_XtgqlQ/view?usp=sharing`
+
+Extract it and place the `images` and `assets` folders inside your `public` folder to get most of the product and banner images locally.
+
+### 5. Run the server (development)
+```bash
+node index.js
+```
+
+The server should now be running on `http://localhost:3000` (or the port specified in your `.env`).
+
+For production, use a process manager such as **pm2** and the included GitHub Actions workflow (`.github/workflows/deploy.yml`) as a reference.

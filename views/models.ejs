@@ -1,0 +1,112 @@
+<%- include('header') -%>
+
+<!-- ── BreadcrumbList JSON-LD ── -->
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home",   "item": "https://sahii.in/" },
+    { "@type": "ListItem", "position": 2, "name": "Brands", "item": "https://sahii.in/brand/" },
+    { "@type": "ListItem", "position": 3, "name": (typeof brand !== 'undefined' ? brand : "Brand"), "item": "https://sahii.in/brand/models?brand=" + (typeof brand !== 'undefined' ? encodeURIComponent(brand) : "") + (typeof category !== 'undefined' && category ? "&category=" + category : "") }
+  ]
+}) %>
+</script>
+
+
+  <div class="top-banner">
+    <div class="loc">
+      <a href="/">Home</a> / <span>
+        <%= brand %> Models
+      </span>
+    </div>
+  </div>
+
+  <section id="product-list">
+    <div class="product-listing">
+      <div class="container">
+        <!-- Search Box Models -->
+        <style>
+            .custom-search-box {
+                background-color: #fff;
+                transition: all 0.3s ease;
+            }
+            .custom-search-box:focus-within {
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+                border-color: #38b6ff !important;
+            }
+        </style>
+        <div class="row mb-4 justify-content-center mt-3">
+            <div class="col-11 col-md-8 col-lg-6">
+                <div class="input-group shadow-sm rounded-pill overflow-hidden border custom-search-box">
+                    <input type="text" id="modelSearch" class="form-control border-0 py-2 ps-4" placeholder="Search your model..." aria-label="Search models" style="box-shadow: none; font-size: 1rem;">
+                    <span class="input-group-text bg-white border-0 pe-4"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('modelSearch');
+                const productCards = document.querySelectorAll('.product-card');
+
+                searchInput.addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+                    productCards.forEach(card => {
+                        const modelName = card.querySelector('.product-name').textContent.toLowerCase();
+                        const colContainer = card.parentElement;
+                        if (modelName.includes(searchTerm)) {
+                            colContainer.style.display = '';
+                        } else {
+                            colContainer.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        </script>
+        <div class="row">
+
+          <% if(error) { %>
+            <h2 style="text-align:center;color:red;">
+              <%= error %>
+            </h2>
+            <% } %>
+
+              <% if(models.length===0) { %>
+                <h2 style="text-align:center;">No models found for <%= brand %>
+                </h2>
+                <% } %>
+
+                  <% models.forEach(model=> { %>
+
+                    <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
+                      <div class="product-card" style="height: 21rem; width: 10rem;">
+                        <!-- <div style="height: 21rem;"></div> -->
+
+                        <a href="/product/?brand=<%= brand %>&model=<%= model.name %><%= category ? '&category=' + category : '' %>">
+                          <div class="product-img">
+                            <img src="<%= model.image %>" class="product-thumb img-fluid" alt="<%= model.name %>"
+                              style="object-fit:none;">
+                          </div>
+                        </a>
+
+                        <div class="product-info">
+                          <div class="product-dets">
+                            <a href="/product/?brand=<%= brand %>&model=<%= model.name %><%= category ? '&category=' + category : '' %>">
+                              <div class="product-name" style="font-size: 0.75rem;">
+                                <%= model.name %>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <% }) %>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('footer') -%>

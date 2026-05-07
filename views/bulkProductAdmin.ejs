@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/admin_head') %>
+<body>
+  <%- include('partials/admin_sidebar') %>
+
+  <section id="content">
+    <div class="container-fluid mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Bulk Product Management</h2>
+        <span class="badge bg-primary">Admin</span>
+      </div>
+
+      <!-- Result Alert Box -->
+      <div id="result-alert" class="alert d-none" role="alert"></div>
+
+      <div class="row g-4">
+        <!-- 1. CSV Bulk Upload -->
+        <div class="col-md-6">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white py-3">
+              <h5 class="card-title mb-0">Upload Products CSV</h5>
+            </div>
+            <div class="card-body">
+              <p class="text-muted small">
+                Upload a CSV with headers: <code>brand, model, sparePartCategory, productName, quality, actualPrice, markupPrice, discount, stockQuantity, description, imageUrl, colors</code>. Existing products will be updated.
+              </p>
+              <form id="bulk-upload-form" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="csvFile" class="form-label">Select CSV File</label>
+                  <input class="form-control" type="file" id="csvFile" name="file" accept=".csv" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" id="upload-btn">
+                  Upload & Process
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Bulk Edit -->
+        <div class="col-md-6">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white py-3">
+              <h5 class="card-title mb-0">Bulk Edit Existing Products</h5>
+            </div>
+            <div class="card-body">
+              <form id="bulk-edit-form">
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label class="form-label small">Filter by Brand (Optional)</label>
+                    <input type="text" class="form-control form-control-sm" id="filterBrand" placeholder="e.g. samsung">
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label small">Filter by Category (Optional)</label>
+                    <select class="form-select form-select-sm" id="filterCategory">
+                      <option value="">Any Category</option>
+                      <option value="spare_parts">Spare Parts</option>
+                      <option value="accessories">Accessories</option>
+                      <option value="tools">Tools</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small">Action to Apply</label>
+                  <select class="form-select" id="editAction" required>
+                    <option value="">-- Select Action --</option>
+                    <option value="increase_price_percent">Increase Selling Price by %</option>
+                    <option value="set_discount">Set Discount Amount</option>
+                    <option value="update_stock">Set Stock Quantity</option>
+                    <option value="set_is_sale">Set isSale Flag (true/false)</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                   <label class="form-label small">Action Value</label>
+                   <input type="text" class="form-control" id="editValue" placeholder="e.g. 10 or true" required>
+                </div>
+
+                <button type="submit" class="btn btn-warning w-100 text-dark fw-bold" id="edit-btn">
+                  Apply Bulk Edit
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* basic sidebar overrides if needed, already present in admin context */
+    body { background-color: #f8f9fa; }
+  </style>
+
+  <script>
+    function showAlert(type, msg) {
+       const box = document.getElementById('result-alert');
+       box.className = `alert alert-${type}`;
+       box.innerHTML = msg;
+       box.classList.remove('d-none');
+       setTimeout(() => box.classList.add('d-none'), 8000);
+    }
+
+    // CSV Upload Handler
+    document.getElementById('bulk-upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('upload-btn');
+      const fileInput = document.getElementById('csvFile');
+      
+      if(!fileInput.files[0]) return;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+
+      try {
+        const response = await fetch('/admin/bulk-products/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const resData = await response.json();
+        
+        if (response.ok) {
+           showAlert('success', `<b>Success:</b> ${resData.created} created, ${resData.updated} updated, ${resData.failed} failed.`);
+           e.target.reset();
+        } else {
+           showAlert('danger', `<b>Error:</b> ${resData.error || 'Upload failed'}`);
+        }
+      } catch (err) {
+         showAlert('danger', `<b>Error:</b> Server connection failed.`);
+      } finally {
+         btn.disabled = false;
+         btn.innerHTML = 'Upload & Process';
+      }
+    });
+
+    // Bulk Edit Handler
+    document.getElementById('bulk-edit-form').addEventListener('submit', async (e) => {
+       e.preventDefault();
+       const btn = document.getElementById('edit-btn');
+       
+       const filterBrand = document.getElementById('filterBrand').value.trim();
+       const filterCategory = document.getElementById('filterCategory').value;
+       const editAction = document.getElementById('editAction').value;
+       const editValue = document.getElementById('editValue').value.trim();
+
+       if (!confirm(`Are you sure you want to apply "${editAction}" with value "${editValue}" to matching products?`)) {
+          return;
+       }
+
+       btn.disabled = true;
+       btn.innerText = 'Applying...';
+
+       try {
+         const response = await fetch('/admin/bulk-products/edit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+               filterBrand, filterCategory, editAction, editValue
+            })
+         });
+         const resData = await response.json();
+
+         if (response.ok) {
+            showAlert('success', `<b>Success:</b> Found ${resData.matched} products. Updated ${resData.updated}.`);
+         } else {
+            showAlert('danger', `<b>Error:</b> ${resData.error || 'Update failed'}`);
+         }
+       } catch (err) {
+         showAlert('danger', `<b>Error:</b> Server connection failed.`);
+       } finally {
+         btn.disabled = false;
+         btn.innerText = 'Apply Bulk Edit';
+       }
+    });
+  </script>
+</body>
+</html>

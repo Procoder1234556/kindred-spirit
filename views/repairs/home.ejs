@@ -1,0 +1,50 @@
+<% 
+  schemaJSON = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Sahii Repairs",
+    "image": "https://sahiirepairs.in/assets/logo.png",
+    "@id": "https://sahiirepairs.in",
+    "url": "https://sahiirepairs.in",
+    "telephone": "+91-XXXXXXXXXX",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Okhla Industrial Estate",
+      "addressLocality": "New Delhi",
+      "postalCode": "110020",
+      "addressCountry": "IN"
+    },
+    "description": "Learn how to repair your mobile devices with expert guides, curated by Sahii."
+  };
+%>
+<%- include('layout') %>
+
+<div class="container">
+  <h1>Welcome to Sahii Repairs HQ</h1>
+  <p style="font-size: 1.2rem; line-height: 1.6; color:#011a3a;">
+    Your ultimate destination for DIY mobile repair education. Empower yourself with our step-by-step guides for popular brands and models. 
+    Save money, learn a new skill, and restore your device to its original glory.
+  </p>
+
+  <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+    <div style="background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+      <h3 style="margin-top:0;">Apple Repair Guides</h3>
+      <p>Fix your iPhone screens, replace batteries, and more.</p>
+      <a href="/brands/apple" style="color: #011a3a; font-weight: bold; text-decoration: none;">View Guides &rarr;</a>
+    </div>
+    
+    <div style="background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+      <h3 style="margin-top:0;">Samsung Repair Guides</h3>
+      <p>Comprehensive tutorials for the Galaxy S and A series.</p>
+      <a href="/brands/samsung" style="color: #011a3a; font-weight: bold; text-decoration: none;">View Guides &rarr;</a>
+    </div>
+
+    <div style="background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+      <h3 style="margin-top:0;">Xiaomi/Redmi Guides</h3>
+      <p>Easy-to-follow teardowns and screen replacements.</p>
+      <a href="/brands/xiaomi" style="color: #011a3a; font-weight: bold; text-decoration: none;">View Guides &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') %>
