@@ -1,104 +1,133 @@
 // Login-Reg Page
-let login_otp = Math.floor(Math.random()*10000 + 1);
-// let userOtp = 0;
+let login_otp = Math.floor(Math.random() * 10000 + 1);
 let login_mobile = "";
 
 var loginBtn = document.querySelector(".sign-in");
 var regBtn = document.querySelector(".sign-up");
 var choose = document.querySelector(".choose-way");
 var regHere = document.querySelectorAll(".reg-here");
-// let loginNum = document.querySelector(".login-number");
 
-// Function to add the active class to the clicked element and remove it from the other
 function setActiveButton(activeBtn) {
-    // Remove active class from all li elements
-    document.querySelectorAll('.choose-way ul li').forEach((li) => {
-        li.classList.remove('active');
-    });
-    // Add active class to the clicked element
-    activeBtn.classList.add('active');
+    const liItems = document.querySelectorAll('.choose-way ul li');
+    if (liItems) {
+        liItems.forEach((li) => {
+            li.classList.remove('active');
+        });
+    }
+    if (activeBtn) activeBtn.classList.add('active');
 }
 
-loginBtn.addEventListener("click", () => {
-    if (!choose.classList.contains("s-login")) {
-        choose.classList.add("s-login");
-        choose.classList.remove("s-reg");
-        document.getElementById("login-email").style.display = "block";
-    }
-    setActiveButton(loginBtn);
-});
-
-regBtn.addEventListener("click", () => {
-    if (!choose.classList.contains("s-reg")) {
-        choose.classList.add("s-reg");
-        choose.classList.remove("s-login");
-        document.getElementById("login-email").style.display = "none";
-        document.getElementById("login-number").style.display = "none";
-    }
-    setActiveButton(regBtn);
-});
-
-regHere.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        choose.classList.add("s-reg");
-        choose.classList.remove("s-login");
-        document.getElementById("login-email").style.display = "none";
-        document.getElementById("login-number").style.display = "none";
-        setActiveButton(regBtn); // Assuming regHere is associated with the sign-up
+if (loginBtn && choose) {
+    loginBtn.addEventListener("click", () => {
+        if (!choose.classList.contains("s-login")) {
+            choose.classList.add("s-login");
+            choose.classList.remove("s-reg");
+            const loginEmail = document.getElementById("login-email");
+            if (loginEmail) loginEmail.style.display = "block";
+        }
+        setActiveButton(loginBtn);
     });
-});
+}
 
-// Toggle between login with email and login with number
-document.getElementById("login-number-link").addEventListener("click", function () {
-    document.getElementById("login-email").style.display = "none";
-    document.getElementById("login-number").style.display = "block";
-});
+if (regBtn && choose) {
+    regBtn.addEventListener("click", () => {
+        if (!choose.classList.contains("s-reg")) {
+            choose.classList.add("s-reg");
+            choose.classList.remove("s-login");
+            const loginEmail = document.getElementById("login-email");
+            const loginNum = document.getElementById("login-number");
+            if (loginEmail) loginEmail.style.display = "none";
+            if (loginNum) loginNum.style.display = "none";
+        }
+        setActiveButton(regBtn);
+    });
+}
 
-document.getElementById("login-email-link").addEventListener("click", function () {
-    document.getElementById("login-number").style.display = "none";
-    document.getElementById("login-email").style.display = "block";
-});
+if (regHere && choose) {
+    regHere.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            choose.classList.add("s-reg");
+            choose.classList.remove("s-login");
+            const loginEmail = document.getElementById("login-email");
+            const loginNum = document.getElementById("login-number");
+            if (loginEmail) loginEmail.style.display = "none";
+            if (loginNum) loginNum.style.display = "none";
+            setActiveButton(regBtn);
+        });
+    });
+}
 
+const loginNumLink = document.getElementById("login-number-link");
+if (loginNumLink) {
+    loginNumLink.addEventListener("click", function () {
+        const loginEmail = document.getElementById("login-email");
+        const loginNum = document.getElementById("login-number");
+        if (loginEmail) loginEmail.style.display = "none";
+        if (loginNum) loginNum.style.display = "block";
+    });
+}
 
-// Send OTP for login
-const sendLoginOtp = async() => {
-    document.getElementById('verifyNum-login').innerHTML = `<div class="spinner-grow" role="status" style="--bs-spinner-width: 1rem;--bs-spinner-height: 1rem;>
+const loginEmailLink = document.getElementById("login-email-link");
+if (loginEmailLink) {
+    loginEmailLink.addEventListener("click", function () {
+        const loginEmail = document.getElementById("login-email");
+        const loginNum = document.getElementById("login-number");
+        if (loginNum) loginNum.style.display = "none";
+        if (loginEmail) loginEmail.style.display = "block";
+    });
+}
+
+const sendLoginOtp = async () => {
+    const verifyNumLogin = document.getElementById('verifyNum-login');
+    const mobileNoLogin = document.getElementById('mobile_no-login');
+    if (!verifyNumLogin || !mobileNoLogin) return;
+
+    verifyNumLogin.innerHTML = `<div class="spinner-grow" role="status" style="--bs-spinner-width: 1rem;--bs-spinner-height: 1rem;">
     <span class="visually-hidden"></span>
   </div>`;
-    login_mobile = document.getElementById('mobile_no-login').value;
+    login_mobile = mobileNoLogin.value;
     console.log("OTP: ", login_otp, " Mobile-no.: ", login_mobile);
-    document.getElementById('verifyNum-login').innerHTML = "Resend OTP..";
-    const response = await fetch("/user/reg_otp", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            "otp": login_otp,
-            "mobile": login_mobile
-        })
-    });
-    const data = await response.json();
-    console.log("Data: ", data);
-    // document.getElementById('entered_otp').style.opacity = 1;
-    document.getElementById('verifyNum-login').innerHTML = 'Verify';
-    if(data.return === true){
-        document.getElementById('input-OTP-login').style.display = 'block';
-        document.getElementById('submit-otp-login').disabled = false;
-    } else {
-        document.getElementById('otp-msg-login').innerHTML = data;
+    verifyNumLogin.innerHTML = "Resend OTP..";
+
+    try {
+        const response = await fetch("/user/reg_otp", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ "otp": login_otp, "mobile": login_mobile })
+        });
+        const data = await response.json();
+        console.log("Data: ", data);
+        verifyNumLogin.innerHTML = 'Verify';
+        if (data.return === true) {
+            const inputOtpLogin = document.getElementById('input-OTP-login');
+            const submitOtpLogin = document.getElementById('submit-otp-login');
+            if (inputOtpLogin) inputOtpLogin.style.display = 'block';
+            if (submitOtpLogin) submitOtpLogin.disabled = false;
+        } else {
+            const otpMsgLogin = document.getElementById('otp-msg-login');
+            if (otpMsgLogin) otpMsgLogin.innerHTML = data;
+        }
+    } catch (err) {
+        console.error("Error sending OTP:", err);
+        verifyNumLogin.innerHTML = 'Verify';
     }
 }
 
-const checkLoginOtp = async() => {
-    document.getElementById('otp-msg-login').innerHTML = "";
-    const userOtp = (Number)(document.getElementById('entered-otp-login').value);
+const checkLoginOtp = async () => {
+    const otpMsgLogin = document.getElementById('otp-msg-login');
+    const enteredOtpLogin = document.getElementById('entered-otp-login');
+    if (!otpMsgLogin || !enteredOtpLogin) return;
+
+    otpMsgLogin.innerHTML = "";
+    const userOtp = (Number)(enteredOtpLogin.value);
     console.log("Sent OTP: ", login_otp, " User OTP:", userOtp);
-    if(login_otp == userOtp){
-        document.getElementById('otp-msg-login').innerHTML = " ";
-        document.getElementById('login-field').style.opacity = 1;
-        document.getElementById('login-btn').disabled = false;
+    if (login_otp == userOtp) {
+        otpMsgLogin.innerHTML = " ";
+        const loginField = document.getElementById('login-field');
+        const loginBtnEl = document.getElementById('login-btn');
+        if (loginField) loginField.style.opacity = 1;
+        if (loginBtnEl) loginBtnEl.disabled = false;
     } else {
-        document.getElementById('otp-msg-login').innerHTML = "Wrong OTP";
+        otpMsgLogin.innerHTML = "Wrong OTP";
     }
 }

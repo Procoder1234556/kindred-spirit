@@ -12,7 +12,7 @@ let mobile = "";
 
 let cartHTML = " ";
 
-const add_to_cart = async (
+let add_to_cart = async (
   id,
   slug,
   productName,
@@ -132,7 +132,7 @@ for (let i = 0; i < removeFromCart.length; i++) {
   });
 }
 
-const buy_now = async (
+let buy_now = async (
   id,
   productName,
   productImg,
@@ -211,7 +211,7 @@ for (let i = 0; i < wishListButton.length; i++) {
   });
 }
 
-const add_to_wishlist = async (prodId, _id) => {
+let add_to_wishlist = async (prodId, _id) => {
   const options = {
     method: "POST",
     headers: {
@@ -674,12 +674,15 @@ const submitOtp = async () => {
 // }
 
 //
-document.getElementById("checkout_securely").addEventListener("click", () => {
-  document.getElementById("checkout_securely").innerHTML =
-    `<div class="spinner-grow" role="status" style="--bs-spinner-width: 1rem;--bs-spinner-height: 1rem;>
-    <span class="visually-hidden">Loading...</span>
-  </div>`;
-});
+const checkoutSecurelyBtn = document.getElementById("checkout_securely");
+if (checkoutSecurelyBtn) {
+  checkoutSecurelyBtn.addEventListener("click", () => {
+    checkoutSecurelyBtn.innerHTML =
+      `<div class="spinner-grow" role="status" style="--bs-spinner-width: 1rem;--bs-spinner-height: 1rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>`;
+  });
+}
 
 // Razorpay
 function checkoutSecurely(oID) {
@@ -860,5 +863,7 @@ function setPrice() {
   console.log(value);
 }
 
-// Add event listener to listen for changes in the input field
-inputElement.addEventListener("change", setPrice);
+if (inputElement) {
+  // Add event listener to listen for changes in the input field
+  inputElement.addEventListener("change", setPrice);
+}

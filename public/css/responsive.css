@@ -1353,7 +1353,7 @@
 
   #header .fixed-top {
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
     height: auto;
     transition: 0.2s height ease;
     padding: 0;

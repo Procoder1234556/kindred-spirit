@@ -99,14 +99,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showModal(message) {
-      modalMessage.textContent = message;
-      modal.classList.remove('hidden');
+    if (modalMessage) modalMessage.textContent = message;
+    if (modal) modal.classList.remove('hidden');
   }
 
-  modalClose.addEventListener('click', hideModal);
+  if (modalClose) {
+    modalClose.addEventListener('click', hideModal);
+  }
 
   function hideModal() {
-      modal.classList.add('hidden');
+    if (modal) modal.classList.add('hidden');
   }
 
   askDoubtButton?.addEventListener('click', () => {

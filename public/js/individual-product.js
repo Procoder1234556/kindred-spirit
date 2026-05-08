@@ -110,17 +110,23 @@ let productOffers = document.querySelector(".descrp-dropdown .product-offers");
 let productShipReplace = document.querySelector(".descrp-dropdown .product-ship-replace");
 let productReviews = document.querySelector(".descrp-dropdown .product-reviews");
 
-productOffers.addEventListener("click", () => {
-  productOffers.classList.toggle("chosen")
-})
+if (productOffers) {
+  productOffers.addEventListener("click", () => {
+    productOffers.classList.toggle("chosen")
+  })
+}
 
-productDecrp.addEventListener("click", () => {
-  productDecrp.classList.toggle("chosen")
-})
+if (productDecrp) {
+  productDecrp.addEventListener("click", () => {
+    productDecrp.classList.toggle("chosen")
+  })
+}
 
-productShipReplace.addEventListener("click", () => {
-  productShipReplace.classList.toggle("chosen")
-})
+if (productShipReplace) {
+  productShipReplace.addEventListener("click", () => {
+    productShipReplace.classList.toggle("chosen")
+  })
+}
 
 if (productReviews) {
   productReviews.addEventListener("click", () => {
@@ -131,15 +137,17 @@ if (productReviews) {
 //scroll manage-> hidden-> auto
 
 let containerInner = document.querySelector(".container-inner");
-document.addEventListener("scroll", function () {
-  let scrollVal = 100;
-  if (window.scrollY > 100) {
-    containerInner.classList.add("scrolled");
-  }
-  else {
-    containerInner.classList.remove("scrolled");
-  }
-})
+if (containerInner) {
+  document.addEventListener("scroll", function () {
+    let scrollVal = 100;
+    if (window.scrollY > 100) {
+      containerInner.classList.add("scrolled");
+    }
+    else {
+      containerInner.classList.remove("scrolled");
+    }
+  })
+}
 
 //color Palette selection
 // {
@@ -338,8 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
       color = "Rose Gold";
       imgId = "rose-gold";
     }
-
-    productColorName.innerHTML = color;
+    if (productColorName) productColorName.innerHTML = color;
 
     let selectedImgCont = document.getElementById(imgId);
     if (selectedImgCont) {
@@ -391,8 +398,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  leftScrollBtn.addEventListener("click", scrollLeft);
-  rightScrollBtn.addEventListener("click", scrollRight);
+  if (leftScrollBtn) leftScrollBtn.addEventListener("click", scrollLeft);
+  if (rightScrollBtn) rightScrollBtn.addEventListener("click", scrollRight);
 });
 
 
@@ -401,15 +408,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Get the width of one image including margin
-let imgWidth = document.querySelector(".small-img-col").offsetWidth;
+let smallImgCol = document.querySelector(".small-img-col");
+if (smallImgCol && imgGrpLeftScroll && imgGrpRightScroll && smallImgGrp) {
+  let imgWidth = smallImgCol.offsetWidth;
 
-imgGrpLeftScroll.addEventListener("click", function () {
-  smallImgGrp.scrollBy({ left: -imgWidth, behavior: 'smooth' });
-});
+  imgGrpLeftScroll.addEventListener("click", function () {
+    smallImgGrp.scrollBy({ left: -imgWidth, behavior: 'smooth' });
+  });
 
-imgGrpRightScroll.addEventListener("click", function () {
-  smallImgGrp.scrollBy({ left: imgWidth, behavior: 'smooth' });
-});
+  imgGrpRightScroll.addEventListener("click", function () {
+    smallImgGrp.scrollBy({ left: imgWidth, behavior: 'smooth' });
+  });
+}
 
 //testimonial section- scroll to review section
 
@@ -439,11 +449,13 @@ function scrollSlider(direction) {
 //single-product-details ->  wishlist-button
 
 var wishlistBigBtn = document.querySelector(".single-product-details .wishlist-button");
-wishlistBigBtn.addEventListener("click", function () {
-  // //console.log(wishlistBigBtn.textContent);
-  wishlistBigBtn.textContent = "ADDED TO WISHLIST";
-  wishlistBigBtn.style.opacity = ".8";
-})
+if (wishlistBigBtn) {
+  wishlistBigBtn.addEventListener("click", function () {
+    // //console.log(wishlistBigBtn.textContent);
+    wishlistBigBtn.textContent = "ADDED TO WISHLIST";
+    wishlistBigBtn.style.opacity = ".8";
+  })
+}
 
 // mainImg.addEventListener("click", ()=>{
 //   // //console.log("clickd");
@@ -459,21 +471,24 @@ var doubtBtn = document.querySelector(".doubt-btn");
 var custDoubt = document.querySelector(".cust-doubt");
 
 // //console.log(custRev.classList);
-revBtn.addEventListener("click", function () {
-  // //console.log("clicked");
-  if (custDoubt.classList.contains("doubt")) {
-    custDoubt.classList.remove("doubt");
-  }
-  custRev.classList.toggle("rev");
-})
+if (revBtn) {
+  revBtn.addEventListener("click", function () {
+    // //console.log("clicked");
+    if (custDoubt && custDoubt.classList.contains("doubt")) {
+      custDoubt.classList.remove("doubt");
+    }
+    if (custRev) custRev.classList.toggle("rev");
+  })
+}
 
-// //console.log(custDoubt.classList);
-doubtBtn.addEventListener("click", function () {
-  if (custRev.classList.contains("rev")) {
-    custRev.classList.remove("rev");
-  }
-  custDoubt.classList.toggle("doubt")
-})
+if (doubtBtn) {
+  doubtBtn.addEventListener("click", function () {
+    if (custRev && custRev.classList.contains("rev")) {
+      custRev.classList.remove("rev");
+    }
+    if (custDoubt) custDoubt.classList.toggle("doubt")
+  })
+}
 
 
 // Dynamic Banner
@@ -506,14 +521,16 @@ doubtBtn.addEventListener("click", function () {
 // Why Praiz Dynamic Banner
 function setDynamicBanner() {
   const windowWidth = window.innerWidth;
-  let imageUrl = document.querySelector(".why-praiz-banner-inner img");
+  let bannerImg = document.querySelector(".why-praiz-banner-inner img");
+  if (!bannerImg) return;
+
   if (windowWidth <= 575.98) {
-    imageUrl.setAttribute(
+    bannerImg.setAttribute(
       "src",
       "/images/Banner/Product-Banner/Product-Banner-mob.webp"
     );
   } else {
-    imageUrl.setAttribute(
+    bannerImg.setAttribute(
       "src",
       "/images/Banner/Product-Banner/Product-Banner.webp"
     );

@@ -45,7 +45,7 @@
     <link rel="icon" sizes="192x192" href="/images/logo/sahii logo.png">
     <link rel="icon" type="image/jpg" sizes="512x512" href="/images/logo/sahii logo.png">
     <link rel="icon" type="image/jpg" sizes="16x16" href="/images/logo/sahii logo.png">
-    <link rel="manifest" href="/images/favicon_io/site.webmanifest">
+    <!-- <link rel="manifest" href="/images/favicon_io/site.webmanifest"> -->
 
     <!-- Preconnect to external domains -->
     <!-- <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -66,44 +66,27 @@
     <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-    <!-- Bootstrap-Vue start -->
-    <!-- Load required Bootstrap and BootstrapVue CSS -->
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-    <!-- Load polyfills to support older browsers -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
-        crossorigin="anonymous"></script>
-
-    <!-- Load Vue followed by BootstrapVue -->
-    <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
-
-    <!-- Load the following for BootstrapVueIcons support -->
-    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-
-    <!-- Bootstrap-Vue end -->
 
     <!--My CSS Styles-->
     <link rel='stylesheet' type='text/css' media='screen' href='/css/main.css'>
-    <!-- <link rel='stylesheet' type='text/css' href='/css/nav-improvements.css'> -->
+    <link rel='stylesheet' type='text/css' href='/css/nav-improvements.css'>
 
     <!--Resposive 5 css-->
     <link rel="stylesheet" type='text/css' href="/css/responsive.css">
-    <!-- <link rel="stylesheet" type='text/css' href="/css/nav-improvements.css"> -->
 
     <link rel='stylesheet' type='text/css' href='/css/testimonial.css'>
 
     <!-- Sahii UX refresh (last so it overrides) -->
     <link rel='stylesheet' type='text/css' href='/css/sahii-ux.css'>
 
-    <!-- <script src="https://kit.fontawesome.com/c9b683b30a.js" crossorigin="anonymous"></script> -->
     <script src="https://kit.fontawesome.com/86c248a3a6.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!-- jQuery 3.7.1 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
-    <!-- RazorPay -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GOOGLE_TAG_ID"></script>
@@ -135,7 +118,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
 
 </head>
 
-<body data-bs-spy="scroll" data-bs-target=".navbar">
+<body>
 
     <!-- Top Messege bar -->
     <!--Navigation Section-->
@@ -162,11 +145,12 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                     <img src="/images/logo/logo.png" class="brand-logo img-fluid">
                 </a>
 
-                <form class="form-inline .d-none .d-sm-block" action="/search" method="GET">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
+                <form class="form-inline d-none d-lg-flex position-relative" action="/search" method="GET" id="searchFormDesktop">
+                    <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search for mobile parts..." name="search" aria-label="Search" autocomplete="off" id="searchInputDesktop">
                     <button type="submit" class="btn btn-link p-0" style="text-decoration:none;">
                         <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
+                    <div id="suggestionsDesktop" class="search-suggestions d-none"></div>
                 </form>
                 <div class="nav-right-btn">
 
@@ -198,7 +182,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                             <a class="nav-link product-dropdown-btn" href="#our-products">Our Products 
                                 <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i></a>
                             <ul class="drop-down">
-                                <a class="necklace">
+                                <a class="cat-spare-parts">
                                     <li>
                                         <span>Spare Parts</span>
                                         <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
@@ -207,7 +191,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                                 </a>
 
                                 <!-- Mobile: Spare Parts Sub-menu -->
-                                <ul class="sub-drop drop-down-necklace">
+                                <ul class="sub-drop flyout-spare-parts">
                                     <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
                                         <% brands.forEach((brand)=> { %>
                                             <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
@@ -216,7 +200,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                                 </ul>
                                 
                                 <!-- 2. Accessories Category (Mobile) -->
-                                <a class="earring">
+                                <a class="cat-accessories">
                                     <li>
                                         <span>Accessories</span>
                                         <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
@@ -225,7 +209,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                                 </a>
 
                                 <!-- Mobile: Accessories Sub-menu -->
-                                <ul class="sub-drop drop-down-earring">
+                                <ul class="sub-drop flyout-accessories">
                                     <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
                                         <% brands.forEach((brand)=> { %>
                                             <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
@@ -234,7 +218,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                                 </ul>
 
                                 <!-- 3. Tools Category (Mobile) -->
-                                <a class="ring" href="/product/?category=tools">
+                                <a class="cat-tools" href="/product/?category=tools">
                                     <li>
                                         <span>Tools</span>
                                         <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
@@ -242,7 +226,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                                 </a>
 
                                 <!-- Extra to keep nav functional -->
-                                <a class="bracelet" style="display: none; visibility: hidden;">
+                                <a class="cat-extra" style="display: none; visibility: hidden;">
                                     <li>
                                         <span>New option</span>
                                         <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
@@ -252,7 +236,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                             </ul>
 
                             <!-- Desktop -->
-                            <ul class="sub-drop drop-down-necklace d-none d-lg-block">
+                            <ul class="sub-drop flyout-spare-parts d-none d-lg-block">
                                 <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
                                         <% brands.forEach((brand)=> { %>
                                             <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
@@ -261,7 +245,7 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                             </ul>
 
                              <!-- Desktop: Accessories Flyout Menu -->
-                            <ul class="sub-drop drop-down-earring d-none d-lg-block">
+                            <ul class="sub-drop flyout-accessories d-none d-lg-block">
                                 <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
                                         <% brands.forEach((brand)=> { %>
                                             <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
@@ -269,13 +253,13 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                                     <% } %>
                             </ul>
 
-                            <ul class="sub-drop drop-down-ring d-none d-lg-block">
+                            <ul class="sub-drop flyout-tools d-none d-lg-block">
                                 <a href="/product/?category=tools"><li>Tools</li></a>
                             </ul>
 
                             <!-- Extra Part to keep nav functional -->
-                            <ul class="sub-drop drop-down-bracelet d-none d-lg-block">
-                                <a href="/product/?category=Bracelets"><h6>New Option</h6></a>
+                            <ul class="sub-drop drop-down-extra d-none d-lg-block">
+                                <a href="/product"><h6>View All Products</h6></a>
                             </ul>
 
                         </li>
@@ -303,11 +287,12 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                         </li>
                     </ul>
                 </div>
-                <form class="form-mob form-inline" action="/search" method="GET">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
+                <form class="form-mob d-flex d-lg-none position-relative w-100" action="/search" method="GET" id="searchFormMobile">
+                    <input class="form-control mr-sm-2 search-input w-100" type="search" placeholder="Search for parts..." name="search" aria-label="Search" autocomplete="off" id="searchInputMobile">
                     <button type="submit" class="btn btn-link p-0" style="text-decoration:none;">
                         <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
+                    <div id="suggestionsMobile" class="search-suggestions d-none"></div>
                 </form>
             </div>
         </nav>

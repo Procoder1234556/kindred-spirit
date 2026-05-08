@@ -382,6 +382,55 @@ function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
+// Search Suggestions API
+app.get("/api/search/suggestions", async (req, res) => {
+  try {
+    const search = req.query.q;
+    if (!search || search.trim().length < 2) {
+      return res.json([]);
+    }
+
+    // Limit to 8 suggestions for performance and UI clarity
+    const limit = 8;
+    
+    // First try exact title matches (starts with)
+    const exactMatches = await Product.find({
+      title: { $regex: "^" + escapeRegex(search), $options: "i" }
+    })
+    .select("title category price sellingPrice images slug")
+    .limit(limit)
+    .lean();
+
+    let results = exactMatches;
+
+    // If we need more, try contains or fuzzy
+    if (results.length < limit) {
+        const remaining = limit - results.length;
+        const otherMatches = await Product.find({
+          $and: [
+            { _id: { $nin: results.map(r => r._id) } },
+            { 
+              $or: [
+                { title: { $regex: escapeRegex(search), $options: "i" } },
+                { category: { $regex: escapeRegex(search), $options: "i" } }
+              ]
+            }
+          ]
+        })
+        .select("title category price sellingPrice images slug")
+        .limit(remaining)
+        .lean();
+        
+        results = [...results, ...otherMatches];
+    }
+
+    res.json(results);
+  } catch (error) {
+    console.error("Suggestions Error:", error);
+    res.status(500).json([]);
+  }
+});
+
 app.get("/aboutUs", (req, res) => {
   res.render("aboutUs", {
     user: req.user ? req.user : " ",

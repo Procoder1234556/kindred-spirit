@@ -4,6 +4,23 @@
    Scope: navbar + cart page + product card hover.
    ========================================================= */
 
+/* =========================================================
+   CRITICAL: Bootstrap / Tailwind conflict fix.
+   Tailwind's utility class '.collapse { visibility: collapse }'
+   was overriding Bootstrap's navbar collapse component, making
+   the mobile menu links invisible when the hamburger was clicked.
+   This rule restores correct visibility for ALL Bootstrap collapse
+   and modal elements.
+   ========================================================= */
+.navbar-collapse,
+.collapse.show,
+.collapsing,
+.modal,
+.modal.show,
+.modal-backdrop {
+  visibility: visible !important;
+}
+
 :root {
   --sx-bg: #ffffff;
   --sx-ink: #0f1726;
@@ -394,4 +411,161 @@
 @media (prefers-reduced-motion: reduce) {
   .product-card, .product-card * { transition: none !important; }
   #header .form-inline, #cart-page .checkout { transition: none !important; }
+}
+
+/* =========================================================
+   GREEN PRICES — all selling prices site-wide
+   ========================================================= */
+.product-price:first-child,
+.product-price:not(:has(del)),
+div.product-price {
+  color: #16a34a !important;        /* rich emerald green */
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  text-shadow: 0 0 8px rgba(22, 163, 74, 0.25);
+}
+/* Keep MRP (struck-through) in muted grey */
+.product-price del,
+.product-price span del {
+  color: #94a3b8 !important;
+  font-weight: 400 !important;
+  font-size: 0.82rem !important;
+  text-shadow: none !important;
+}
+
+/* Broader selector to catch all price occurrences site-wide */
+.card-dets .product-price,
+.product-info .product-price,
+.similar-product .product-price,
+.mob-cart-page .product-price,
+.filteredProduct .product-price {
+  color: #16a34a !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 8px rgba(22, 163, 74, 0.20);
+}
+
+/* sproduct page price */
+#p-cost h6,
+.s-price,
+.selling-price {
+  color: #16a34a !important;
+  font-weight: 700 !important;
+}
+
+/* =========================================================
+   GOLDEN SPARKLING PRODUCT NAMES
+   ========================================================= */
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes goldenPulse {
+  0%, 100% { text-shadow: 0 0 4px rgba(255, 215, 0, 0.3), 0 0 8px rgba(255, 193, 7, 0.15); }
+  50%       { text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 193, 7, 0.4), 0 0 30px rgba(255, 165, 0, 0.2); }
+}
+
+.product-name,
+.card-dets .product-name,
+.product-info .product-name {
+  background: linear-gradient(
+    90deg,
+    #b8860b 0%,
+    #ffd700 20%,
+    #fffacd 35%,
+    #ffd700 50%,
+    #daa520 65%,
+    #ffd700 80%,
+    #b8860b 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation:
+    goldShimmer 3s linear infinite,
+    goldenPulse 2.5s ease-in-out infinite;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em;
+}
+
+/* Fallback for browsers that don't support background-clip:text */
+@supports not (-webkit-background-clip: text) {
+  .product-name {
+    color: #daa520 !important;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6) !important;
+  }
+}
+
+/* =========================================================
+   SAVINGS BADGE — discount highlight with user savings
+   ========================================================= */
+.savings-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin: 0.3rem 0 0.2rem;
+}
+
+.savings-pct {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff !important;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.35);
+  animation: badgePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  -webkit-text-fill-color: #ffffff !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+}
+
+.savings-amt {
+  display: inline-flex;
+  align-items: center;
+  background: #dcfce7;
+  color: #15803d !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid #bbf7d0;
+  -webkit-text-fill-color: #15803d !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+}
+
+@keyframes badgePop {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* =========================================================
+   DISCOUNT TAG (corner ribbon on product image)
+   ========================================================= */
+.discount-tag {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.05em !important;
+  padding: 0.2rem 0.55rem !important;
+  border-radius: 4px 0 4px 0 !important;
+  box-shadow: 0 2px 6px rgba(185, 28, 28, 0.4) !important;
+}
+
+/* Reduced motion — disable sparkle animation but keep gold color */
+@media (prefers-reduced-motion: reduce) {
+  .product-name {
+    animation: none !important;
+    background: none !important;
+    -webkit-text-fill-color: #daa520 !important;
+    color: #daa520 !important;
+  }
+  .savings-pct { animation: none !important; }
 }

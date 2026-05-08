@@ -76,8 +76,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   // check if user exists or not
   const findUser = await User.findOne({ email });
   console.log("FindUser: ", findUser);
-  // if(findUser && (await findUser.isPasswordMatched(password) || findUser.password === password)){
-  if (findUser && findUser.password === password) {
+  if (findUser && (await findUser.isPasswordMatched(password))) {
     const refreshToken = await generateRefreshToken(findUser?._id);
     console.log("Token: ", refreshToken);
 
@@ -125,8 +124,7 @@ const loginUserMobCtrl = asyncHandler(async (req, res) => {
   // check if user exists or not
   const findUser = await User.findOne({ mobile });
   console.log("FindUser: ", findUser);
-  // if(findUser && (await findUser.isPasswordMatched(password) || findUser.password === password)){
-  if (findUser && findUser.password === password) {
+  if (findUser && (await findUser.isPasswordMatched(password))) {
     const refreshToken = await generateRefreshToken(findUser?._id);
     console.log("Token: ", refreshToken);
 

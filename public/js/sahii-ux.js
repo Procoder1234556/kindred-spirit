@@ -61,3 +61,48 @@
     clearCartCache: function () { try { sessionStorage.removeItem(KEY); } catch (e) {} },
   };
 })();
+
+/* ---------------------------------------------------------------
+   Savings Badge Injector
+   Reads .product-price (selling) and .product-price del (MRP),
+   calculates % off + absolute savings, injects a .savings-badge
+   into every .product-info .card-dets on the page automatically.
+--------------------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".product-info .card-dets, .card-dets").forEach(function (card) {
+    // Avoid duplicates
+    if (card.querySelector(".savings-badge")) return;
+
+    var priceEls = card.querySelectorAll(".product-price");
+    if (priceEls.length < 1) return;
+
+    // First .product-price is the selling price (text node), second contains <del>
+    var sellingEl = priceEls[0];
+    var mrpEl = priceEls.length > 1 ? priceEls[1].querySelector("del") : null;
+
+    // Extract numeric values
+    var selling = parseFloat((sellingEl.textContent || "").replace(/[^0-9.]/g, ""));
+    var mrp = mrpEl ? parseFloat((mrpEl.textContent || "").replace(/[^0-9.]/g, "")) : 0;
+
+    if (!isNaN(selling) && !isNaN(mrp) && mrp > selling && mrp > 0) {
+      var saved = Math.round(mrp - selling);
+      var pct   = Math.round((mrp - selling) / mrp * 100);
+      var badge = document.createElement("div");
+      badge.className = "savings-badge";
+      badge.innerHTML =
+        '<span class="savings-pct">' + pct + '% OFF</span>' +
+        '<span class="savings-amt">You save \u20B9' + saved + '</span>';
+
+      // Insert after the price div
+      var priceContainer = sellingEl.closest(".product-price") || sellingEl;
+      var insertAfter = priceContainer.parentElement === card
+        ? priceContainer
+        : card.querySelector(".product-price");
+      if (insertAfter && insertAfter.parentNode === card) {
+        insertAfter.parentNode.insertBefore(badge, insertAfter.nextSibling);
+      } else {
+        card.appendChild(badge);
+      }
+    }
+  });
+});
