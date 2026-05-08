@@ -38,10 +38,13 @@
     <link rel='stylesheet' type='text/css' href='/css/nav-improvements.css?v=3'>
     <link rel="stylesheet" type='text/css' href="/css/responsive.css?v=3">
     <link rel='stylesheet' type='text/css' href='/css/testimonial.css?v=3'>
-    <link rel='stylesheet' type='text/css' href='/css/sahii-ux.css?v=3'>
+    <link rel='stylesheet' type='text/css' href='/css/sahii-ux.css?v=4'>
 
     <script src="https://kit.fontawesome.com/86c248a3a6.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <% if (typeof user !== 'undefined' && user && user.role !== 'guest' && user.role !== 'admin') { %>
+    <meta name="user-id" content="<%= user._id %>">
+    <% } %>
 </head>
 
 <body>
@@ -249,3 +252,35 @@
             </div>
         </nav>
     </section>
+
+<!-- ══ SCRATCH CARD MODAL ══ -->
+<div id="scratchCardModal" class="sc-modal" role="dialog" aria-modal="true" aria-label="Your surprise gift" style="display:none">
+  <div class="sc-card">
+    <button class="sc-close-btn" id="sc-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div id="sc-confetti" class="sc-confetti-container" aria-hidden="true"></div>
+
+    <div class="sc-header">
+      <div class="sc-gift-icon">🎁</div>
+      <h3 class="sc-title">Welcome Gift for You!</h3>
+      <p class="sc-subtitle">Scratch below to unlock your exclusive coupon</p>
+    </div>
+
+    <div class="sc-coupon-wrap">
+      <div class="sc-coupon-inner">
+        <div class="sc-coupon-discount" id="sc-discount"></div>
+        <div class="sc-coupon-code" id="sc-code"></div>
+        <div class="sc-coupon-min" id="sc-min"></div>
+      </div>
+      <canvas id="scratchCanvas" class="sc-canvas" aria-label="Scratch here to reveal coupon"></canvas>
+    </div>
+
+    <p class="sc-hint" id="sc-hint">☝️ Use your finger or mouse to scratch</p>
+
+    <div class="sc-reveal-row" id="sc-reveal-row" style="display:none">
+      <button class="sc-copy-btn" id="sc-copy-btn"><i class="fa-regular fa-copy"></i> Copy Code</button>
+      <a class="sc-cart-btn" href="/user/cart">Use in Cart →</a>
+    </div>
+
+    <button class="sc-later-btn" id="sc-later-btn">Maybe later</button>
+  </div>
+</div>

@@ -13,14 +13,16 @@
 
                                 <form action="/user/setUpdate/<%= user._id %>" method="post" onsubmit="return validatePassword()">
                                     
-                                    <div class="form-outline mb-3">
+                                    <div class="form-outline mb-3 pw-field">
                                         <label class="form-label" for="new_pass">New Password</label>
                                         <input type="password" id="new_pass" class="form-control form-control-lg" name="pass" required />
+                                        <button type="button" class="pw-eye-btn" onclick="sahiiTogglePw(this)" tabindex="-1" aria-label="Toggle password visibility"><i class="fa-regular fa-eye"></i></button>
                                     </div>
 
-                                    <div class="form-outline mb-3">
+                                    <div class="form-outline mb-3 pw-field">
                                         <label class="form-label" for="confirm_pass">Confirm Password</label>
                                         <input type="password" id="confirm_pass" class="form-control form-control-lg" name="pass" required />
+                                        <button type="button" class="pw-eye-btn" onclick="sahiiTogglePw(this)" tabindex="-1" aria-label="Toggle password visibility"><i class="fa-regular fa-eye"></i></button>
                                         <div id="pass_error" style="color: red; display: none; margin-top: 5px;">Passwords do not match</div>
                                     </div>
 

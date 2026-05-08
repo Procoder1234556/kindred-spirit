@@ -1522,5 +1522,226 @@ body { padding-top: 140px !important; }
 #cart-page td[colspan="4"] { text-align: center; padding: 3rem 1rem !important; }
 #cart-page td[colspan="4"] h5 { color: #6b7280 !important; margin-top: 1.25rem; font-size: 1rem !important; }
 
+/* ═══════════════════════════════════════════════
+   PASSWORD EYE TOGGLE
+═══════════════════════════════════════════════ */
+.pw-field { position: relative; }
+.pw-eye-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 4px 6px;
+  line-height: 1;
+  z-index: 5;
+  transition: color .2s;
+  font-size: 1rem;
+}
+.pw-eye-btn:hover { color: #132043; }
+.pw-eye-btn:focus { outline: 2px solid #fbbf24; border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════
+   SCRATCH CARD MODAL
+═══════════════════════════════════════════════ */
+body.sc-open { overflow: hidden; }
+
+.sc-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.sc-modal.sc-visible { opacity: 1; }
+.sc-modal.sc-hiding  { opacity: 0; }
+
+.sc-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,.3);
+  transform: translateY(20px);
+  transition: transform .4s cubic-bezier(.175,.885,.32,1.275);
+  text-align: center;
+}
+.sc-modal.sc-visible .sc-card { transform: translateY(0); }
+
+.sc-close-btn {
+  position: absolute;
+  top: 12px; right: 14px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 50%;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: .9rem;
+  transition: background .2s, color .2s;
+  z-index: 2;
+}
+.sc-close-btn:hover { background: #e5e7eb; color: #111; }
+
+/* Confetti container */
+.sc-confetti-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10;
+}
+.sc-confetti-piece {
+  position: absolute;
+  top: -10px;
+  animation: sc-fall linear forwards;
+}
+@keyframes sc-fall {
+  0%   { transform: translateY(0) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(420px) rotate(540deg); opacity: 0; }
+}
+
+/* Header */
+.sc-gift-icon { font-size: 2.75rem; margin-bottom: .25rem; line-height: 1; }
+.sc-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 .2rem;
+}
+.sc-subtitle {
+  font-size: .82rem;
+  color: #6b7280;
+  margin: 0 0 1rem;
+}
+
+/* Coupon wrapper — canvas sits on top */
+.sc-coupon-wrap {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: .85rem;
+}
+.sc-coupon-inner {
+  background: linear-gradient(135deg, #132043 0%, #1e3a6e 100%);
+  padding: 1.25rem 1rem;
+  border-radius: 14px;
+  position: relative;
+}
+.sc-coupon-inner::before,
+.sc-coupon-inner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 20px; height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.sc-coupon-inner::before { left: -10px; }
+.sc-coupon-inner::after  { right: -10px; }
+
+.sc-coupon-discount {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fbbf24;
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+.sc-coupon-code {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: #fff;
+  margin: .35rem 0 .25rem;
+  font-family: 'Courier New', monospace;
+}
+.sc-coupon-min {
+  font-size: .78rem;
+  color: rgba(255,255,255,.65);
+}
+
+/* Canvas overlay */
+.sc-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+  border-radius: 14px;
+  transition: opacity .5s ease;
+}
+
+.sc-hint {
+  font-size: .8rem;
+  color: #9ca3af;
+  margin: 0 0 .85rem;
+}
+
+/* Reveal row */
+.sc-reveal-row {
+  gap: .65rem;
+  margin-bottom: .75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.sc-copy-btn {
+  background: #132043;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: .6rem 1.2rem;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+.sc-copy-btn:hover  { background: #1e3a6e; transform: translateY(-1px); }
+.sc-copy-btn.sc-copied { background: #16a34a; }
+
+.sc-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  background: #fbbf24;
+  color: #111;
+  border-radius: 10px;
+  padding: .6rem 1.2rem;
+  font-size: .88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+}
+.sc-cart-btn:hover { background: #f59e0b; color: #111; transform: translateY(-1px); }
+
+.sc-later-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: .78rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: .15rem;
+  transition: color .2s;
+}
+.sc-later-btn:hover { color: #6b7280; }
+
 /* Coupon modal */
 #couponModal .modal-content { border-radius: 14px; border: 0; box-shadow: 0 20px 60px rgba(0,0,0,.18); }
