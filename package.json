@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:css": "postcss public/styles/tailwind.css -o public/styles/style.css",
     "watch:css": "nodemon -e js,ejs,css -x \"npm run build:css\"",
-    "dev": "concurrently \"npm run start:dev\" \"npm run watch:css\""
+    "dev": "concurrently \"npm run start:dev\" \"npm run watch:css\"",
+    "build": "npm run build:css",
+    "build:dev": "npm run build:css"
   },
   "author": "Praiz",
   "license": "ISC",
