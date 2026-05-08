@@ -70,21 +70,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!navbar) return;
 
-  // Scroll logic
+  // Scroll logic — but never collapse while the mobile menu is open
+  const isMenuOpen = () => {
+    const nav = document.querySelector("#navbarNav");
+    return !!(nav && (nav.classList.contains("show") || nav.classList.contains("collapsing")));
+  };
   window.addEventListener("scroll", () => {
+    if (isMenuOpen()) return; // freeze nav state while menu open
     const scrollTop = document.documentElement.scrollTop;
-    
-    if (scrollTop > 10) {
-      navbar.classList.add("expandedp");
-    } else {
-      navbar.classList.remove("expandedp");
-    }
 
-    if (scrollTop > 40) {
-      navbar.classList.add("expandedpp");
-    } else {
-      navbar.classList.remove("expandedpp");
-    }
+    if (scrollTop > 10) navbar.classList.add("expandedp");
+    else navbar.classList.remove("expandedp");
+
+    if (scrollTop > 40) navbar.classList.add("expandedpp");
+    else navbar.classList.remove("expandedpp");
 
     if (scrollTop > 70) {
       navbar.classList.remove("expandedpp", "expandedp", "expanded");
