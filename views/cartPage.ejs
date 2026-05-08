@@ -1,424 +1,184 @@
 <%- include('header') -%>
 
+<section id="sahii-cart">
+    <div class="sahii-cart-wrap container">
 
-    <!-- Top Banner -->
-    <div class="top-banner">
-        <div class="loc"><a href="/">Home</a><a href=""></a></div>
-        <div class="product-top-banner-cart"></div>
-    </div>
+        <% if (!Cart || !Cart.products || Cart.products.length === 0) { %>
 
-    <!-- Mobile View Buttons -->
-    <section id="mob-cart-view">
-        <% if(Cart){ %>
-            <div class="cart-lower-btn">
-                <% if(Cart.cartTotal - Cart.couponDiscount < 599){ %>
-                    <div class="p-price-total total-amount">Total:<span id="total-amount"> &#8377; <%= ((Cart.cartTotal
-                                + Cart.deliveryCharge) - Cart.couponDiscount).toFixed(1) %></span></div>
-                    <% } else { %>
-                        <div class="p-price-total total-amount">Total:<span id="total-amount"> &#8377; <%=
-                                    (Cart.cartTotal - Cart.couponDiscount).toFixed(1) %></span></div>
-                        <% } %>
-
-                            <% if(Cart.cartTotal> 0) { %>
-                                <button type="button" class="checkout cart_checkout"
-                                    onClick="checkout('<%= Cart._id %>', '<%= user._id %>')">Checkout</button>
-                                <% } else { %>
-                                    <button type="button" class="checkout cart_checkout disabled_btn"
-                                        onClick="checkout('<%= Cart._id %>', '<%= user._id %>')">Checkout</button>
-                                    <% } %>
-
+        <!-- ── EMPTY STATE ── -->
+        <div class="sahii-cart-empty">
+            <div class="sahii-cart-empty-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
             </div>
-            <% } %>
+            <h2 class="sahii-cart-empty-title">Your Cart is Empty</h2>
+            <p class="sahii-cart-empty-sub">Looks like you haven't added anything yet. Let's fix that!</p>
+            <a href="/product" class="sahii-cart-explore-btn">Explore Products</a>
+        </div>
 
-                <div class="mob-cart-page container d-block d-sm-none">
-                    <h5 class="text-center">Shopping Cart</h5>
+        <% } else { %>
 
-                    <h5 class="text-center">Shopping Cart</h5>
+        <!-- ── CART HEADER ── -->
+        <div class="sahii-cart-header">
+            <h1 class="sahii-cart-title">
+                <i class="fa-solid fa-cart-shopping me-2"></i>Shopping Cart
+                <span class="sahii-cart-count"><%= Cart.products.length %> item<%= Cart.products.length !== 1 ? 's' : '' %></span>
+            </h1>
+            <a href="/product" class="sahii-continue-link"><i class="fa-solid fa-arrow-left me-1"></i>Continue Shopping</a>
+        </div>
 
-                    <% if(!Cart || !Cart.products || Cart.products.length === 0) { %>
-                        <div style="text-align: center; padding: 3rem 1rem;">
-                            <!-- Cleaner SVG illustration for empty cart -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 24 24" stroke="#cfd8dc" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                            </svg>
-                            <h6 style="color: #607d8b; margin-top: 1rem;">Your shopping cart is empty</h6>
-                        </div>
-                    <% } else { %>
-                        <% Cart.products.forEach(item=> { %>
-                            <div class="product-card " data-cart-prod-id="<%= item._id %>">
-                                <div class="card">
-                                    <div class="card-inner">
-                                        <div class="card-left">
-                                            <a href="/product/<%= item?.title?.toLowerCase()?.replaceAll(' ','-') %>">
-                                                <img src="<%= item?.image %>" class="card-img-top" alt="product-img" loading="lazy">
-                                            </a>
-                                            <div class="quantity">
-
-                                                <% if(item.sellingPrice===0) { %>
-                                                    <button class="quantity__minus change_quantity" disabled>
-                                                        <span style="color: #ffffff;">-</span></button>
-                                                    <input id="quantity" name="quantity" type="text"
-                                                        class="quantity__input" value="<%= item.count %>">
-                                                    <button class="quantity__plus change_quantity" disabled>
-                                                        <span style="color: #ffffff;">+</span></a>
-                                                        <% } else { %>
-                                                            <a href="" class="quantity__minus change_quantity"
-                                                                onclick="event.preventDefault(); toggle_quantity('<%= Cart._id %>', '<%= item._id %>', -1)"><span
-                                                                    style="color: #ffffff;">-</span></a>
-                                                            <input id="quantity" name="quantity" type="text"
-                                                                class="quantity__input" data-prod-id="<%= item._id %>" value="<%= item.count %>">
-                                                            <a href="" class="quantity__plus change_quantity"
-                                                                onclick="event.preventDefault(); toggle_quantity('<%= Cart._id %>', '<%= item._id %>', 1)"><span
-                                                                    style="color: #ffffff;">+</span></a>
-                                                            <div class="spinner"></div>
-                                                            <% } %>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <a href="#">
-                                                <h5 class="card-title">
-                                                    <%= item.title %>
-                                                </h5>
-                                            </a>
-                                            <div class="py-1">
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-regular fa-star"></i>
-                                            </div>
-                                            <div id="p-cost" style="line-height: normal;">
-                                                <h6>&#8377; <%= item.sellingPrice %>
-                                                </h6>
-                                            </div>
-                                            <div id="p-color" style="line-height: normal;">
-                                                <%= item.color %>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-btn">
-                                        <a class="w-btn btn btn-primary"
-                                            onclick="add_to_wishlist('<%= item._id %>', '<%= Cart.orderby %>')"><i
-                                                class="fa-solid fa-heart" style="color: #ffffff;"></i>Add to
-                                            Wishlist</a>
-                                        <a class="btn btn-primary remove_cart"
-                                            onclick="remove_from_cart('<%= item._id %>', '<%= bearerToken %>')"><i
-                                                class="fa-solid fa-trash" style="color: #000000;"></i>Remove</a>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <% })} %>
-
-
-                                <% if(Cart && Cart.products && Cart.products.length > 0){ %>
-
-                                    <div class="cart-dets">
-                                        <button type="button" class="btn btn-outline-primary btn-sm mb-2"
-                                            onclick="openCouponModal()">Avail Coupon</button>
-                                        <h5 class="fw-bold">Summary</h5>
-                                        <div class="p-cost">Product Cost: <span id="p-cost">&#8377; <%= Cart.totalAmount
-                                                    %></span></div>
-                                        <div class="d-amount">Product Discount: <span id="d-amount">- &#8377; <%=
-                                                    Cart.totalAmount - Cart.cartTotal %></span></div>
-
-                                        <!-- <div style="display: flex; justify-content: space-between;"> -->
-                                        <!-- <label for="gift-wrap-check">Add a Gift Wrap</label>
-                                            <% if(Cart.isGiftWrap) { %>
-                                                <input type="checkbox" id="gift-wrap-1" onchange="toggleGiftWrapText_1()" checked />
-                                            </div>
-                                            <div id="gift-wrap-text-1" style="color: #38b6ff; font-weight: bold;">* Additional ₹25</div>
-                                            <% } else { %>
-                                                <input type="checkbox" id="gift-wrap-1" onchange="toggleGiftWrapText_1()"/>
-                                            </div>
-                                            <% } %> -->
-
-                                        <!-- Apply Coupon -->
-                                        <label for="coupon-code">Have a coupon?</label>
-                                        <div style="display: flex; justify-content: space-between;">
-                                            <input type="text" name="coupon-code" id="couponName2"
-                                                placeholder="Enter coupon code">
-
-                                            <!-- <a href="javascript:void(0)">Apply Coupon</a> -->
-                                            <button id="cp_btn" class="apply-btn"
-                                                onclick="applyCoupon('<%= user._id %>')"
-                                                style="border: none; background: none; color: #38b6ff; font-weight: bold;">Apply
-                                                Coupon</button>
-
-                                            <button type="button" class="btn btn-link p-0 ms-2 remove-coupon-btn"
-                                                onclick="removeCoupon('<%= user._id %>')"
-                                                style="font-size: 0.85rem; color: #dc3545; display: <%= Cart.couponDiscount > 0 ? 'inline-block' : 'none' %>;">Remove Coupon</button>
-
-                                        </div>
-                                        <div class="alert alert-success" role="alert">
-                                            Coupon <b>accepted!</b>
-                                        </div>
-                                        <div class="alert alert-danger" role="alert">
-                                            Coupon <b>rejected!</b>
-                                        </div>
-                                        <div class="de-cost">Coupon Discount: <span id="d-cost">- &#8377; <%=
-                                                    Cart.couponDiscount %></span></div>
-                                        <!-- <div class="d-cost">Coupon Discount: <span id="d-cost">- &#8377; <%= Cart.couponDiscount %></span></div> -->
-                                        <!-- Displaying Delivery charge -->
-                                        <% if(Cart.cartTotal-Cart.couponDiscount < 599){ %>
-                                            <div class="de-cost">Delivery Charges: <span id="de-cost">+&#8377; <%=
-                                                        Cart.deliveryCharge %></span></div>
-                                            <p class="free-delivery">*Buy items worth <span id="remaining-cost">&#8377;
-                                                    <%= 599 - Cart.cartTotal - Cart.couponDiscount %>
-                                                </span>more to
-                                                get FREE Delivery on your purchase</p>
-                                            <% } else { %>
-                                                <div class="de-cost">Delivery Charges: <span id="de-cost">&#8377;<del>
-                                                            <%= Cart.deliveryCharge %>
-                                                        </del></span></div>
-                                                <% } %>
-                                    </div>
-                                    <% } %>
-                </div>
-    </section>
-
-    <section id="cart-page">
-        <div class="cart-page-inner container d-none d-sm-flex">
-            <div class="cart-page-left">
-                <h5 class="section-head fw-bold">Shopping Cart</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col" class="color-head">Colour</th>
-                            <th scope="col" class="price-head">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if(!Cart || !Cart.products || Cart.products.length === 0){ %>
-                            <tr>
-                                <td colspan="4" style="text-align: center; padding: 4rem 1rem;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 24 24" stroke="#cfd8dc" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                    </svg>
-                                    <h5 style="color: #607d8b; margin-top: 1.5rem;">Your shopping cart is empty</h5>
-                                </td>
-                            </tr>
-                        <% } else { %>
-                            <% Cart.products.forEach(item=> { %>
-                                <tr data-cart-prod-id="<%= item._id %>">
-                                    <td class="product-col">
-                                        <div class="product-card">
-                                            <div class="card" style="width: 18rem;">
-                                                <img src="<%= item?.image %>" class="card-img-top" alt="product1" loading="lazy">
-                                                <div class="card-body">
-                                                    <a
-                                                        href="/product/<%= item?.title?.toLowerCase()?.replaceAll(' ','-')+ '-' + item?.color %>">
-                                                        <h5 class="card-title">
-                                                            <%= item.title %>
-                                                        </h5>
-                                                    </a>
-                                                    <!-- <div class="card-text d-none d-md-block d-lg-none ">
-                                                <span id="p-price">&#8377; 489</span>
-                                                <span id="p-color">Silver</span>
-                                            </div> -->
-                                                    <div class="card-btn">
-                                                        <button type="button" class="btn btn-outline-light"
-                                                            onclick="add_to_wishlist('<%= item._id %>', '<%= Cart.orderby %>')">
-                                                            <i class="fa-solid fa-heart" style="color: #000000;"></i>Add
-                                                            to
-                                                            Wishlist
-                                                        </button>
-                                                        <button type="button" class="btn btn-outline-light remove_cart"
-                                                            onclick="remove_from_cart('<%= item._id %>', '<%= bearerToken %>')"><i
-                                                                class="fa-solid fa-trash"
-                                                                style="color: #000000;"></i>Remove
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="quanity-row">
-                                        <div class="quantity">
-
-                                            <% if(item.sellingPrice===0) { %>
-                                                <button class="quantity__minus" disabled>
-                                                    <span style="color: #ffffff;">-</span></button>
-                                                <input type="text" class="quantity__input" data-prod-id="<%= item._id %>"
-                                                    value="<%= item.count %>" />
-                                                <button class="quantity__plus" disabled>
-                                                    <span style="color: #ffffff;">+</span></button>
-                                                <% } else { %>
-
-                                                    <div class="spinner"></div>
-                                                    <a href="" class="quantity__minus"
-                                                        onclick="event.preventDefault(); toggle_quantity('<%= Cart._id %>', '<%= item._id %>', -1)"><span
-                                                            style="color: #ffffff;">-</span></a>
-                                                    <input type="text" class="quantity__input" id="<%= item._id %>"
-                                                        value="<%= item.count %>" />
-                                                    <a href="" class="quantity__plus"
-                                                        onclick="event.preventDefault(); toggle_quantity('<%= Cart._id %>', '<%= item._id %>', 1)"><span
-                                                            style="color: #ffffff;">+</span></a>
-                                                    <% } %>
-                                        </div>
-
-                                    </td>
-                                    <td class="color-col">
-                                        <%= item.color %>
-                                    </td>
-                                    <td class="price-col">&#8377; <%= item.sellingPrice %>
-                                    </td>
-                                    <!-- <td>
-                                <div class="card-btn">
-                                    <button type="button" class="btn btn-outline-light" onclick="remove_from_cart('<%= item._id %>', '<%= bearerToken %>')"><i
-                                            class="fa-solid fa-trash" style="color: #000000;"></i>
-                                    </button>
-                                </div>
-                            </td> -->
-                                </tr>
-                                <% })} %>
-
-
-                    </tbody>
-                </table>
+        <!-- ── FREE DELIVERY BANNER ── -->
+        <% var remaining = 599 - (Cart.cartTotal - Cart.couponDiscount); %>
+        <% if (remaining > 0) { %>
+        <div class="sahii-free-ship-bar">
+            <i class="fa-solid fa-truck-fast me-2"></i>
+            Add <strong>₹<%= remaining.toFixed(0) %></strong> more to get <strong>FREE delivery</strong>!
+            <div class="sahii-ship-progress">
+                <div class="sahii-ship-fill" style="width: <%= Math.min(((Cart.cartTotal - Cart.couponDiscount) / 599) * 100, 100) %>%"></div>
             </div>
-
-            <% if(Cart && Cart.products && Cart.products.length > 0){ %>
-                <div class="cart-page-right">
-                    <div class="right-top">
-                        <button type="button" class="btn btn-outline-primary btn-sm mb-2"
-                            onclick="openCouponModal()">Avail Coupon</button>
-                        <h5 class="section-head fw-bold">Summary</h5>
-                        <div class="right-top-inner">
-                            <div class="p-cost">Product Cost: <span id="p-cost">&#8377; <%= Cart.totalAmount %></span>
-                            </div>
-
-                            <div class="d-amount">Product Discount: <span id="d-amount">- &#8377; <%= Cart.totalAmount -
-                                        Cart.cartTotal %></span></div>
-
-                            <!-- <div style="display: flex; justify-content: space-between;">
-                                <label for="gift-wrap-check">Add a Gift Wrap</label>
-                                <% if(Cart.isGiftWrap) { %>
-                                    <input type="checkbox" id="gift-wrap-2" onchange="toggleGiftWrapText_2()" checked />
-                            </div>
-                            <div id="gift-wrap-text-2" style="color: #38b6ff; font-weight: bold;">* Additional ₹25</div>
-                            <% } else { %>
-                                <input type="checkbox" id="gift-wrap-2" onchange="toggleGiftWrapText_2()" />
-                        </div>
-                        <% } %> -->
-
-
-                            <!-- Apply Coupon -->
-                            <p>Have a coupon?</p>
-
-                            <div style="display: flex; justify-content: space-between;">
-                                <input type="text" name="coupon-code" id="couponName1" placeholder="Enter coupon code">
-
-                                <!-- <a href="javascript:void(0)">Apply Coupon</a> -->
-                                <button id="cp_btn" class="apply-btn" onclick="applyCoupon('<%= user._id %>')"
-                                    style="border: none; background: none; color: #38b6ff; font-weight: bold;">Apply
-                                    Coupon</button>
-
-                                <button type="button" class="btn btn-link p-0 ms-2 remove-coupon-btn"
-                                    onclick="removeCoupon('<%= user._id %>')"
-                                    style="font-size: 0.85rem; color: #dc3545; display: <%= Cart.couponDiscount > 0 ? 'inline-block' : 'none' %>;">Remove Coupon</button>
-
-                            </div>
-                            <!-- <a href="#" onclick="applyCoupon('<%= bearerToken %>')">Apply Coupon</a> -->
-
-                            <div class="alert alert-success" role="alert">
-                                Coupon <b>accepted!</b>
-                            </div>
-                            <div class="alert alert-danger" role="alert">
-                                Coupon <b>rejected!</b>
-                            </div>
-                            <div class="d-cost">Coupon Discount: <span id="d-cost">- &#8377; <%= Cart.couponDiscount %>
-                                </span></div>
-
-                            <!-- Displaying Delivery charge -->
-                            <% if(Cart.cartTotal-Cart.couponDiscount < 599){ %>
-                                <div class="de-cost">Delivery Charges: <span id="de-cost">+&#8377; <%=
-                                            Cart.deliveryCharge %></span></div>
-                                <p class="free-delivery">*Buy items worth <span id="remaining-cost">&#8377; <%= 599 -
-                                            Cart.cartTotal-Cart.couponDiscount %> </span>more to
-                                    get FREE Delivery on your purchase</p>
-                        </div>
-
-
-                    </div>
-                    <div class="right-bottom">
-                        <div class="total-amount">Subtotal: <span id="total-amount">&#8377;<%= (Cart.cartTotal +
-                                    Cart.deliveryCharge - Cart.couponDiscount).toFixed(1) %></span></div>
-                        <div class="total-amount">Total Saving: <span id="total-amount">&#8377;<%= (Cart.totalAmount +
-                                    Cart.deliveryCharge + Cart.couponDiscount - Cart.cartTotal).toFixed(1) %></span>
-                        </div>
-                        <div class="check-btn">
-                            <p>*Inclusive of all taxes</p>
-                            <!-- <a href="/user/checkout"> -->
-                            <% if(Cart.cartTotal> 0) { %>
-                                <button type="button" class="checkout btn btn-outline-primary cart_checkout"
-                                    onClick="checkout('<%= Cart._id %>', '<%= user._id %>')">Checkout</button>
-                                <% } else { %>
-                                    <button type="button"
-                                        class="checkout btn btn-outline-primary cart_checkout disabled_btn"
-                                        onClick="checkout('<%= Cart._id %>', '<%= user._id %>')">Checkout</button>
-                                    <% } %>
-                                        <!-- </a> -->
-                                        <a href="/"><button type="button"
-                                                class="cont-shopping btn btn-outline-primary">Continue
-                                                Shopping</button></a>
-                        </div>
-                        <% } else { %>
-                            <div class="de-cost">Delivery Charges: <span id="de-cost">&#8377;<del>
-                                        <%= Cart.deliveryCharge %>
-                                    </del></span></div>
-                    </div>
-                    <!--  -->
-                </div>
-                <div class="right-bottom">
-                    <div class="total-amount">Subtotal: <span id="total-amount">&#8377;<%= (Cart.cartTotal -
-                                Cart.couponDiscount).toFixed(1) %></span></div>
-                    <div class="total-amount">Total Saving: <span id="total-amount">&#8377;<%= (Cart.totalAmount +
-                                Cart.couponDiscount - Cart.cartTotal).toFixed(1) %></span></div>
-                    <div class="check-btn">
-                        <p>*Inclusive of all taxes</p>
-                        <!-- <a href="/user/checkout"><button type="button" class="checkout btn btn-outline-primary">Checkout</button></a> -->
-
-                        <% if(Cart.cartTotal> 0) { %>
-                            <button type="button" class="checkout btn btn-outline-primary cart_checkout"
-                                onClick="checkout('<%= Cart._id %>', '<%= user._id %>')">Checkout</button>
-                            <% } else { %>
-                                <button type="button"
-                                    class="checkout btn btn-outline-primary cart_checkout disabled_btn"
-                                    onClick="checkout('<%= Cart._id %>', '<%= user._id %>')">Checkout</button>
-                                <% } %>
-                                    <a href="/"><button type="button"
-                                            class="cont-shopping btn btn-outline-primary">Continue
-                                            Shopping</button></a>
-                    </div>
-                    <!--  -->
-                    <% } %>
-
-
-                </div>
+        </div>
+        <% } else { %>
+        <div class="sahii-free-ship-bar sahii-free-ship-active">
+            <i class="fa-solid fa-circle-check me-2"></i>
+            You've unlocked <strong>FREE delivery</strong>!
         </div>
         <% } %>
-            </div>
-    </section>
 
+        <!-- ── MAIN GRID ── -->
+        <div class="sahii-cart-grid">
 
-    <!-- Coupon Modal -->
-    <div id="couponModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeCouponModal()">&times;</span>
-            <h5 style="margin-bottom: 1rem;">Available Coupons</h5>
-            <div id="couponList" style="max-height: 300px; overflow-y: auto; text-align: left;">
-                <!-- Coupons will be loaded here dynamically -->
+            <!-- LEFT: Product list -->
+            <div class="sahii-cart-items">
+                <% Cart.products.forEach(item => { %>
+                <div class="sahii-cart-item" data-cart-prod-id="<%= item._id %>">
+                    <!-- Product image -->
+                    <a href="/product/<%= item?.title?.toLowerCase()?.replaceAll(' ','-') %>" class="sahii-item-img-wrap">
+                        <img src="<%= item?.image %>" alt="<%= item.title %>" class="sahii-item-img" loading="lazy">
+                    </a>
+
+                    <!-- Product info -->
+                    <div class="sahii-item-info">
+                        <a href="/product/<%= item?.title?.toLowerCase()?.replaceAll(' ','-') %>" class="sahii-item-name"><%= item.title %></a>
+                        <% if (item.color) { %>
+                        <div class="sahii-item-meta">Colour: <span><%= item.color %></span></div>
+                        <% } %>
+                        <div class="sahii-item-price">₹<%= item.sellingPrice %></div>
+
+                        <!-- Qty + actions row -->
+                        <div class="sahii-item-actions">
+                            <div class="sahii-qty">
+                                <% if (item.sellingPrice === 0) { %>
+                                    <button class="sahii-qty-btn" disabled>−</button>
+                                    <input class="sahii-qty-input" type="text" value="<%= item.count %>" readonly>
+                                    <button class="sahii-qty-btn" disabled>+</button>
+                                <% } else { %>
+                                    <a class="sahii-qty-btn" href="" onclick="event.preventDefault(); toggle_quantity('<%= Cart._id %>', '<%= item._id %>', -1)">−</a>
+                                    <input class="sahii-qty-input" type="text" data-prod-id="<%= item._id %>" value="<%= item.count %>">
+                                    <a class="sahii-qty-btn" href="" onclick="event.preventDefault(); toggle_quantity('<%= Cart._id %>', '<%= item._id %>', 1)">+</a>
+                                    <div class="spinner"></div>
+                                <% } %>
+                            </div>
+                            <button class="sahii-item-wishlist" onclick="add_to_wishlist('<%= item._id %>', '<%= Cart.orderby %>')">
+                                <i class="fa-regular fa-heart"></i> Wishlist
+                            </button>
+                            <button class="sahii-item-remove remove_cart" onclick="remove_from_cart('<%= item._id %>', '<%= bearerToken %>')">
+                                <i class="fa-solid fa-trash-can"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Item subtotal -->
+                    <div class="sahii-item-subtotal">₹<%= (item.sellingPrice * item.count).toFixed(0) %></div>
+                </div>
+                <% }) %>
             </div>
-        </div>
+
+            <!-- RIGHT: Order summary -->
+            <aside class="sahii-cart-summary">
+                <h2 class="sahii-summary-title">Order Summary</h2>
+
+                <!-- Coupon -->
+                <div class="sahii-coupon-row">
+                    <button class="sahii-avail-coupon-btn" onclick="openCouponModal()">
+                        <i class="fa-solid fa-tag me-1"></i>Avail Coupon
+                    </button>
+                </div>
+                <div class="sahii-coupon-input-row">
+                    <input type="text" name="coupon-code" id="couponName1" class="sahii-coupon-input" placeholder="Enter coupon code">
+                    <button class="sahii-apply-btn" onclick="applyCoupon('<%= user._id %>')">Apply</button>
+                    <% if (Cart.couponDiscount > 0) { %>
+                    <button class="sahii-remove-coupon" onclick="removeCoupon('<%= user._id %>')">✕</button>
+                    <% } %>
+                </div>
+                <div class="alert alert-success sahii-alert" role="alert">Coupon <b>accepted!</b></div>
+                <div class="alert alert-danger sahii-alert" role="alert">Coupon <b>rejected!</b></div>
+
+                <!-- Breakdown -->
+                <div class="sahii-summary-lines">
+                    <div class="sahii-summary-line">
+                        <span>Product Total</span>
+                        <span>₹<%= Cart.totalAmount %></span>
+                    </div>
+                    <div class="sahii-summary-line sahii-saving">
+                        <span>Product Discount</span>
+                        <span>− ₹<%= Cart.totalAmount - Cart.cartTotal %></span>
+                    </div>
+                    <% if (Cart.couponDiscount > 0) { %>
+                    <div class="sahii-summary-line sahii-saving">
+                        <span>Coupon Discount</span>
+                        <span>− ₹<%= Cart.couponDiscount %></span>
+                    </div>
+                    <% } %>
+                    <div class="sahii-summary-line">
+                        <span>Delivery</span>
+                        <% if (Cart.cartTotal - Cart.couponDiscount >= 599) { %>
+                            <span class="sahii-free-label"><del class="text-muted me-1" style="font-size:.8rem;">₹<%= Cart.deliveryCharge %></del>FREE</span>
+                        <% } else { %>
+                            <span>₹<%= Cart.deliveryCharge %></span>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Total -->
+                <div class="sahii-summary-total">
+                    <span>Total</span>
+                    <span class="sahii-total-amt">
+                        ₹<%= (Cart.cartTotal + (Cart.cartTotal - Cart.couponDiscount >= 599 ? 0 : Cart.deliveryCharge) - Cart.couponDiscount).toFixed(0) %>
+                    </span>
+                </div>
+                <p class="sahii-tax-note">*Inclusive of all taxes</p>
+
+                <!-- Checkout -->
+                <% if (Cart.cartTotal > 0) { %>
+                    <button class="sahii-checkout-btn cart_checkout" onclick="checkout('<%= Cart._id %>', '<%= user._id %>')">
+                        <i class="fa-solid fa-lock me-2"></i>Proceed to Checkout
+                    </button>
+                <% } else { %>
+                    <button class="sahii-checkout-btn disabled" disabled>
+                        <i class="fa-solid fa-lock me-2"></i>Proceed to Checkout
+                    </button>
+                <% } %>
+                <a href="/" class="sahii-continue-btn">Continue Shopping</a>
+            </aside>
+
+        </div><!-- /sahii-cart-grid -->
+        <% } %>
+    </div><!-- /sahii-cart-wrap -->
+</section>
+
+<!-- Coupon Modal -->
+<div id="couponModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeCouponModal()">&times;</span>
+        <h5 style="margin-bottom: 1rem;">Available Coupons</h5>
+        <div id="couponList" style="max-height: 300px; overflow-y: auto; text-align: left;"></div>
     </div>
+</div>
 
-    <script>
-        // Expose current user id for JS helpers (used by applyCoupon from modal)
-        window.CART_USER_ID = "<%= user ? user._id : '' %>";
-    </script>
+<!-- Hidden coupon input for mobile compat -->
+<input type="hidden" id="couponName2" value="">
 
-    <!-- Footer -->
-    <%- include('footer') -%>
+<script>
+    window.CART_USER_ID = "<%= user ? user._id : '' %>";
+</script>
+
+<%- include('footer') -%>

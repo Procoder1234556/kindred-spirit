@@ -38,7 +38,7 @@
     <link rel='stylesheet' type='text/css' href='/css/nav-improvements.css?v=3'>
     <link rel="stylesheet" type='text/css' href="/css/responsive.css?v=3">
     <link rel='stylesheet' type='text/css' href='/css/testimonial.css?v=3'>
-    <link rel='stylesheet' type='text/css' href='/css/sahii-ux.css?v=4'>
+    <link rel='stylesheet' type='text/css' href='/css/sahii-ux.css?v=5'>
 
     <script src="https://kit.fontawesome.com/86c248a3a6.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -110,68 +110,37 @@
                 <div class="container-fluid px-4">
                     <ul class="navbar-nav sahii-desktop-nav">
 
-                        <li class="nav-item product-dropdown">
-                            <a class="nav-link product-dropdown-btn" href="#our-products">
-                                Our Products <i class="fa-solid fa-chevron-down ms-1" style="font-size:.75rem;"></i>
+                        <li class="nav-item sahii-mega-li">
+                            <a class="nav-link sahii-mega-trigger" href="/product">
+                                OUR PRODUCTS <i class="fa-solid fa-chevron-down ms-1" style="font-size:.7rem;"></i>
                             </a>
-                            <ul class="drop-down">
-                                <a class="cat-spare-parts">
-                                    <li>
-                                        <span>Spare Parts</span>
-                                        <i class="fa-solid fa-caret-right"></i>
-                                    </li>
-                                </a>
-                                <ul class="sub-drop flyout-spare-parts">
-                                    <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
-                                        <% brands.forEach((brand)=> { %>
-                                            <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
-                                        <% }) %>
-                                    <% } %>
-                                </ul>
-                                <a class="cat-accessories">
-                                    <li>
-                                        <span>Accessories</span>
-                                        <i class="fa-solid fa-caret-right"></i>
-                                    </li>
-                                </a>
-                                <ul class="sub-drop flyout-accessories">
-                                    <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
-                                        <% brands.forEach((brand)=> { %>
-                                            <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
-                                        <% }) %>
-                                    <% } %>
-                                </ul>
-                                <a class="cat-tools" href="/product/?category=tools">
-                                    <li>
-                                        <span>Tools</span>
-                                        <i class="fa-solid fa-caret-right"></i>
-                                    </li>
-                                </a>
-                                <a class="cat-extra" style="display:none; visibility:hidden;">
-                                    <li><span>New option</span><i class="fa-solid fa-caret-right"></i></li>
-                                </a>
-                            </ul>
-
-                            <ul class="sub-drop flyout-spare-parts d-none d-lg-block">
-                                <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
-                                    <% brands.forEach((brand)=> { %>
-                                        <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
-                                    <% }) %>
-                                <% } %>
-                            </ul>
-                            <ul class="sub-drop flyout-accessories d-none d-lg-block">
-                                <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
-                                    <% brands.forEach((brand)=> { %>
-                                        <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
-                                    <% }) %>
-                                <% } %>
-                            </ul>
-                            <ul class="sub-drop flyout-tools d-none d-lg-block">
-                                <a href="/product/?category=tools"><li>Tools</li></a>
-                            </ul>
-                            <ul class="sub-drop drop-down-extra d-none d-lg-block">
-                                <a href="/product"><h6>View All Products</h6></a>
-                            </ul>
+                            <div class="sahii-mega-menu">
+                                <div class="sahii-mega-inner">
+                                    <div class="sahii-mega-col">
+                                        <div class="sahii-mega-head">Spare Parts</div>
+                                        <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
+                                            <% brands.forEach((brand) => { %>
+                                                <a class="sahii-mega-link" href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><%= brand.name %></a>
+                                            <% }) %>
+                                        <% } %>
+                                    </div>
+                                    <div class="sahii-mega-col">
+                                        <div class="sahii-mega-head">Accessories</div>
+                                        <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
+                                            <% brands.forEach((brand) => { %>
+                                                <a class="sahii-mega-link" href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><%= brand.name %></a>
+                                            <% }) %>
+                                        <% } %>
+                                    </div>
+                                    <div class="sahii-mega-col">
+                                        <div class="sahii-mega-head">Browse</div>
+                                        <a class="sahii-mega-link" href="/product/?category=tools">Tools</a>
+                                        <a class="sahii-mega-link" href="/product/?category=spare_parts">All Spare Parts</a>
+                                        <a class="sahii-mega-link" href="/product/?category=accessories">All Accessories</a>
+                                        <a class="sahii-mega-link sahii-mega-all" href="/product">View All Products →</a>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
 
                         <li class="nav-item"><a class="nav-link" href="/sale">Sale</a></li>
@@ -204,35 +173,14 @@
 
                 <!-- Mobile Nav Links -->
                 <ul class="navbar-nav sahii-mobile-nav">
-                    <li class="nav-item product-dropdown">
-                        <a class="nav-link product-dropdown-btn" href="#our-products">
-                            Our Products <i class="fa-solid fa-caret-right"></i>
-                        </a>
-                        <ul class="drop-down">
-                            <a class="cat-spare-parts">
-                                <li><span>Spare Parts</span><i class="fa-solid fa-caret-right"></i></li>
-                            </a>
-                            <ul class="sub-drop flyout-spare-parts">
-                                <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
-                                    <% brands.forEach((brand)=> { %>
-                                        <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
-                                    <% }) %>
-                                <% } %>
-                            </ul>
-                            <a class="cat-accessories">
-                                <li><span>Accessories</span><i class="fa-solid fa-caret-right"></i></li>
-                            </a>
-                            <ul class="sub-drop flyout-accessories">
-                                <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
-                                    <% brands.forEach((brand)=> { %>
-                                        <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
-                                    <% }) %>
-                                <% } %>
-                            </ul>
-                            <a class="cat-tools" href="/product/?category=tools">
-                                <li><span>Tools</span><i class="fa-solid fa-caret-right"></i></li>
-                            </a>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/product">OUR PRODUCTS</a>
+                        <div class="sahii-mobile-sub">
+                            <a class="sahii-mobile-sub-link" href="/product/?category=spare_parts">Spare Parts</a>
+                            <a class="sahii-mobile-sub-link" href="/product/?category=accessories">Accessories</a>
+                            <a class="sahii-mobile-sub-link" href="/product/?category=tools">Tools</a>
+                            <a class="sahii-mobile-sub-link" href="/product">View All →</a>
+                        </div>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="/sale">Sale</a></li>
                     <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
