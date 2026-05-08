@@ -5,23 +5,13 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
 
-    <!-- ── Dynamic Meta Tags ── -->
     <title><%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Sahii – Buy Mobile Spare Parts Online India' %></title>
-
     <meta name="description" content="<%= typeof pageDesc !== 'undefined' && pageDesc ? pageDesc : 'Sahii is an online platform providing high-quality repair parts for mobile phones and tablets across multiple brands and models. From screens and batteries to charging ports and components, Sahii makes device repair easy, reliable, and affordable.' %>">
-
     <meta name="keywords" content="<%= typeof pageKeywords !== 'undefined' && pageKeywords ? pageKeywords : 'mobile repair parts, phone spare parts, tablet repair parts, smartphone replacement parts, mobile screen replacement, phone battery replacement, repair components online, Sahii repair parts' %>">
-
-    <!-- Meta Author -->
     <meta name="author" content="Sahii - Mobile & Tablet Repair Parts Platform">
-
-    <!-- Meta Robots -->
     <meta name="robots" content="index, follow">
-
-    <!-- ── Canonical Tag ── -->
     <link rel="canonical" href="<%= typeof canonicalUrl !== 'undefined' && canonicalUrl ? canonicalUrl : 'https://sahii.in' %>">
 
-    <!-- ── Open Graph Tags ── -->
     <meta property="og:site_name" content="Sahii">
     <meta property="og:type" content="<%= typeof ogType !== 'undefined' && ogType ? ogType : 'website' %>">
     <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Sahii – Buy Mobile Spare Parts Online India' %>">
@@ -29,168 +19,105 @@
     <meta property="og:image" content="<%= typeof ogImage !== 'undefined' && ogImage ? ogImage : 'https://sahii.in/images/logo/logo.png' %>">
     <meta property="og:url" content="<%= typeof canonicalUrl !== 'undefined' && canonicalUrl ? canonicalUrl : 'https://sahii.in' %>">
 
-    <!-- ── Twitter Card Tags ── -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : 'Sahii – Buy Mobile Spare Parts Online India' %>">
     <meta name="twitter:description" content="<%= typeof pageDesc !== 'undefined' && pageDesc ? pageDesc : 'Buy genuine OEM-grade mobile spare parts online at Sahii.' %>">
     <meta name="twitter:image" content="<%= typeof ogImage !== 'undefined' && ogImage ? ogImage : 'https://sahii.in/images/logo/logo.png' %>">
 
-    <!-- Meta Viewport (For Responsive Design) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Tailwind Css -->
     <link rel="stylesheet" href="/styles/style.css">
-
-    <!-- Favicon -->
     <link rel="icon" sizes="192x192" href="/images/logo/sahii logo.png">
     <link rel="icon" type="image/jpg" sizes="512x512" href="/images/logo/sahii logo.png">
     <link rel="icon" type="image/jpg" sizes="16x16" href="/images/logo/sahii logo.png">
-    <!-- <link rel="manifest" href="/images/favicon_io/site.webmanifest"> -->
 
-    <!-- Preconnect to external domains -->
-    <!-- <link rel="preconnect" href="https://unpkg.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://kit.fontawesome.com" crossorigin> -->
-
-    <!-- Google Fonts -->
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Belleza&family=Gilda+Display&display=swap" rel="stylesheet"> -->.
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
     <link rel="preconnect" href="/muli" crossorigin>
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prata&display=swap" rel="stylesheet"> -->
-
-    <!--Themefy CSS-->
     <link rel="stylesheet" href="/themify-icons-font/themify-icons.css">
-
-    <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    <!-- Bootstrap 5 CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-
-    <!--My CSS Styles-->
-    <link rel='stylesheet' type='text/css' media='screen' href='/css/main.css'>
-    <link rel='stylesheet' type='text/css' href='/css/nav-improvements.css'>
-
-    <!--Resposive 5 css-->
-    <link rel="stylesheet" type='text/css' href="/css/responsive.css">
-
-    <link rel='stylesheet' type='text/css' href='/css/testimonial.css'>
-
-    <!-- Sahii UX refresh (last so it overrides) -->
-    <link rel='stylesheet' type='text/css' href='/css/sahii-ux.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/css/main.css?v=3'>
+    <link rel='stylesheet' type='text/css' href='/css/nav-improvements.css?v=3'>
+    <link rel="stylesheet" type='text/css' href="/css/responsive.css?v=3">
+    <link rel='stylesheet' type='text/css' href='/css/testimonial.css?v=3'>
+    <link rel='stylesheet' type='text/css' href='/css/sahii-ux.css?v=3'>
 
     <script src="https://kit.fontawesome.com/86c248a3a6.js" crossorigin="anonymous"></script>
-    <!-- jQuery 3.7.1 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-
-
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=GOOGLE_TAG_ID"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'GOOGLE_TAG_ID');
-</script>
-<!-- End Google tag -->
-
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', 'META_PIXEL_ID');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-
 </head>
 
 <body>
 
-    <!-- Top Messege bar -->
-    <!--Navigation Section-->
     <section id="header">
 
-        <div class="top-bar d-none d-lg-flex" style="position: absolute;">
-            <div class="announcement-bar">
-                Free delivery across India
+        <!-- Announcement Bar -->
+        <div class="sahii-topbar">
+            <div class="sahii-topbar-track">
+                <span class="announcement-bar"></span>
             </div>
-
         </div>
-        
-        <nav class="navbar navbar-expand-lg fixed-top expanded">
 
-            <div class="top-bar d-md-flex d-lg-none">
-                <div class="announcement-bar">
-                    Free delivery across India
-                </div>
-    
-            </div>
+        <!-- Main Navbar -->
+        <nav class="navbar navbar-expand-lg sahii-navbar fixed-top">
+            <div class="container-fluid sahii-navbar-inner px-3 px-lg-4">
 
-            <div class="container">
-                <a class="navbar-brand" href="/">
-                    <img src="/images/logo/logo.png" class="brand-logo img-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand sahii-brand" href="/">
+                    <img src="/images/logo/logo.png" class="brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span class="brand-wordmark" style="display:none;">SAHII</span>
                 </a>
 
-                <form class="form-inline d-none d-lg-flex position-relative" action="/search" method="GET" id="searchFormDesktop">
-                    <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search for mobile parts..." name="search" aria-label="Search" autocomplete="off" id="searchInputDesktop">
-                    <button type="submit" class="btn btn-link p-0" style="text-decoration:none;">
-                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-                    </button>
+                <!-- Desktop Search Bar -->
+                <form class="sahii-search d-none d-lg-flex" action="/search" method="GET" id="searchFormDesktop">
+                    <i class="fa-solid fa-magnifying-glass sahii-search-icon"></i>
+                    <input class="sahii-search-input" type="search" placeholder="Search for mobile parts, brands, models…" name="search" autocomplete="off" id="searchInputDesktop">
+                    <button type="submit" class="sahii-search-btn">Search</button>
                     <div id="suggestionsDesktop" class="search-suggestions d-none"></div>
                 </form>
-                <div class="nav-right-btn">
 
-                    <a href="/product/wishlist" class="nav-wishlist"><i class="fa-solid fa-heart"
-                            style="color: #ffffff;"></i>
+                <!-- Right Icons -->
+                <div class="sahii-nav-actions d-flex align-items-center gap-2">
+                    <a href="/product/wishlist" class="sahii-icon-btn d-none d-lg-flex" title="Wishlist">
+                        <i class="fa-solid fa-heart"></i>
                     </a>
-
-                    <a href="/user/cart" class="nav-cart" id="navCart">
-                        <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+                    <a href="/user/cart" class="sahii-icon-btn sahii-cart-btn" id="navCart" title="Cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
                         <% if(!user || user === " " || user === undefined){ %>
-                            <input type="text" id="cartCountInput" class="cart-count" readonly value=0>
+                            <span class="sahii-cart-badge" id="cartCountInput">0</span>
                         <% } else { %>
-                            <input type="text" id="cartCountInput" class="cart-count" readonly value="<%= user?.cart?.length %>">
+                            <span class="sahii-cart-badge" id="cartCountInput"><%= user?.cart?.length || 0 %></span>
                         <% } %>
                     </a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    <% if (user && (user.firstname !== " " && user !== " ")) { %>
+                        <a href="/viewAccount" class="sahii-icon-btn d-none d-lg-flex" title="My Account">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                    <% } else { %>
+                        <a href="/myacc" class="sahii-icon-btn d-none d-lg-flex" title="Login">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                    <% } %>
+                    <button class="sahii-hamburger navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-
-                        <!-- button icon -->
-                        <i class="fa-solid fa-bars" style="color: #eceff4;"></i>
-
+                        <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
+            </div>
+
+            <!-- Desktop Nav Links Row -->
+            <div class="sahii-navbar-links d-none d-lg-flex">
+                <div class="container-fluid px-4">
+                    <ul class="navbar-nav sahii-desktop-nav">
 
                         <li class="nav-item product-dropdown">
-                            <a class="nav-link product-dropdown-btn" href="#our-products">Our Products 
-                                <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i></a>
+                            <a class="nav-link product-dropdown-btn" href="#our-products">
+                                Our Products <i class="fa-solid fa-chevron-down ms-1" style="font-size:.75rem;"></i>
+                            </a>
                             <ul class="drop-down">
                                 <a class="cat-spare-parts">
                                     <li>
                                         <span>Spare Parts</span>
-                                        <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
+                                        <i class="fa-solid fa-caret-right"></i>
                                     </li>
-
                                 </a>
-
-                                <!-- Mobile: Spare Parts Sub-menu -->
                                 <ul class="sub-drop flyout-spare-parts">
                                     <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
                                         <% brands.forEach((brand)=> { %>
@@ -198,17 +125,12 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                                         <% }) %>
                                     <% } %>
                                 </ul>
-                                
-                                <!-- 2. Accessories Category (Mobile) -->
                                 <a class="cat-accessories">
                                     <li>
                                         <span>Accessories</span>
-                                        <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
-
+                                        <i class="fa-solid fa-caret-right"></i>
                                     </li>
                                 </a>
-
-                                <!-- Mobile: Accessories Sub-menu -->
                                 <ul class="sub-drop flyout-accessories">
                                     <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
                                         <% brands.forEach((brand)=> { %>
@@ -216,84 +138,114 @@ src="https://www.facebook.com/tr?id=META_PIXEL_ID&ev=PageView&noscript=1"
                                         <% }) %>
                                     <% } %>
                                 </ul>
-
-                                <!-- 3. Tools Category (Mobile) -->
                                 <a class="cat-tools" href="/product/?category=tools">
                                     <li>
                                         <span>Tools</span>
-                                        <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
+                                        <i class="fa-solid fa-caret-right"></i>
                                     </li>
                                 </a>
-
-                                <!-- Extra to keep nav functional -->
-                                <a class="cat-extra" style="display: none; visibility: hidden;">
-                                    <li>
-                                        <span>New option</span>
-                                        <i class="fa-solid fa-caret-right" style="color: #ffffff;"></i>
-                                    </li>
+                                <a class="cat-extra" style="display:none; visibility:hidden;">
+                                    <li><span>New option</span><i class="fa-solid fa-caret-right"></i></li>
                                 </a>
-
                             </ul>
 
-                            <!-- Desktop -->
                             <ul class="sub-drop flyout-spare-parts d-none d-lg-block">
                                 <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
-                                        <% brands.forEach((brand)=> { %>
-                                            <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
-                                        <% }) %>
-                                    <% } %>
+                                    <% brands.forEach((brand)=> { %>
+                                        <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
+                                    <% }) %>
+                                <% } %>
                             </ul>
-
-                             <!-- Desktop: Accessories Flyout Menu -->
                             <ul class="sub-drop flyout-accessories d-none d-lg-block">
                                 <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
-                                        <% brands.forEach((brand)=> { %>
-                                            <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
-                                        <% }) %>
-                                    <% } %>
+                                    <% brands.forEach((brand)=> { %>
+                                        <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
+                                    <% }) %>
+                                <% } %>
                             </ul>
-
                             <ul class="sub-drop flyout-tools d-none d-lg-block">
                                 <a href="/product/?category=tools"><li>Tools</li></a>
                             </ul>
-
-                            <!-- Extra Part to keep nav functional -->
                             <ul class="sub-drop drop-down-extra d-none d-lg-block">
                                 <a href="/product"><h6>View All Products</h6></a>
                             </ul>
-
                         </li>
 
+                        <li class="nav-item"><a class="nav-link" href="/sale">Sale</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/product/wishlist">Wishlist</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/cart">Cart</a></li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/sale">Sale</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/product/wishlist">Wishlist</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/user/cart">Cart</a>
-                        </li>
-                        <li class="nav-item">
-                                <% if (user && (user.firstname !== " " && user !== " ")) { %>
-                                    <a class="nav-link" href="/viewAccount"><%= user.firstname %></a>
-                                <% } else { %>
-                                    <a class="nav-link" href="/myacc">My Account</a>    
-                                <% } %>
-                        </li>
-                        <li class="nav-item">
-                            <% if(user && user.role == "admin") { %>
-                                <a class="nav-link" href="/admin">Admin</a>
+                            <% if (user && (user.firstname !== " " && user !== " ")) { %>
+                                <a class="nav-link" href="/viewAccount"><%= user.firstname %></a>
+                            <% } else { %>
+                                <a class="nav-link" href="/myacc">My Account</a>
                             <% } %>
                         </li>
+                        <% if(user && user.role == "admin") { %>
+                            <li class="nav-item"><a class="nav-link sahii-admin-link" href="/admin">Admin</a></li>
+                        <% } %>
                     </ul>
                 </div>
-                <form class="form-mob d-flex d-lg-none position-relative w-100" action="/search" method="GET" id="searchFormMobile">
-                    <input class="form-control mr-sm-2 search-input w-100" type="search" placeholder="Search for parts..." name="search" aria-label="Search" autocomplete="off" id="searchInputMobile">
-                    <button type="submit" class="btn btn-link p-0" style="text-decoration:none;">
-                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-                    </button>
+            </div>
+
+            <!-- Mobile Collapse Menu -->
+            <div class="collapse navbar-collapse sahii-mobile-menu" id="navbarNav">
+                <!-- Mobile Search -->
+                <form class="sahii-search sahii-search-mobile" action="/search" method="GET" id="searchFormMobile">
+                    <i class="fa-solid fa-magnifying-glass sahii-search-icon"></i>
+                    <input class="sahii-search-input" type="search" placeholder="Search for parts…" name="search" autocomplete="off" id="searchInputMobile">
+                    <button type="submit" class="sahii-search-btn">Go</button>
                     <div id="suggestionsMobile" class="search-suggestions d-none"></div>
                 </form>
+
+                <!-- Mobile Nav Links -->
+                <ul class="navbar-nav sahii-mobile-nav">
+                    <li class="nav-item product-dropdown">
+                        <a class="nav-link product-dropdown-btn" href="#our-products">
+                            Our Products <i class="fa-solid fa-caret-right"></i>
+                        </a>
+                        <ul class="drop-down">
+                            <a class="cat-spare-parts">
+                                <li><span>Spare Parts</span><i class="fa-solid fa-caret-right"></i></li>
+                            </a>
+                            <ul class="sub-drop flyout-spare-parts">
+                                <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
+                                    <% brands.forEach((brand)=> { %>
+                                        <a href="/product/?category=spare_parts&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
+                                    <% }) %>
+                                <% } %>
+                            </ul>
+                            <a class="cat-accessories">
+                                <li><span>Accessories</span><i class="fa-solid fa-caret-right"></i></li>
+                            </a>
+                            <ul class="sub-drop flyout-accessories">
+                                <% if (typeof brands !== 'undefined' && brands && brands.length > 0) { %>
+                                    <% brands.forEach((brand)=> { %>
+                                        <a href="/product/?category=accessories&brand=<%= brand.name.toLowerCase().replace(/\s+/g, '-') %>"><li><%= brand.name %></li></a>
+                                    <% }) %>
+                                <% } %>
+                            </ul>
+                            <a class="cat-tools" href="/product/?category=tools">
+                                <li><span>Tools</span><i class="fa-solid fa-caret-right"></i></li>
+                            </a>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/sale">Sale</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/product/wishlist"><i class="fa-solid fa-heart me-2"></i>Wishlist</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/cart"><i class="fa-solid fa-cart-shopping me-2"></i>Cart</a></li>
+                    <li class="nav-item">
+                        <% if (user && (user.firstname !== " " && user !== " ")) { %>
+                            <a class="nav-link" href="/viewAccount"><i class="fa-solid fa-user me-2"></i><%= user.firstname %></a>
+                        <% } else { %>
+                            <a class="nav-link" href="/myacc"><i class="fa-solid fa-user me-2"></i>My Account</a>
+                        <% } %>
+                    </li>
+                    <% if(user && user.role == "admin") { %>
+                        <li class="nav-item"><a class="nav-link sahii-admin-link" href="/admin">Admin</a></li>
+                    <% } %>
+                </ul>
             </div>
         </nav>
     </section>

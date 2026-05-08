@@ -44,8 +44,8 @@ app.use(morgan("dev"));
 app.use(compression());
 app.use(
   express.static("public", {
-    maxAge: "1d",
-    etag: false,
+    maxAge: process.env.NODE_ENV === "production" ? "1d" : 0,
+    etag: true,
   })
 );
 

@@ -28,35 +28,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  var announcementBar1 = document.querySelectorAll(".announcement-bar")[0];
-  if (!announcementBar1) return;
+  var announcementBar = document.querySelector(".announcement-bar");
+  if (!announcementBar) return;
   var i = 0;
 
   function displayMessage() {
-    announcementBar1.style.opacity = 0; // Fade out
+    announcementBar.style.opacity = 0;
     setTimeout(function () {
-      announcementBar1.innerText = announcementBarMsg[i].msg;
-      announcementBar1.style.opacity = 1; // Fade in
+      announcementBar.innerText = announcementBarMsg[i].msg;
+      announcementBar.style.opacity = 1;
       i = (i + 1) % announcementBarMsg.length;
-      setTimeout(displayMessage, 3000);
-    }, 500);
-  }
-
-  displayMessage();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  var announcementBar2 = document.querySelectorAll(".announcement-bar")[1];
-  if (!announcementBar2) return;
-  var i = 0;
-
-  function displayMessage() {
-    announcementBar2.style.opacity = 0; // Fade out
-    setTimeout(function () {
-      announcementBar2.innerText = announcementBarMsg[i].msg;
-      announcementBar2.style.opacity = 1; // Fade in
-      i = (i + 1) % announcementBarMsg.length;
-      setTimeout(displayMessage, 3000);
+      setTimeout(displayMessage, 3500);
     }, 500);
   }
 
@@ -64,59 +46,28 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const navbar = document.querySelector("#header .fixed-top");
+  const navbar = document.querySelector("#header .sahii-navbar");
   const dropDown = document.querySelector("#header .navbar-nav .nav-item .drop-down");
-  const topBar2 = document.querySelectorAll(".top-bar")[1];
 
   if (!navbar) return;
 
-  // Scroll logic — but never collapse while the mobile menu is open
-  const isMenuOpen = () => {
-    const nav = document.querySelector("#navbarNav");
-    return !!(nav && (nav.classList.contains("show") || nav.classList.contains("collapsing")));
-  };
+  // Compact navbar on scroll
   window.addEventListener("scroll", () => {
-    if (isMenuOpen()) return; // freeze nav state while menu open
     const scrollTop = document.documentElement.scrollTop;
-
-    if (scrollTop > 10) navbar.classList.add("expandedp");
-    else navbar.classList.remove("expandedp");
-
-    if (scrollTop > 40) navbar.classList.add("expandedpp");
-    else navbar.classList.remove("expandedpp");
-
-    if (scrollTop > 70) {
-      navbar.classList.remove("expandedpp", "expandedp", "expanded");
-      if (dropDown) dropDown.classList.remove("md");
-      if (topBar2) topBar2.style.height = "0";
-    } else if (scrollTop < 145) {
-      navbar.classList.add("expanded");
-      if (topBar2) topBar2.style.height = "2rem";
+    if (scrollTop > 40) {
+      navbar.classList.add("sahii-navbar-compact");
+    } else {
+      navbar.classList.remove("sahii-navbar-compact");
     }
   });
 
-  // Mobile Toggler logic
-  const navbtn = document.querySelector("#header .nav-right-btn button");
-  const navBarNav = document.querySelector("#navbarNav");
-
-  if (navBarNav && navbar) {
-    navBarNav.addEventListener("show.bs.collapse", () => {
-      navbar.classList.add("expanded");
-    });
-    navBarNav.addEventListener("hidden.bs.collapse", () => {
-      if (document.documentElement.scrollTop > 70) {
-        navbar.classList.remove("expanded");
-      }
-    });
-  }
-
-  // Dropdown logic
+  // Dropdown logic for mobile
   const dropDownBtn = document.querySelector(".product-dropdown .product-dropdown-btn");
   if (dropDownBtn && dropDown) {
     dropDownBtn.addEventListener("click", (e) => {
       if (window.matchMedia("(max-width: 992px)").matches) {
         e.preventDefault();
-        dropDown.classList.toggle("md");
+        dropDown.classList.toggle("show-menu");
         const rightArrow1 = dropDownBtn.querySelector("i");
         if (rightArrow1) rightArrow1.classList.toggle("rotate");
       }
