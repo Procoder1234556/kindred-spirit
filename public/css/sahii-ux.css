@@ -569,3 +569,114 @@ div.product-price {
   }
   .savings-pct { animation: none !important; }
 }
+
+/* =========================================================
+   NAVBAR FIX — mobile collapse must not be clipped
+   The legacy rule `#header .fixed-top { overflow:hidden; height:3.5rem }`
+   was clipping the open mobile menu, making it appear to vanish.
+   ========================================================= */
+@media (max-width: 991.98px) {
+  #header .fixed-top { overflow: visible !important; height: auto !important; }
+  #header .fixed-top .container { flex-wrap: wrap; }
+  #header #navbarNav.collapse:not(.show) { display: none !important; }
+  #header #navbarNav.show,
+  #header #navbarNav.collapsing {
+    display: block !important;
+    width: 100% !important;
+    background: #0e1730;
+    padding: .5rem .75rem 1rem;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  #header .navbar-nav .nav-item { align-items: stretch !important; }
+  #header .navbar-nav .nav-link {
+    padding: .8rem .9rem !important;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+}
+
+/* =========================================================
+   BEASTLIFE-VIBE LAYER — light, bold typography, tight grid
+   Vibe only: fonts, weights, spacing, micro-motion. No layout rewrite.
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  --bl-display: "Sora", "Inter", system-ui, sans-serif;
+  --bl-body: "Manrope", "Inter", system-ui, sans-serif;
+  --bl-ink: #0b0f1a;
+  --bl-line: #ececf1;
+  --bl-accent: #ff5722;
+}
+
+body { font-family: var(--bl-body); color: var(--bl-ink); }
+
+/* Bold display headings, tight tracking — beastlife signature */
+h1, h2, h3,
+.section-title,
+.section-head,
+.hero-title {
+  font-family: var(--bl-display) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.05 !important;
+}
+h1 { font-size: clamp(2rem, 5vw, 3.25rem) !important; }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem) !important; }
+
+/* Section spacing rhythm */
+section { scroll-margin-top: 80px; }
+.container > section,
+section > .container { padding-top: clamp(1.5rem, 4vw, 3rem); padding-bottom: clamp(1.5rem, 4vw, 3rem); }
+
+/* Buttons — chunky, square-ish, confident */
+.btn,
+button.btn,
+a.btn {
+  font-family: var(--bl-display);
+  font-weight: 700;
+  letter-spacing: .01em;
+  border-radius: 8px;
+  padding: .65rem 1.1rem;
+  transition: transform .12s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn-primary,
+.btn.checkout {
+  background: var(--bl-accent) !important;
+  border-color: var(--bl-accent) !important;
+}
+.btn:hover { transform: translateY(-1px); }
+
+/* Product card — cleaner, beastlife-ish white card with sharp type */
+.product-card .card,
+.product-info .card-dets {
+  border-radius: 12px !important;
+  border: 1px solid var(--bl-line) !important;
+  background: #fff !important;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.product-card:hover .card,
+.product-info:hover .card-dets {
+  border-color: rgba(255,87,34,.35) !important;
+  box-shadow: 0 14px 30px rgba(11,15,26,.10);
+}
+.product-card .product-name,
+.product-info .product-name {
+  /* Override the gold shimmer with bold ink for clean look */
+  background: none !important;
+  -webkit-text-fill-color: var(--bl-ink) !important;
+  color: var(--bl-ink) !important;
+  animation: none !important;
+  font-family: var(--bl-display);
+  font-weight: 700 !important;
+  font-size: .95rem !important;
+  text-shadow: none !important;
+  line-height: 1.3;
+}
+
+/* Section dividers — thin, intentional */
+hr, .divider { border-color: var(--bl-line) !important; opacity: 1; }
+
+/* Links — underline-on-hover micro-interaction */
+a:not(.btn):not(.nav-link):not(.navbar-brand) {
+  transition: color .15s ease;
+}
