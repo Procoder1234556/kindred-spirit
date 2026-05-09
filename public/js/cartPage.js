@@ -122,73 +122,77 @@ addOpt.forEach(function(element, index) {
 const applyCoupon = async (uId) => {
     const coupon1 = document.getElementById('couponName1');
     const coupon2 = document.getElementById('couponName2');
-    let coupon = "";
-    document.querySelectorAll('.apply-btn').forEach((btn) => {
-        btn.innerHTML = `<div class="spinner-grow" role="status" style="--bs-spinner-width: 1rem;--bs-spinner-height: 1rem;">
-            <span class="visually-hidden">Loading...</span>
-            </div>`;
-    });
+    const successAlert = document.querySelector('.sahii-alert.alert-success');
+    const dangerAlert  = document.querySelector('.sahii-alert.alert-danger');
 
-    // Add event listener to each input
-    if (coupon1.value.trim() !== '') {
-        coupon = coupon1.value.trim();
-    } else if(coupon2.value.trim() !== '') {
-        coupon = coupon2.value.trim();
+    let coupon = "";
+    if (coupon1 && coupon1.value.trim() !== '') {
+        coupon = coupon1.value.trim().toUpperCase();
+    } else if (coupon2 && coupon2.value.trim() !== '') {
+        coupon = coupon2.value.trim().toUpperCase();
     }
 
-    console.log("Coupon: ", coupon);
+    // Hide old alerts
+    if (successAlert) successAlert.style.display = 'none';
+    if (dangerAlert)  dangerAlert.style.display  = 'none';
+
+    // Show spinner on apply button
+    const applyBtn = document.querySelector('.sahii-apply-btn');
+    if (applyBtn) {
+        applyBtn.disabled = true;
+        applyBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span>`;
+    }
+
     try {
         const response = await fetch('/user/cart/applycoupon', {
             method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                'id': uId,
-                'coupon': coupon
-            })
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ 'id': uId, 'coupon': coupon })
         });
 
-        if (!response.ok) {
-            throw new Error('Network response was not ok.');
-        }
+        if (!response.ok) throw new Error('Network response was not ok.');
 
         const data = await response.json();
-        console.log("Discount: ", data);
+        console.log("Coupon response:", data);
 
-        // Restore button labels
-        document.querySelectorAll('.apply-btn').forEach((btn) => {
-            btn.innerHTML = "Apply Coupon";
-        });
-
-        // Update summary UI without full page reload if helper is available
-        if (typeof updateCartSummaryUI === "function" && data) {
-            updateCartSummaryUI({
-                totalAmount: data.totalAmount,
-                cartTotal: data.cartTotal,
-                deliveryCharge: data.deliveryCharge,
-                couponDiscount: data.couponDiscount,
-            });
+        if (data.success) {
+            // Show success and reload so EJS totals reflect the new discount
+            if (successAlert) {
+                successAlert.textContent = `Coupon applied! You saved ₹${Number(data.couponDiscount).toFixed(0)}`;
+                successAlert.style.display = 'block';
+            }
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            // Show rejection message
+            if (dangerAlert) {
+                dangerAlert.textContent = data.message || 'Invalid or expired coupon.';
+                dangerAlert.style.display = 'block';
+            }
+            if (applyBtn) {
+                applyBtn.disabled = false;
+                applyBtn.innerHTML = 'Apply';
+            }
         }
-
-        // Show or hide "Remove Coupon" buttons based on whether a coupon is active
-        const hasDiscount = Number(data.couponDiscount) > 0;
-        document.querySelectorAll('.remove-coupon-btn').forEach((btn) => {
-            btn.style.display = hasDiscount ? 'inline-block' : 'none';
-        });
     } catch (error) {
         console.error('Error applying coupon:', error);
+        if (dangerAlert) {
+            dangerAlert.textContent = 'Something went wrong. Please try again.';
+            dangerAlert.style.display = 'block';
+        }
+        if (applyBtn) {
+            applyBtn.disabled = false;
+            applyBtn.innerHTML = 'Apply';
+        }
     }
 };
 
-// Clear applied coupon via button
+// Clear applied coupon
 const removeCoupon = async (uId) => {
     const coupon1 = document.getElementById('couponName1');
     const coupon2 = document.getElementById('couponName2');
     if (coupon1) coupon1.value = "";
     if (coupon2) coupon2.value = "";
-
-    // Reuse applyCoupon with empty code, backend will reset discount to 0
+    // Send empty coupon → backend resets discount to 0
     await applyCoupon(uId);
 };
 

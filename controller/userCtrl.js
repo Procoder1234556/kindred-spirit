@@ -1009,6 +1009,25 @@ const applyCoupon = asyncHandler(async (req, res) => {
     console.log("CartTotal: ", cart);
 
     if (validCoupon) {
+      // Check expiry
+      if (validCoupon.expiry && new Date(validCoupon.expiry) < new Date()) {
+        await Cart.findOneAndUpdate(
+          { orderby: user._id },
+          { $set: { couponDiscount: 0 } },
+          { new: true }
+        );
+        const newCart = await Cart.findOne({ orderby: user._id });
+        return res.json({
+          success: false,
+          message: "Coupon has expired",
+          discount: 0,
+          totalAmount: newCart.totalAmount,
+          cartTotal: newCart.cartTotal,
+          deliveryCharge: newCart.deliveryCharge,
+          couponDiscount: 0,
+        });
+      }
+
       // Check optional min/max order value constraints
       const minVal =
         typeof validCoupon.minValue === "number"
